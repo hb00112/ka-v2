@@ -321,7 +321,7 @@ function createBillDetailModalNew() {
                 
                 <div class="bill-image-section" id="billDetailImageSection" style="display: none;">
                     <div class="bill-image-header">
-                        <span>Bill Image</span>
+                        <span>Bill Preview</span>
                         <button class="image-expand-btn" onclick="openImageFullscreen()" title="View Fullscreen">
                             <i class="fas fa-expand-alt"></i>
                         </button>
