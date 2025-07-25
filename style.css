@@ -2632,9 +2632,10 @@ body:has([href="index.html"]) .header h1 {
 .bill-party {
     font-size: 16px;
     color: #374151;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  word-wrap: break-word; 
    font-weight:500;
 }
 
