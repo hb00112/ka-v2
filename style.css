@@ -2519,6 +2519,10 @@ body:has([href="index.html"]) .header h1 {
     flex-direction: column;
 }
 
+h2 {
+    padding-right: 20px;
+}
+
 /* Filter Section */
 .bills-filter-section {
     margin-bottom: 25px;
