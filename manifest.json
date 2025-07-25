@@ -1,0 +1,23 @@
+
+
+{
+    "name": "KA V2",
+    "short_name": "KA V2",
+    "description": "StreakWise Analytics is a comprehensive productivity app that helps students study sessions with a Pomodoro timer, monitor progress with analytics, and stay motivated with achievements and goals.",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#fbfbfb",
+    "theme_color": "#FFFFFF",
+    "icons": [
+        {
+            "src": "https://i.ibb.co/B2mwrBMB/Whats-App-Image-2025-07-24-at-18-38-04-0b435ff4.jpg",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "https://i.ibb.co/B2mwrBMB/Whats-App-Image-2025-07-24-at-18-38-04-0b435ff4.jpg",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
