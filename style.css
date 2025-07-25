@@ -2248,7 +2248,7 @@ body:has([href="index.html"]) .header h1 {
     position: relative;
     max-width: 90vw;
     max-height: 90vh;
-   overflow: auto;
+    overflow: auto;
       touch-action: pinch-zoom;
 }
 
