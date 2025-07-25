@@ -905,6 +905,29 @@ body:has([href="index.html"]) .header h1 {
     border: 1px solid rgba(0, 123, 255, 0.12);
     z-index: 1000;
 }
+
+
+.footer-nav .nav-item {
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.footer-nav .nav-item svg {
+  width: 28px;
+  height: 28px;
+  fill: #616161;
+  transition: fill 0.2s ease, transform 0.2s ease;
+}
+
+.footer-nav .nav-item.active svg {
+  fill: #007bff;         /* Blue for active */
+  transform: scale(1.15); /* Slightly larger */
+}
+
 .page-content {
     padding-bottom: 70px; /* Adjust this value based on your footer height */
 }
