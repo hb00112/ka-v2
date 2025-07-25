@@ -345,7 +345,7 @@ function injectLedgerStyles() {
 }
 
 .bill-invoice-no {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     color: #1C1C1E;
     margin-bottom: 2px;
@@ -353,16 +353,18 @@ function injectLedgerStyles() {
 }
 
 .bill-date {
-    font-size: 14px;
-    color: #8E8E93;
+    font-size: 12px;
+    color: #484849ff;
     font-weight: 400;
+    padding-bottom: 7px;
 }
 
 .bill-amount {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
-    color: #1C1C1E;
+    color: #048058
     letter-spacing: -0.2px;
+    padding-right: 3px;
 }
 
 .party-modal-footer {
@@ -447,7 +449,69 @@ body, input, button, textarea {
     }
 }
 
-
+/* Dark Mode Support (Optional) */
+@media (prefers-color-scheme: dark) {
+    .ledger-page,
+    .ledger-container,
+    .ledger-header,
+    .parties-grid,
+    .page-content,
+    .party-modal,
+    .party-modal-handle,
+    .party-modal-header,
+    .party-modal-content,
+    .party-modal-footer {
+        background: #000000;
+    }
+    
+    .party-card,
+    .party-bill-item,
+    .loading-party-card {
+        background: #1C1C1E;
+        border-color: rgba(84, 84, 88, 0.3);
+    }
+    
+    .ledger-title,
+    .party-name,
+    .party-amount,
+    .party-modal-title,
+    .summary-value,
+    .bill-invoice-no,
+    .bill-amount,
+    .empty-ledger-state h3 {
+        color: #FFFFFF;
+    }
+    
+    .ledger-subtitle,
+    .party-bills-count,
+    .party-last-transaction,
+    .summary-label,
+    .bill-date,
+    .empty-ledger-state p {
+        color: #98989D;
+    }
+    
+    .party-bills-count i {
+        color: #98989D;
+    }
+    
+    .bill-icon {
+        background: rgba(0, 122, 255, 0.15);
+    }
+    
+    .party-modal-overlay {
+        background: rgba(0, 0, 0, 0.6);
+    }
+    
+    .modal-handle-bar {
+        background: rgba(84, 84, 88, 0.6);
+    }
+    
+    .loading-skeleton {
+        background: linear-gradient(90deg, #1C1C1E 25%, #2C2C2E 50%, #1C1C1E 75%);
+        background-size: 200% 100%;
+    }
+}
         </style>
     `;
     
