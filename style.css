@@ -528,12 +528,12 @@ body:has([href="index.html"]) .header h1 {
     background: var(--color-background);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-ios-card);
-    border: 0.5px solid rgba(0, 0, 0, 0.04);
+    border: 0.5px solid rgba(0, 0, 0, 0.05);
     overflow: hidden;
 }
 
 .table-header {
-    background: var(--color-surface);
+    background: #f2f2f2;
     padding: var(--space-3) var(--space-4);
     border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
     display: grid;
@@ -545,6 +545,7 @@ body:has([href="index.html"]) .header h1 {
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
+
 
 .bill-row {
     padding: var(--space-4);
@@ -1638,7 +1639,7 @@ body:has([href="index.html"]) .header h1 {
 @media (max-width: 640px) {
     .table-header,
     .bill-row {
-        grid-template-columns: 60px 80px 1fr 70px 30px;
+        grid-template-columns: 45px 35px 1.1fr 70px 0px;
         font-size: 12px;
     }
     
@@ -1648,6 +1649,7 @@ body:has([href="index.html"]) .header h1 {
     
     .bill-row .amount {
         font-size: 12px;
+        text-align: right;
     }
 }
 
