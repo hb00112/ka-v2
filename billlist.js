@@ -28,21 +28,40 @@ function createAllBillsModal() {
     modal.innerHTML = `
         <div class="all-bills-modal">
             <div class="modal-header">
+            <button class="close-b" onclick="closeAllBillsModal()">
+            <i class="fas fa-chevron-left"></i>
+            </button>
                 <h2>All Bills</h2>
-                <button class="close-btn" onclick="closeAllBillsModal()">×</button>
+                
             </div>
-            <div class="modal-body">
-                <div class="bills-filter-section">
-                    <div class="filter-controls">
-                        <input type="text" id="billSearchInput" placeholder="Search by invoice no, party name..." class="search-input">
-                        <select id="billSortOrder" class="sort-select">
-                            <option value="asc">Invoice No. (A-Z)</option>
-                            <option value="desc">Invoice No. (Z-A)</option>
-                            <option value="date-new">Date (Newest First)</option>
-                            <option value="date-old">Date (Oldest First)</option>
-                        </select>
-                    </div>
-                </div>
+          <div class="modal-body">
+    <div class="bills-filter-section">
+        <div class="filter-controls">
+
+            <!-- Search input with embedded SVG -->
+            <div class="search-wrapper">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
+                    <path d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"/>
+                </svg>
+                <input type="text" id="billSearchInput" placeholder="Search by Invoice No or Party Name" class="search-input">
+            </div>
+
+            <!-- Filter select with embedded SVG -->
+<div class="select-wrapper">
+    <svg class="select-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M3 4a1 1 0 0 1 .8-.98A1 1 0 0 1 5 3h14a1 1 0 0 1 .8.98 1 1 0 0 1-.2.62l-5.6 7.47V19a1 1 0 0 1-1.6.8l-2-1.5a1 1 0 0 1-.4-.8v-5.6L3.2 4.62A1 1 0 0 1 3 4z"/>
+    </svg>
+    <select id="billSortOrder" class="sort-select">
+        <option value="asc">Invoice No. (A-Z)</option>
+        <option value="desc">Invoice No. (Z-A)</option>
+        <option value="date-new">Date (Newest First)</option>
+        <option value="date-old">Date (Oldest First)</option>
+    </select>
+
+        </div>
+    </div>
+</div>
+
                 <div class="all-bills-container">
                     <div class="all-bills-header">
                         <div>Date</div>
