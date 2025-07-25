@@ -2624,9 +2624,9 @@ body:has([href="index.html"]) .header h1 {
 }
 
 .bill-invoice {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
-    color: #1f2937;
+    color: #080808;
 }
 
 .bill-party {
@@ -2641,7 +2641,7 @@ body:has([href="index.html"]) .header h1 {
 .bill-amount {
     font-size: 14px;
     font-weight: 600;
-    color: #048b61;
+    color: #048058;
     text-align: right;
 }
 
@@ -2828,8 +2828,9 @@ body:has([href="index.html"]) .header h1 {
     }
     
     .bill-party {
-        font-size: 14px;
-       font-weight: bold;
+        font-size: 12.5px;
+       font-weight: 600;
+       color: #000;
     }
     
     .action-btn {
@@ -2846,10 +2847,10 @@ body:has([href="index.html"]) .header h1 {
 @media (max-width: 480px) {
     .all-bills-header,
     .all-bills-row {
-        grid-template-columns: 70px 80px 1fr 70px 80px;
+        grid-template-columns: 60px 35px 1fr 70px 75px;
         gap: 4px;
         padding: 10px 12px;
-        font-size: 11px;
+        font-size: 10px;
     }
     
     .action-btn {
@@ -3421,7 +3422,7 @@ body:has([href="index.html"]) .header h1 {
     }
     
     .bill-amount {
-        font-size: 15px;
+        font-size: 14px;
     }
     
     .bill-image-header {
