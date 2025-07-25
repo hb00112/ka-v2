@@ -2852,7 +2852,7 @@ h2 {
 @media (max-width: 480px) {
     .all-bills-header,
     .all-bills-row {
-        grid-template-columns: 60px 35px 1fr 75px 70px;
+        grid-template-columns: 55px 35px 1fr 80px 70px;
         gap: 4px;
         padding: 10px 12px;
         font-size: 11px;
