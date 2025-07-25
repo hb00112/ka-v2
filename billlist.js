@@ -65,7 +65,7 @@ function createAllBillsModal() {
                 <div class="all-bills-container">
                     <div class="all-bills-header">
                         <div>Date</div>
-                        <div>Invoice No.</div>
+                        <div>I No.</div>
                         <div>Party Name</div>
                         <div>Amount</div>
                         <div>Actions</div>
