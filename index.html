@@ -10,6 +10,55 @@
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
+      <!-- SPLASH SCREEN (Add this at the very beginning) -->
+    <div id="splash-screen" class="splash-container">
+        <!-- Floating geometric shapes with distinct colors -->
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+        <div class="shape shape4"></div>
+        <div class="shape shape5"></div>
+        <div class="shape shape6"></div>
+
+        <!-- Center content -->
+        <div class="center-content">
+            <!-- Main logo -->
+            <div class="main-logo">
+                <div class="logo-circle">
+                    <div class="icons-group">
+                        <!-- Document/Bill icon -->
+                        <div class="document"></div>
+                        
+                        <!-- Upload cloud -->
+                        <div class="cloud"></div>
+                        <div class="upload-arrow"></div>
+                        
+                        <!-- Money/Bill icon -->
+                        <div class="money"></div>
+                        
+                        <!-- Folder icon -->
+                        <div class="folder"></div>
+                        
+                        <!-- Floating particles -->
+                        <div class="particle particle1"></div>
+                        <div class="particle particle2"></div>
+                        <div class="particle particle3"></div>
+                        <div class="particle particle4"></div>
+                        <div class="particle particle5"></div>
+                        <div class="particle particle6"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Company name at bottom -->
+        <div class="company-name">KAMBESHWAR AGENCIES</div>
+    </div>
+
+    <!-- YOUR EXISTING APP CONTENT (Initially Hidden) -->
+    <div id="main-app" style="display: none;">
+
+
     <!-- Header -->
     <header class="header">
         <button class="back-btn" id="backBtn" style="display: none;" onclick="showHomePage()">
@@ -351,5 +400,19 @@
     <script src="profile.js"></script>
     <script src="billlist.js"></script>
     <script src="service-worker.js"></script>
+   <!-- ADD THIS SPLASH SCREEN SCRIPT -->
+    <script>
+        // Hide splash screen and show main app after 4 seconds
+        setTimeout(() => {
+            document.getElementById('splash-screen').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+            
+            // Initialize your app after splash screen
+            if (typeof initializePage === 'function') {
+                initializePage();
+            }
+        }, 4000);
+    </script>
+ 
 </body>
 </html>
