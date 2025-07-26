@@ -578,6 +578,8 @@ body {
 
     .shape1, .shape2, .shape3, .shape4, .shape5, .shape6 {
         transform: scale(0.9);
+       margin-left: 50px;
+
     }
 }
 
