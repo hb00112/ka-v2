@@ -1,12 +1,10 @@
-
-
 const CACHE_NAME = 'pwa-test-cache-v1';
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  'https://s3.ezgif.com/tmp/ezgif-3-092ebae015.png',
-  'https://github.com/username/repo-name/raw/main/icon-512x512.png'
+  '/icons/icon-192x192.png',
+  '/icons/icon-512x512.png'
 ];
 
 self.addEventListener('install', event => {
