@@ -1,3 +1,24 @@
+// Splash Screen Management
+let appInitialized = false;
+
+// Modified initialization to work with splash screen
+function initializeApp() {
+    if (appInitialized) return;
+    appInitialized = true;
+    
+    // Initialize Cloudinary config
+    initializeCloudinaryConfig();
+    
+    // Check if we're on homepage
+    if (document.getElementById('totalBills')) {
+        initializeHomepage();
+    }
+    
+    // ... rest of your existing initializePage() function code
+}
+
+
+
 // Global variables
 let currentBillId = null;
 let capturedImageFile = null;
@@ -938,4 +959,10 @@ function initializePage() {
 }
 
 // Initialize when page loads
-document.addEventListener('DOMContentLoaded', initializePage);
+document.addEventListener('DOMContentLoaded', function() {
+    // Wait for splash screen to finish before initializing
+    setTimeout(() => {
+        initializeApp();
+    }, 4100); // Slightly after splash screen ends
+});
+
