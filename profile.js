@@ -562,6 +562,7 @@ function addProfileStyles() {
 function callAdmin() {
     if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|webOS|BlackBerry|Windows Phone)/)) {
         window.location.href = 'tel:+919284494154';
+        window.location.href = 'tel:+919216153546';
     } else {
         copyToClipboard('+91 9284494154');
         showToast('Phone number copied to clipboard!');
@@ -571,7 +572,7 @@ function callAdmin() {
 function sendEmail() {
     const subject = encodeURIComponent('Kambeshwar Agencies App Support');
     const body = encodeURIComponent('Hello,\n\nI need assistance with the Kambeshwar Agencies app.\n\nDetails:\n\n\nThank you!');
-    window.location.href = `mailto:support@kambeshwar.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:kambeshwar.enamor@gmail.com?subject=${subject}&body=${body}`;
 }
 
 // Utility functions
