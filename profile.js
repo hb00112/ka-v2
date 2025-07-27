@@ -164,7 +164,7 @@ function setupResponsiveLayout() {
     //        e.preventDefault();
  //       }
 //    }, { passive: false });
-//}
+}
 
 function setupUserProfileFeatures() {
     // Avatar upload functionality
