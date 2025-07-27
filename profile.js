@@ -118,17 +118,18 @@ function setupResponsiveLayout() {
     if (!metaViewport) {
         metaViewport = document.createElement('meta');
         metaViewport.name = 'viewport';
-        metaViewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        metaViewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes';
         document.head.appendChild(metaViewport);
     }
     
     // Ensure the body has proper layout for fixed navbar
     document.body.style.margin = '0';
     document.body.style.padding = '0';
-    document.body.style.height = '100vh';
+    document.body.style.height = 'auto';
     document.body.style.display = 'flex';
     document.body.style.flexDirection = 'column';
     document.body.style.overflowX = 'hidden'; // Prevent horizontal scroll
+    document.body.style.overflowY = 'auto';
     
     // Style the profile page container
     const profilePage = document.getElementById('profilePage');
@@ -158,12 +159,12 @@ function setupResponsiveLayout() {
     }
     
     // Prevent zooming on mobile
-    document.addEventListener('touchmove', function(e) {
-        if (e.scale !== 1) {
-            e.preventDefault();
-        }
-    }, { passive: false });
-}
+   // document.addEventListener('touchmove', function(e) {
+    //    if (e.scale !== 1) {
+    //        e.preventDefault();
+ //       }
+//    }, { passive: false });
+//}
 
 function setupUserProfileFeatures() {
     // Avatar upload functionality
