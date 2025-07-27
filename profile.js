@@ -1,9 +1,15 @@
-// profile.js - Simplified Implementation
+// profile.js - Optimized for Mobile and Desktop
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize profile section
     initProfilePage();
+    
+    // Load saved user data if available
+    loadUserData();
+    
+    // Setup responsive layout
+    setupResponsiveLayout();
 });
 
 function initProfilePage() {
@@ -20,38 +26,37 @@ function initProfilePage() {
     profilePage.innerHTML = `
         <div class="profile-container">
             <div class="profile-header">
-                <div class="company-logo">
-                    <i class="fas fa-building"></i>
+                <div class="user-avatar-container">
+                    <div class="user-avatar" id="userAvatar">
+                        <i class="fas fa-user" id="defaultAvatarIcon"></i>
+                        <img id="userAvatarImage" style="display: none;">
+                    </div>
+                    <label for="avatarUpload" class="avatar-upload-label">
+                        <i class="fas fa-camera"></i>
+                        <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+                    </label>
                 </div>
-                <h1 class="company-name">Kambeshwar Agencies</h1>
-                <p class="company-tagline">Professional Business Solutions</p>
+                <div class="user-name" id="userNameDisplay">Guest User</div>
+                <div class="edit-name" id="editNameBtn">
+                    <i class="fas fa-edit"></i>
+                </div>
             </div>
 
             <div class="profile-content">
-                <!-- Company Information -->
-                <div class="profile-section">
+                <!-- User Information Edit Section -->
+                <div class="profile-section" id="nameEditSection" style="display: none;">
                     <h2 class="section-title">
-                        <i class="fas fa-info-circle"></i>
-                        Company Information
+                        <i class="fas fa-user-edit"></i>
+                        Edit Your Profile
                     </h2>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <div class="info-icon">
-                                <i class="fas fa-building"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">Business Name</div>
-                                <div class="info-value">Kambeshwar Agencies</div>
-                            </div>
+                    <div class="edit-form">
+                        <div class="form-group">
+                            <label for="userNameInput">Your Name</label>
+                            <input type="text" id="userNameInput" placeholder="Enter your name">
                         </div>
-                        <div class="info-item">
-                            <div class="info-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">Address</div>
-                                <div class="info-value">Mapusa, Goa, India</div>
-                            </div>
+                        <div class="form-buttons">
+                            <button class="btn-cancel" id="cancelEditBtn">Cancel</button>
+                            <button class="btn-save" id="saveNameBtn">Save</button>
                         </div>
                     </div>
                 </div>
@@ -70,6 +75,7 @@ function initProfilePage() {
                             <div class="info-content">
                                 <div class="info-label">Admin Contact</div>
                                 <div class="info-value">Hemant - +91 9284494154</div>
+                                <div class="info-value">Himanshu - +91 9216153546</div>
                             </div>
                         </div>
                         <div class="info-item" onclick="sendEmail()">
@@ -78,7 +84,7 @@ function initProfilePage() {
                             </div>
                             <div class="info-content">
                                 <div class="info-label">Email Support</div>
-                                <div class="info-value">support@kambeshwar.com</div>
+                                <div class="info-value">kambeshwar.enamor@gmail.com</div>
                             </div>
                         </div>
                     </div>
@@ -91,63 +97,262 @@ function initProfilePage() {
                         App Information
                     </h2>
                     <div class="app-info">
-                        <p>Version: 2.1.0</p>
-                        <p>Developed for Kambeshwar Agencies</p>
+                        <p>Version: 2.1.3</p>
+                        <p>© 2025 Kambeshwar Agencies All Rights Reserved</p>
                     </div>
                 </div>
             </div>
         </div>
     `;
 
-    // Add basic styles
+    // Add event listeners for the new functionality
+    setupUserProfileFeatures();
+    
+    // Add responsive styles
     addProfileStyles();
+}
+
+function setupResponsiveLayout() {
+    // Set viewport meta tag if not already present
+    let metaViewport = document.querySelector('meta[name="viewport"]');
+    if (!metaViewport) {
+        metaViewport = document.createElement('meta');
+        metaViewport.name = 'viewport';
+        metaViewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        document.head.appendChild(metaViewport);
+    }
+    
+    // Ensure the body has proper layout for fixed navbar
+    document.body.style.margin = '0';
+    document.body.style.padding = '0';
+    document.body.style.height = '100vh';
+    document.body.style.display = 'flex';
+    document.body.style.flexDirection = 'column';
+    document.body.style.overflowX = 'hidden'; // Prevent horizontal scroll
+    
+    // Style the profile page container
+    const profilePage = document.getElementById('profilePage');
+    if (profilePage) {
+        profilePage.style.flex = '1';
+        profilePage.style.overflowY = 'auto';
+        profilePage.style.paddingBottom = '60px'; // Space for navbar
+        profilePage.style.width = '100%';
+        profilePage.style.maxWidth = '600px'; // Optimal width for desktop
+        profilePage.style.margin = '0 auto'; // Center on desktop
+    }
+    
+    // Style the navbar if it exists
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        navbar.style.position = 'fixed';
+        navbar.style.bottom = '0';
+        navbar.style.left = '0';
+        navbar.style.right = '0';
+        navbar.style.background = 'white';
+        navbar.style.boxShadow = '0 -2px 10px rgba(0,0,0,0.1)';
+        navbar.style.zIndex = '1000';
+        navbar.style.height = '60px';
+        navbar.style.display = 'flex';
+        navbar.style.justifyContent = 'space-around';
+        navbar.style.alignItems = 'center';
+    }
+    
+    // Prevent zooming on mobile
+    document.addEventListener('touchmove', function(e) {
+        if (e.scale !== 1) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+}
+
+function setupUserProfileFeatures() {
+    // Avatar upload functionality
+    const avatarUpload = document.getElementById('avatarUpload');
+    if (avatarUpload) {
+        avatarUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const userAvatarImage = document.getElementById('userAvatarImage');
+                    const defaultAvatarIcon = document.getElementById('defaultAvatarIcon');
+                    
+                    userAvatarImage.src = event.target.result;
+                    userAvatarImage.style.display = 'block';
+                    defaultAvatarIcon.style.display = 'none';
+                    
+                    // Save to localStorage
+                    localStorage.setItem('userAvatar', event.target.result);
+                    
+                    showToast('Profile photo updated!');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+    
+    // Name edit functionality
+    const editNameBtn = document.getElementById('editNameBtn');
+    const nameEditSection = document.getElementById('nameEditSection');
+    const cancelEditBtn = document.getElementById('cancelEditBtn');
+    const saveNameBtn = document.getElementById('saveNameBtn');
+    const userNameInput = document.getElementById('userNameInput');
+    const userNameDisplay = document.getElementById('userNameDisplay');
+    
+    if (editNameBtn && nameEditSection) {
+        editNameBtn.addEventListener('click', function() {
+            nameEditSection.style.display = 'block';
+            userNameInput.value = userNameDisplay.textContent;
+            // Scroll to the edit section for better UX
+            nameEditSection.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+    
+    if (cancelEditBtn) {
+        cancelEditBtn.addEventListener('click', function() {
+            nameEditSection.style.display = 'none';
+        });
+    }
+    
+    if (saveNameBtn && userNameInput && userNameDisplay) {
+        saveNameBtn.addEventListener('click', function() {
+            const newName = userNameInput.value.trim();
+            if (newName) {
+                userNameDisplay.textContent = newName;
+                nameEditSection.style.display = 'none';
+                
+                // Save to localStorage
+                localStorage.setItem('userName', newName);
+                
+                showToast('Name updated successfully!');
+            } else {
+                showToast('Please enter a valid name');
+            }
+        });
+    }
+}
+
+function loadUserData() {
+    // Load user name
+    const savedName = localStorage.getItem('userName');
+    const userNameDisplay = document.getElementById('userNameDisplay');
+    if (savedName && userNameDisplay) {
+        userNameDisplay.textContent = savedName;
+    }
+    
+    // Load user avatar
+    const savedAvatar = localStorage.getItem('userAvatar');
+    const userAvatarImage = document.getElementById('userAvatarImage');
+    const defaultAvatarIcon = document.getElementById('defaultAvatarIcon');
+    
+    if (savedAvatar && userAvatarImage && defaultAvatarIcon) {
+        userAvatarImage.src = savedAvatar;
+        userAvatarImage.style.display = 'block';
+        defaultAvatarIcon.style.display = 'none';
+    }
 }
 
 function addProfileStyles() {
     const style = document.createElement('style');
     style.textContent = `
-        /* Profile Page Styles */
-        #profilePage {
-            background: #f5f7fa;
-            min-height: calc(100vh - 60px);
-            padding-bottom: 80px;
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
         }
         
+        /* Profile Container */
+        .profile-container {
+            width: 100%;
+            
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Profile Header */
         .profile-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 40px 20px 30px;
+            padding: 30px 20px 20px;
             text-align: center;
+            position: relative;
+            background: #fff;
             color: white;
+            margin-bottom: 20px;
         }
         
-        .company-logo {
-            width: 80px;
-            height: 80px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* User Avatar */
+        .user-avatar-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
             margin: 0 auto 15px;
         }
         
-        .company-logo i {
-            font-size: 36px;
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin: 0 auto;
         }
         
-        .company-name {
-            font-size: 24px;
-            margin: 0 0 5px;
+        .user-avatar i {
+            font-size: 40px;
         }
         
-        .company-tagline {
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .avatar-upload-label {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #4CAF50;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+        
+        .avatar-upload-label i {
             font-size: 14px;
-            opacity: 0.9;
-            margin: 0;
+            color: white;
         }
         
+        /* User Name */
+        .user-name {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 10px 0;
+            display: inline-block;
+            color: #000;
+        }
+        
+        .edit-name {
+            display: inline-block;
+            margin-left: 10px;
+            cursor: pointer;
+            color: rgba(48, 48, 48, 0.8);
+            transition: all 0.3s;
+        }
+        
+        .edit-name:hover {
+            color: #000;
+            transform: scale(1.1);
+        }
+        
+        /* Profile Content */
         .profile-content {
-            padding: 20px;
+            padding: 0 10px 20px;
         }
         
         .profile-section {
@@ -169,7 +374,15 @@ function addProfileStyles() {
         .section-title i {
             color: #667eea;
         }
+
+        .userNameInput:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
         
+        /* Info Grid */
         .info-grid {
             display: flex;
             flex-direction: column;
@@ -181,6 +394,12 @@ function addProfileStyles() {
             align-items: center;
             padding: 10px 0;
             border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .info-item:hover {
+            background-color: #f9f9f9;
         }
         
         .info-item:last-child {
@@ -190,8 +409,8 @@ function addProfileStyles() {
         .info-icon {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 10px;
+            background: #016fe4b0;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -214,6 +433,7 @@ function addProfileStyles() {
             font-weight: 500;
         }
         
+        /* App Info */
         .app-info {
             font-size: 14px;
             color: #666;
@@ -222,6 +442,116 @@ function addProfileStyles() {
         
         .app-info p {
             margin: 5px 0;
+        }
+        
+        /* Edit Form */
+        .edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .form-group label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .form-group input {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            width: 100%;
+        }
+        
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        
+        .btn-cancel, .btn-save {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+        
+        .btn-cancel {
+            background: #f0f0f0;
+            color: #666;
+        }
+        
+        .btn-cancel:hover {
+            background: #e0e0e0;
+        }
+        
+        .btn-save {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-save:hover {
+            background: #5a6fd1;
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(195, 221, 252, 0.7);
+            color: #252525ff;
+            padding: 12px 24px;
+            border-radius: 10px;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.3s;
+            max-width: 90%;
+            text-align: center;
+            word-break: break-word;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
+            .profile-header {
+                padding: 20px 15px;
+            }
+            
+            .user-avatar-container {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .user-avatar {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .user-name {
+                font-size: 20px;
+            }
+            
+            .profile-content {
+                padding: 0 5px 20px;
+            }
+            
+            .profile-section {
+                padding: 12px;
+            }
         }
     `;
     document.head.appendChild(style);
@@ -308,4 +638,7 @@ function showProfilePage() {
     if (profileNav) {
         profileNav.classList.add('active');
     }
+    
+    // Load user data when showing the profile page
+    loadUserData();
 }
