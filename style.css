@@ -2956,13 +2956,13 @@ body:has([href="index.html"]) .header h1 {
 /* All Bills Modal Styles */
 .all-bills-modal {
     background: white;
-    border-radius: 12px;
+    
     width: 100%;
     height: 100%;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    
 }
 
 .search-wrapper {
