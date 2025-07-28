@@ -246,7 +246,7 @@ function injectLedgerStyles() {
 
 .party-modal-title {
     font-size: 20px;
-    font-weight: 650;
+    font-weight: 700;
     color: #1d1d1f;
     margin: 0 0 16px 0;
     
