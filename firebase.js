@@ -21,7 +21,8 @@ function formatCurrency(amount) {
     const formatted = new Intl.NumberFormat('en-IN', {
         style: 'currency',
         currency: 'INR',
-        minimumFractionDigits: 2
+        minimumFractionDigits: 0, // ✅ no decimals
+        maximumFractionDigits: 0
     }).format(absoluteAmount);
     
     return isNegative ? `-${formatted}` : formatted;
