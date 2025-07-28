@@ -287,8 +287,8 @@ function addProfileStyles() {
         }
         
         .user-avatar {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             background: rgba(70, 69, 69, 1);
             border-radius: 50%;
             display: flex;
