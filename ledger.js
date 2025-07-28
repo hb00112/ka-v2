@@ -29,12 +29,13 @@ function injectLedgerStyles() {
 }
 
 .ledger-title {
-    font-size: 18px;
+    font-size: 15px;
     margin: 0 0 15px;
     display: flex
     align-items: center;
-    gap: 10px;
+    gap: 7px;
     color: #1d1d1f;
+    Letter-spacing: -0.2rem;
 }
 
 
@@ -68,7 +69,7 @@ function injectLedgerStyles() {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 16px 0px;
+    padding: 10px 16px 5px;
 }
 
 .party-name {
@@ -81,8 +82,8 @@ function injectLedgerStyles() {
 
 .party-amount {
     font-size: 15px;
-    font-weight: 500;
-    color: #248A3D;
+    font-weight: 600;
+    color: #0051D5;
     letter-spacing: 0.3px;
 }
 
@@ -90,7 +91,7 @@ function injectLedgerStyles() {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 16px 10px;
+    padding: 0 16px 15px;
 }
 
 .party-bills-count {
@@ -421,7 +422,7 @@ color: #ff3b30;
     margin: 0 0 15px;
     display: flex
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     color: #1d1d1f;
     }
     
