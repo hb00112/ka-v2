@@ -3382,7 +3382,7 @@ h2 {
     width: 36px;
     height: 36px;
     border: none;
-    color: #6b7280;
+    color: #f86962ff;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -3393,7 +3393,7 @@ h2 {
 }
 
 .close-btn:hover {
-    color: #374151;
+    color: #ff3b30;
 }
 
 /* Scrollbar Styling */
