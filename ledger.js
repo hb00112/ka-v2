@@ -22,29 +22,25 @@ function injectLedgerStyles() {
 }
 
 .ledger-header {
-    padding: 20px 20px 16px;
+    padding: 1.5rem;
+    padding-bottom: 0;
     background: #FFFFFF;
-    border-bottom: 0.33px solid rgba(60, 60, 67, 0.08);
+   padding-top: 1.2rem;
 }
 
 .ledger-title {
-    font-size: 32px;
-    font-weight: 700;
-    color: #1C1C1E;
-    margin: 0 0 4px 0;
-    letter-spacing: -0.5px;
+    font-size: 18px;
+    margin: 0 0 15px;
+    display: flex
+    align-items: center;
+    gap: 10px;
+    color: #1d1d1f;
 }
 
-.ledger-subtitle {
-    font-size: 16px;
-    font-weight: 400;
-    color: #8E8E93;
-    margin: 0;
-}
 
 /* Parties Grid */
 .parties-grid {
-    padding: 8px 16px 100px;
+    padding: 8px 23px 100px;
     background: #FFFFFF;
 }
 
@@ -72,11 +68,11 @@ function injectLedgerStyles() {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 16px 8px;
+    padding: 10px 16px 0px;
 }
 
 .party-name {
-    font-size: 17px;
+    font-size: 14.5px;
     font-weight: 600;
     color: #1C1C1E;
     margin: 0;
@@ -84,17 +80,17 @@ function injectLedgerStyles() {
 }
 
 .party-amount {
-    font-size: 17px;
-    font-weight: 600;
-    color: #1C1C1E;
-    letter-spacing: -0.2px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #248A3D;
+    letter-spacing: 0.3px;
 }
 
 .party-details {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 16px 16px;
+    padding: 0 16px 10px;
 }
 
 .party-bills-count {
@@ -194,8 +190,8 @@ function injectLedgerStyles() {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(20px);
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(1px);
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
@@ -214,7 +210,7 @@ function injectLedgerStyles() {
     right: 0;
     background: #FFFFFF;
     border-radius: 13px 13px 0 0;
-    max-height: 85vh;
+    max-height: 90vh;
     transform: translateY(100%);
     transition: transform 0.3s ease;
     display: flex;
@@ -244,15 +240,15 @@ function injectLedgerStyles() {
 .party-modal-header {
     padding: 0 20px 20px;
     background: #FFFFFF;
-    border-bottom: 0.33px solid rgba(60, 60, 67, 0.08);
+   
 }
 
 .party-modal-title {
-    font-size: 24px;
-    font-weight: 700;
-    color: #1C1C1E;
+    font-size: 20px;
+    font-weight: 650;
+    color: #1d1d1f;
     margin: 0 0 16px 0;
-    letter-spacing: -0.4px;
+    
 }
 
 .party-modal-summary {
@@ -369,31 +365,41 @@ function injectLedgerStyles() {
 .party-modal-footer {
     padding: 20px;
     background: #FFFFFF;
-    border-top: 0.33px solid rgba(60, 60, 67, 0.08);
+    margin-bottom: 70px;
+    align-items: center;
 }
 
 .close-party-modal-btn {
-    width: 100%;
-    height: 50px;
-    background: #007AFF;
+    
+   
+    background: transparent;
+    font-weight: bold;
+    margin: 0 0 18px 0;
     border: none;
-    border-radius: 10px;
-    color: #FFFFFF;
-    font-size: 17px;
-    font-weight: 600;
+    text-align: right;
+    background-color: transparent;
+    color: #f86962ff;
+    font-size: 13px;
+   width: 36px;
+    height: 36px;
     cursor: pointer;
     transition: all 0.15s ease-in-out;
+    ;
 }
 
-.close-party-modal-btn:hover {
-    background: #0056CC;
-    transform: translateY(-1px);
+.close-party-modal-btn:hover{
+color: #ff3b30;
 }
 
-.close-party-modal-btn:active {
-    background: #004999;
-    transform: translateY(0);
+
+
+.party-modal-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
+
 
 /* Page Content */
 .page-content {
@@ -407,15 +413,16 @@ function injectLedgerStyles() {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* iOS Style System Font Stack */
-body, input, button, textarea {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .ledger-title {
-        font-size: 28px;
+          font-size: 18px;
+    margin: 0 0 15px;
+    display: flex
+    align-items: center;
+    gap: 10px;
+    color: #1d1d1f;
     }
     
     .party-modal {
@@ -466,8 +473,7 @@ function createLedgerPage() {
         <div id="ledgerPage" class="page-content" style="display: none;">
             <div class="ledger-container">
                 <div class="ledger-header">
-                    <h1 class="ledger-title">Ledger</h1>
-                    <p class="ledger-subtitle">Party-wise Bill Summary</p>
+                    <h1 class="ledger-title">Party Wise Ledger</h1>
                 </div>
                 <div class="parties-grid" id="partiesGrid">
                     <!-- Loading state will be inserted here -->
@@ -482,7 +488,10 @@ function createLedgerPage() {
                     <div class="modal-handle-bar"></div>
                 </div>
                 <div class="party-modal-header">
-                    <h2 class="party-modal-title" id="partyModalTitle">Party Name</h2>
+    <div class="party-modal-title-row">
+        <h2 class="party-modal-title" id="partyModalTitle">Party Name</h2>
+        <button class="close-party-modal-btn" onclick="closePartyModal()">Close</button>
+    </div>
                     <div class="party-modal-summary">
                         <div class="summary-item">
                             <div class="summary-value count" id="partyBillsCount">0</div>
@@ -500,7 +509,7 @@ function createLedgerPage() {
                     </div>
                 </div>
                 <div class="party-modal-footer">
-                    <button class="close-party-modal-btn" onclick="closePartyModal()">Close</button>
+                    
                 </div>
             </div>
         </div>
