@@ -118,14 +118,14 @@ function setupResponsiveLayout() {
     if (!metaViewport) {
         metaViewport = document.createElement('meta');
         metaViewport.name = 'viewport';
-        metaViewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        metaViewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes';
         document.head.appendChild(metaViewport);
     }
     
     // Ensure the body has proper layout for fixed navbar
     document.body.style.margin = '0';
     document.body.style.padding = '0';
-    document.body.style.height = '100vh';
+    document.body.style.height = '100%';
     document.body.style.display = 'flex';
     document.body.style.flexDirection = 'column';
     document.body.style.overflowX = 'hidden'; // Prevent horizontal scroll
