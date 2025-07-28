@@ -118,18 +118,17 @@ function setupResponsiveLayout() {
     if (!metaViewport) {
         metaViewport = document.createElement('meta');
         metaViewport.name = 'viewport';
-        metaViewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes';
+        metaViewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
         document.head.appendChild(metaViewport);
     }
     
     // Ensure the body has proper layout for fixed navbar
     document.body.style.margin = '0';
     document.body.style.padding = '0';
-    document.body.style.height = 'auto';
+    document.body.style.height = '100vh';
     document.body.style.display = 'flex';
     document.body.style.flexDirection = 'column';
     document.body.style.overflowX = 'hidden'; // Prevent horizontal scroll
-    document.body.style.overflowY = 'auto';
     
     // Style the profile page container
     const profilePage = document.getElementById('profilePage');
@@ -159,11 +158,11 @@ function setupResponsiveLayout() {
     }
     
     // Prevent zooming on mobile
-   // document.addEventListener('touchmove', function(e) {
-    //    if (e.scale !== 1) {
-    //        e.preventDefault();
- //       }
-//    }, { passive: false });
+    document.addEventListener('touchmove', function(e) {
+        if (e.scale !== 1) {
+            e.preventDefault();
+        }
+    }, { passive: false });
 }
 
 function setupUserProfileFeatures() {
@@ -288,9 +287,9 @@ function addProfileStyles() {
         }
         
         .user-avatar {
-            width: 100px;
-            height: 100px;
-            background: rgba(255,255,255,0.2);
+            width: 120px;
+            height: 120px;
+            background: rgba(70, 69, 69, 1);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -365,11 +364,12 @@ function addProfileStyles() {
         }
         
         .section-title {
-            font-size: 18px;
+           
             margin: 0 0 15px;
             display: flex;
             align-items: center;
             gap: 10px;
+            color: #1d1d1f;
         }
         
         .section-title i {
@@ -430,8 +430,8 @@ function addProfileStyles() {
         }
         
         .info-value {
-            font-size: 15px;
-            font-weight: 500;
+            font-size: 14.5px;
+            font-weight: 450;
         }
         
         /* App Info */
@@ -562,7 +562,6 @@ function addProfileStyles() {
 function callAdmin() {
     if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|webOS|BlackBerry|Windows Phone)/)) {
         window.location.href = 'tel:+919284494154';
-        window.location.href = 'tel:+919216153546';
     } else {
         copyToClipboard('+91 9284494154');
         showToast('Phone number copied to clipboard!');
