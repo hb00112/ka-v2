@@ -130,6 +130,8 @@ function setupResponsiveLayout() {
     document.body.style.flexDirection = 'column';
     document.body.style.overflowX = 'hidden'; // Prevent horizontal scroll
     document.body.style.overflowY = 'auto';
+
+}
     
     // Style the profile page container
     const profilePage = document.getElementById('profilePage');
