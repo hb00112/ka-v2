@@ -457,35 +457,46 @@ function viewLedger() {
 }
 
 // Homepage Functions
+// Homepage Functions - Updated for Financial Year
 function loadSummaryData() {
-    // Load total bills
+    // Get current financial year (April 1 to March 31)
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1; // 1-12
+    const financialYear = currentMonth >= 4 ? today.getFullYear() : today.getFullYear() - 1;
+    const financialYearStart = new Date(financialYear, 3, 1); // April 1
+    const financialYearEnd = new Date(financialYear + 1, 2, 31); // March 31 next year
+
+    // Load total bills for current financial year
     database.ref('bills').once('value', (snapshot) => {
         const bills = snapshot.val();
-        const totalBills = bills ? Object.keys(bills).length : 0;
+        let totalBills = 0;
+        let totalAmount = 0;
+        
+        if (bills) {
+            Object.values(bills).forEach(bill => {
+                const billDate = new Date(bill.date);
+                if (billDate >= financialYearStart && billDate <= financialYearEnd) {
+                    totalBills++;
+                    totalAmount += bill.amount || 0;
+                }
+            });
+        }
+        
+        // Update UI
         const totalBillsElement = document.getElementById('totalBills');
         if (totalBillsElement) {
             totalBillsElement.textContent = totalBills;
             totalBillsElement.className = totalBills > 0 ? 'value' : 'value empty';
         }
         
-        // Calculate total amount
-        if (bills) {
-            const totalAmount = Object.values(bills).reduce((sum, bill) => sum + (bill.amount || 0), 0);
-            const totalAmountElement = document.getElementById('totalAmount');
-            if (totalAmountElement) {
-                totalAmountElement.textContent = formatCurrency(totalAmount);
-                totalAmountElement.className = 'value';
-            }
-        } else {
-            const totalAmountElement = document.getElementById('totalAmount');
-            if (totalAmountElement) {
-                totalAmountElement.textContent = '--';
-                totalAmountElement.className = 'value empty';
-            }
+        const totalAmountElement = document.getElementById('totalAmount');
+        if (totalAmountElement) {
+            totalAmountElement.textContent = formatCurrency(totalAmount);
+            totalAmountElement.className = totalAmount > 0 ? 'value' : 'value empty';
         }
     });
 
-    // Load parties count
+    // Load parties count (all time, not filtered by year)
     database.ref('parties').once('value', (snapshot) => {
         const parties = snapshot.val();
         const partiesCount = parties ? Object.keys(parties).length : 0;
@@ -496,6 +507,196 @@ function loadSummaryData() {
         }
     });
 }
+
+// New function to load target analytics
+function loadTargetAnalytics() {
+    const analyticsContainer = document.getElementById('analyticsContainer');
+    if (!analyticsContainer) return;
+
+    // Clear existing content
+    analyticsContainer.innerHTML = '<h2 class="section-header"><i class="fas fa-chart-line"></i> Target Analytics</h2>';
+
+    // Get current financial year (April 1 to March 31)
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1; // 1-12
+    const financialYear = currentMonth >= 4 ? today.getFullYear() : today.getFullYear() - 1;
+    const financialYearStart = new Date(financialYear, 3, 1); // April 1
+    const financialYearEnd = new Date(financialYear + 1, 2, 31); // March 31 next year
+
+    // Calculate current quarter (financial year quarters)
+    let currentQuarter;
+    if (currentMonth >= 4 && currentMonth <= 6) currentQuarter = 1; // Q1: Apr-Jun
+    else if (currentMonth >= 7 && currentMonth <= 9) currentQuarter = 2; // Q2: Jul-Sep
+    else if (currentMonth >= 10 && currentMonth <= 12) currentQuarter = 3; // Q3: Oct-Dec
+    else currentQuarter = 4; // Q4: Jan-Mar
+    
+    const quarterKey = `Q${currentQuarter}`;
+    
+    // Calculate days remaining in quarter
+    let quarterEndDate;
+    switch(currentQuarter) {
+        case 1: quarterEndDate = new Date(financialYear, 5, 30); break; // June 30
+        case 2: quarterEndDate = new Date(financialYear, 8, 30); break; // September 30
+        case 3: quarterEndDate = new Date(financialYear, 11, 31); break; // December 31
+        case 4: quarterEndDate = new Date(financialYear + 1, 2, 31); break; // March 31
+    }
+    const daysRemainingQuarter = Math.ceil((quarterEndDate - today) / (1000 * 60 * 60 * 24));
+    
+    // Calculate days remaining in year
+    const daysRemainingYear = Math.ceil((financialYearEnd - today) / (1000 * 60 * 60 * 24));
+
+    // Process each party with targets
+    Object.entries(partyTargets).forEach(([partyName, targets]) => {
+        // Get all bills for this party in current financial year
+        database.ref('bills').orderByChild('partyName').equalTo(partyName).once('value', (snapshot) => {
+            const bills = snapshot.val();
+            const billsArray = bills ? Object.values(bills) : [];
+            
+            // Filter bills for current quarter and financial year
+            const quarterBills = billsArray.filter(bill => {
+                const billDate = new Date(bill.date);
+                return billDate >= getQuarterStartDate(financialYear, currentQuarter) && 
+                       billDate <= quarterEndDate;
+            });
+            
+            const yearBills = billsArray.filter(bill => {
+                const billDate = new Date(bill.date);
+                return billDate >= financialYearStart && billDate <= financialYearEnd;
+            });
+            
+            const quarterTotal = quarterBills.reduce((sum, bill) => sum + (bill.amount || 0), 0);
+            const yearTotal = yearBills.reduce((sum, bill) => sum + (bill.amount || 0), 0);
+            
+            // Get targets
+            const quarterTarget = targets.quarterly ? targets.quarterly[quarterKey] : 0;
+            const yearTarget = targets.yearly || 0;
+            
+            // Create analytics card
+            const card = createPartyTargetCard({
+                partyName,
+                quarterTotal,
+                quarterTarget,
+                yearTotal,
+                yearTarget,
+                daysRemainingQuarter,
+                daysRemainingYear,
+                financialYear
+            });
+            
+            analyticsContainer.appendChild(card);
+        });
+    });
+}
+
+// Helper function to get quarter start date
+function getQuarterStartDate(year, quarter) {
+    switch(quarter) {
+        case 1: return new Date(year, 3, 1); // April 1
+        case 2: return new Date(year, 6, 1); // July 1
+        case 3: return new Date(year, 9, 1); // October 1
+        case 4: return new Date(year, 0, 1); // January 1
+    }
+}
+
+// Create a target analytics card for a party
+function createPartyTargetCard(data) {
+    const card = document.createElement('div');
+    card.className = 'target-analytics-card';
+    card.onclick = () => openPartyModalFromHome(data.partyName);
+    
+    // Calculate metrics
+    const quarterRemaining = Math.max(0, data.quarterTarget - data.quarterTotal);
+    const yearRemaining = Math.max(0, data.yearTarget - data.yearTotal);
+    
+    const quarterPercentage = data.quarterTarget > 0 ? 
+        Math.min(100, (data.quarterTotal / data.quarterTarget) * 100) : 0;
+    const yearPercentage = data.yearTarget > 0 ? 
+        Math.min(100, (data.yearTotal / data.yearTarget) * 100) : 0;
+    
+    const quarterDailyTarget = data.daysRemainingQuarter > 0 ? 
+        (quarterRemaining / data.daysRemainingQuarter).toFixed(2) : 0;
+    const yearDailyTarget = data.daysRemainingYear > 0 ? 
+        (yearRemaining / data.daysRemainingYear).toFixed(2) : 0;
+    
+    card.innerHTML = `
+        <div class="party-target-header">
+            <h3>${data.partyName}</h3>
+            <span class="financial-year">FY ${data.financialYear}-${data.financialYear + 1}</span>
+        </div>
+        
+        <div class="target-section">
+            <h4><i class="fas fa-calendar-alt"></i> Current Quarter (Q${Math.ceil((new Date().getMonth() + 1) / 3)})</h4>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${quarterPercentage}%"></div>
+                </div>
+                <div class="progress-text">
+                    ${formatCurrency(data.quarterTotal)} / ${formatCurrency(data.quarterTarget)} (${quarterPercentage.toFixed(1)}%)
+                </div>
+            </div>
+            <div class="target-metrics">
+                <div class="metric">
+                    <span class="metric-label">Remaining:</span>
+                    <span class="metric-value">${formatCurrency(quarterRemaining)}</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Days Left:</span>
+                    <span class="metric-value">${data.daysRemainingQuarter}</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Daily Target:</span>
+                    <span class="metric-value">${formatCurrency(quarterDailyTarget)}</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="target-section">
+            <h4><i class="fas fa-calendar"></i> Annual Target</h4>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${yearPercentage}%"></div>
+                </div>
+                <div class="progress-text">
+                    ${formatCurrency(data.yearTotal)} / ${formatCurrency(data.yearTarget)} (${yearPercentage.toFixed(1)}%)
+                </div>
+            </div>
+            <div class="target-metrics">
+                <div class="metric">
+                    <span class="metric-label">Remaining:</span>
+                    <span class="metric-value">${formatCurrency(yearRemaining)}</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Days Left:</span>
+                    <span class="metric-value">${data.daysRemainingYear}</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Daily Target:</span>
+                    <span class="metric-value">${formatCurrency(yearDailyTarget)}</span>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    return card;
+}
+
+// Open party modal from homepage click
+function openPartyModalFromHome(partyName) {
+    database.ref('bills').orderByChild('partyName').equalTo(partyName).once('value', (snapshot) => {
+        const bills = snapshot.val();
+        const billsArray = bills ? Object.values(bills) : [];
+        
+        openPartyModal({
+            name: partyName,
+            bills: billsArray,
+            totalAmount: billsArray.reduce((sum, bill) => sum + (bill.amount || 0), 0),
+            lastTransactionDate: billsArray.length > 0 ? 
+                billsArray[billsArray.length - 1].date : null
+        });
+    });
+}
+
+// Initialize homepage with both summary and analytics
 
 function loadLatestBills() {
     database.ref('bills').orderByChild('timestamp').limitToLast(5).once('value', (snapshot) => {
@@ -582,15 +783,13 @@ function loadRecentLedgers() {
 
 function initializeHomepage() {
     loadSummaryData();
-    loadLatestBills();
-    loadRecentLedgers();
+    loadTargetAnalytics();
 
     // Set up real-time listeners for updates
     database.ref('bills').on('value', () => {
         loadSummaryData();
-        loadLatestBills();
+        loadTargetAnalytics();
     });
-    database.ref('ledgers').on('value', loadRecentLedgers);
     database.ref('parties').on('value', loadSummaryData);
 }
 
