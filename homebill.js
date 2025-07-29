@@ -509,6 +509,8 @@ function loadSummaryData() {
 }
 
 // New function to load target analytics
+// New function to load target analytics - FIXED FINANCIAL QUARTER CALCULATION
+// New function to load target analytics - FIXED FINANCIAL QUARTER CALCULATION
 function loadTargetAnalytics() {
     const analyticsContainer = document.getElementById('analyticsContainer');
     if (!analyticsContainer) return;
@@ -519,20 +521,34 @@ function loadTargetAnalytics() {
     // Get current financial year (April 1 to March 31)
     const today = new Date();
     const currentMonth = today.getMonth() + 1; // 1-12
+    
+    // Debug logging
+    console.log('Current Date:', today);
+    console.log('Current Month:', currentMonth);
+    
     const financialYear = currentMonth >= 4 ? today.getFullYear() : today.getFullYear() - 1;
     const financialYearStart = new Date(financialYear, 3, 1); // April 1
     const financialYearEnd = new Date(financialYear + 1, 2, 31); // March 31 next year
 
-    // Calculate current quarter (financial year quarters)
+    // Calculate current financial quarter - FIXED with explicit logic
     let currentQuarter;
-    if (currentMonth >= 4 && currentMonth <= 6) currentQuarter = 1; // Q1: Apr-Jun
-    else if (currentMonth >= 7 && currentMonth <= 9) currentQuarter = 2; // Q2: Jul-Sep
-    else if (currentMonth >= 10 && currentMonth <= 12) currentQuarter = 3; // Q3: Oct-Dec
-    else currentQuarter = 4; // Q4: Jan-Mar
+    if (currentMonth === 4 || currentMonth === 5 || currentMonth === 6) {
+        currentQuarter = 1; // Q1: Apr-Jun
+    } else if (currentMonth === 7 || currentMonth === 8 || currentMonth === 9) {
+        currentQuarter = 2; // Q2: Jul-Sep
+    } else if (currentMonth === 10 || currentMonth === 11 || currentMonth === 12) {
+        currentQuarter = 3; // Q3: Oct-Dec
+    } else if (currentMonth === 1 || currentMonth === 2 || currentMonth === 3) {
+        currentQuarter = 4; // Q4: Jan-Mar
+    }
+    
+    // Debug logging
+    console.log('Financial Year:', financialYear);
+    console.log('Current Financial Quarter:', currentQuarter);
     
     const quarterKey = `Q${currentQuarter}`;
     
-    // Calculate days remaining in quarter
+    // Calculate days remaining in quarter - FIXED
     let quarterEndDate;
     switch(currentQuarter) {
         case 1: quarterEndDate = new Date(financialYear, 5, 30); break; // June 30
@@ -540,10 +556,10 @@ function loadTargetAnalytics() {
         case 3: quarterEndDate = new Date(financialYear, 11, 31); break; // December 31
         case 4: quarterEndDate = new Date(financialYear + 1, 2, 31); break; // March 31
     }
-    const daysRemainingQuarter = Math.ceil((quarterEndDate - today) / (1000 * 60 * 60 * 24));
+    const daysRemainingQuarter = Math.max(0, Math.ceil((quarterEndDate - today) / (1000 * 60 * 60 * 24)));
     
     // Calculate days remaining in year
-    const daysRemainingYear = Math.ceil((financialYearEnd - today) / (1000 * 60 * 60 * 24));
+    const daysRemainingYear = Math.max(0, Math.ceil((financialYearEnd - today) / (1000 * 60 * 60 * 24)));
 
     // Process each party with targets
     Object.entries(partyTargets).forEach(([partyName, targets]) => {
@@ -580,7 +596,8 @@ function loadTargetAnalytics() {
                 yearTarget,
                 daysRemainingQuarter,
                 daysRemainingYear,
-                financialYear
+                financialYear,
+                currentQuarter // Pass current quarter for display
             });
             
             analyticsContainer.appendChild(card);
@@ -588,17 +605,17 @@ function loadTargetAnalytics() {
     });
 }
 
-// Helper function to get quarter start date
+// Helper function to get quarter start date - FIXED
 function getQuarterStartDate(year, quarter) {
     switch(quarter) {
         case 1: return new Date(year, 3, 1); // April 1
-        case 2: return new Date(year, 6, 1); // July 1
+        case 2: return new Date(year, 6, 1); // July 1  
         case 3: return new Date(year, 9, 1); // October 1
-        case 4: return new Date(year, 0, 1); // January 1
+        case 4: return new Date(year, 0, 1); // January 1 (next year)
     }
 }
 
-// Create a target analytics card for a party
+// Create a target analytics card for a party - UPDATED to show correct quarter
 function createPartyTargetCard(data) {
     const card = document.createElement('div');
     card.className = 'target-analytics-card';
@@ -613,11 +630,6 @@ function createPartyTargetCard(data) {
     const yearPercentage = data.yearTarget > 0 ? 
         Math.min(100, (data.yearTotal / data.yearTarget) * 100) : 0;
     
-    const quarterDailyTarget = data.daysRemainingQuarter > 0 ? 
-        (quarterRemaining / data.daysRemainingQuarter).toFixed(2) : 0;
-    const yearDailyTarget = data.daysRemainingYear > 0 ? 
-        (yearRemaining / data.daysRemainingYear).toFixed(2) : 0;
-    
     card.innerHTML = `
         <div class="party-target-header">
             <h3>${data.partyName}</h3>
@@ -625,7 +637,7 @@ function createPartyTargetCard(data) {
         </div>
         
         <div class="target-section">
-            <h4><i class="fas fa-calendar-alt"></i> Current Quarter (Q${Math.ceil((new Date().getMonth() + 1) / 3)})</h4>
+            <h4><i class="fas fa-calendar-alt"></i> Current Quarter (Q${data.currentQuarter})</h4>
             <div class="progress-container">
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: ${quarterPercentage}%"></div>
@@ -642,10 +654,6 @@ function createPartyTargetCard(data) {
                 <div class="metric">
                     <span class="metric-label">Days Left:</span>
                     <span class="metric-value">${data.daysRemainingQuarter}</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Daily Target:</span>
-                    <span class="metric-value">${formatCurrency(quarterDailyTarget)}</span>
                 </div>
             </div>
         </div>
@@ -669,17 +677,12 @@ function createPartyTargetCard(data) {
                     <span class="metric-label">Days Left:</span>
                     <span class="metric-value">${data.daysRemainingYear}</span>
                 </div>
-                <div class="metric">
-                    <span class="metric-label">Daily Target:</span>
-                    <span class="metric-value">${formatCurrency(yearDailyTarget)}</span>
-                </div>
             </div>
         </div>
     `;
     
     return card;
 }
-
 // Open party modal from homepage click
 function openPartyModalFromHome(partyName) {
     database.ref('bills').orderByChild('partyName').equalTo(partyName).once('value', (snapshot) => {
