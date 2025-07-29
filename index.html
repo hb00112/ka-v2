@@ -68,58 +68,34 @@
     </header>
 
     <!-- Home Page Content -->
-    <div id="homePage" class="page-content">
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Summary Cards -->
-            <section class="summary-section">
-                <div class="summary-grid">
-                    <div class="summary-card">
-                        <div class="value empty" id="totalBills">--</div>
-                        <div class="label">Total Bills<br>Uploaded</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="value empty" id="totalAmount">--</div>
-                        <div class="label">Total<br>Amount</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="value empty" id="partiesRegistered">--</div>
-                        <div class="label">Parties<br>Registered</div>
-                    </div>
+    <!-- Home Page Content -->
+<div id="homePage" class="page-content">
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Summary Cards (keep existing) -->
+        <section class="summary-section">
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="value empty" id="totalBills">--</div>
+                    <div class="label">Total Bills<br>Uploaded</div>
                 </div>
-            </section>
+                <div class="summary-card">
+                    <div class="value empty" id="totalAmount">--</div>
+                    <div class="label">Total<br>Amount</div>
+                </div>
+                <div class="summary-card">
+                    <div class="value empty" id="partiesRegistered">--</div>
+                    <div class="label">Parties<br>Registered</div>
+                </div>
+            </div>
+        </section>
 
-            <!-- Latest Bills Section -->
-            <section class="bills-section">
-                <h2 class="section-header">
-                    <i class="fas fa-file-invoice"></i>
-                    Latest Bills
-                </h2>
-                <div class="bills-container" id="billsContainer">
-                    <div class="empty-state">
-                        <i class="fas fa-file-invoice"></i>
-                        <h3>No Bills Yet</h3>
-                        <p>Bills will appear here once uploaded</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Recent Ledgers Section -->
-            <section class="ledgers-section">
-                <h2 class="section-header">
-                    <i class="fas fa-book"></i>
-                    Recent Ledgers
-                </h2>
-                <div class="ledgers-container" id="ledgersContainer">
-                    <div class="empty-state">
-                        <i class="fas fa-book"></i>
-                        <h3>No Ledgers Yet</h3>
-                        <p>Ledger entries will appear here once created</p>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
+        <!-- Target Analytics Section -->
+        <section class="analytics-section">
+            <div id="analyticsContainer"></div>
+        </section>
+    </main>
+</div>
 
     <!-- Bills Page Content -->
     <div id="billsPage" class="page-content" style="display: none;">
