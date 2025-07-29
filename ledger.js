@@ -859,15 +859,11 @@ function updateFilterControls() {
         currentFilterValue = currentYear;
         
         filterSelector.innerHTML = `
-            <button class="filter-nav-btn" onclick="navigateFilter(-1)">
-                <i class="fas fa-chevron-left"></i>
-            </button>
+          
             <select class="filter-dropdown" onchange="updateFilterValue(this.value)">
                 ${generateYearOptions()}
             </select>
-            <button class="filter-nav-btn" onclick="navigateFilter(1)">
-                <i class="fas fa-chevron-right"></i>
-            </button>
+          
         `;
     } else if (currentFilterType === 'quarterly') {
         // Reset to current quarter
@@ -875,15 +871,11 @@ function updateFilterControls() {
         currentFilterValue = `${currentYear}-Q${currentQuarter}`;
         
         filterSelector.innerHTML = `
-            <button class="filter-nav-btn" onclick="navigateFilter(-1)">
-                <i class="fas fa-chevron-left"></i>
-            </button>
+           
             <select class="filter-dropdown" onchange="updateFilterValue(this.value)">
                 ${generateQuarterOptions()}
             </select>
-            <button class="filter-nav-btn" onclick="navigateFilter(1)">
-                <i class="fas fa-chevron-right"></i>
-            </button>
+           
         `;
     } else if (currentFilterType === 'monthly') {
         // Reset to current month
@@ -891,15 +883,11 @@ function updateFilterControls() {
         currentFilterValue = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}`;
         
         filterSelector.innerHTML = `
-            <button class="filter-nav-btn" onclick="navigateFilter(-1)">
-                <i class="fas fa-chevron-left"></i>
-            </button>
+           
             <select class="filter-dropdown" onchange="updateFilterValue(this.value)">
                 ${generateMonthOptions()}
             </select>
-            <button class="filter-nav-btn" onclick="navigateFilter(1)">
-                <i class="fas fa-chevron-right"></i>
-            </button>
+         
         `;
     }
 }
@@ -953,44 +941,7 @@ function generateMonthOptions() {
     return options;
 }
 
-// Navigate filter (prev/next)
-function navigateFilter(direction) {
-    if (currentFilterType === 'yearly') {
-        currentFilterValue = parseInt(currentFilterValue) + direction;
-    } else if (currentFilterType === 'quarterly') {
-        const [year, quarter] = currentFilterValue.split('-Q');
-        let newYear = parseInt(year);
-        let newQuarter = parseInt(quarter) + direction;
-        
-        if (newQuarter > 4) {
-            newQuarter = 1;
-            newYear++;
-        } else if (newQuarter < 1) {
-            newQuarter = 4;
-            newYear--;
-        }
-        
-        currentFilterValue = `${newYear}-Q${newQuarter}`;
-    } else if (currentFilterType === 'monthly') {
-        const [year, month] = currentFilterValue.split('-');
-        let newYear = parseInt(year);
-        let newMonth = parseInt(month) + direction;
-        
-        if (newMonth > 12) {
-            newMonth = 1;
-            newYear++;
-        } else if (newMonth < 1) {
-            newMonth = 12;
-            newYear--;
-        }
-        
-        currentFilterValue = `${newYear}-${newMonth.toString().padStart(2, '0')}`;
-    }
-    
-    // Update controls and display
-    updateFilterControls();
-    updatePartyDisplay();
-}
+
 
 // Update filter value from dropdown
 function updateFilterValue(value) {
@@ -1297,5 +1248,4 @@ document.addEventListener('DOMContentLoaded', function() {
 window.showLedgerPage = showLedgerPage;
 window.closePartyModal = closePartyModal;
 window.setFilterType = setFilterType;
-window.navigateFilter = navigateFilter;
 window.updateFilterValue = updateFilterValue;
