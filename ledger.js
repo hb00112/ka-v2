@@ -1103,6 +1103,7 @@ function updateTargetProgress(currentAmount) {
 }
 
 // Open party modal with bills
+// Open party modal with bills
 function openPartyModal(partyData) {
     currentPartyData = partyData;
     currentPartyBills = partyData.bills.sort((a, b) => 
@@ -1128,6 +1129,9 @@ function openPartyModal(partyData) {
     // Update display
     updatePartyDisplay();
     
+    // Hide navigation buttons
+    document.querySelector('.footer-nav').style.display = 'none';
+    
     // Show modal
     const modal = document.getElementById('partyModal');
     modal.classList.add('active');
@@ -1140,6 +1144,9 @@ function openPartyModal(partyData) {
 function closePartyModal() {
     const modal = document.getElementById('partyModal');
     modal.classList.remove('active');
+    
+    // Show navigation buttons again
+    document.querySelector('.footer-nav').style.display = 'flex';
     
     // Remove body scroll lock
     document.body.style.overflow = '';
