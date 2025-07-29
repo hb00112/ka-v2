@@ -3955,6 +3955,7 @@ h2 {
 
 
 /* Target Analytics Styles */
+/* Target Analytics Styles - Updated with Party Differentiation */
 .analytics-section {
     padding: 15px;
 }
@@ -3966,53 +3967,90 @@ h2 {
     margin-bottom: 16px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Premium styling for first party */
+.target-analytics-card:nth-child(2) {
+    border-left: 4px solid #007AFF;
+    background: linear-gradient(to right, #f8faff 0%, #ffffff 50%);
+}
+
+/* Premium styling for second party */
+.target-analytics-card:nth-child(3) {
+    border-left: 4px solid #34C759;
+    background: linear-gradient(to right, #f8fff9 0%, #ffffff 50%);
 }
 
 .target-analytics-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
 }
 
+/* Header with subtle gradient */
 .party-target-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
     padding-bottom: 8px;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+/* Add decorative element to header */
+.party-target-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #007AFF, #34C759);
 }
 
 .party-target-header h3 {
     margin: 0;
     font-size: 18px;
-    color: #333;
+    color: #1d1d1f;
+    font-weight: 600;
+    letter-spacing: -0.3px;
 }
 
+/* Enhanced financial year badge */
 .financial-year {
-    background: #f0f0f0;
-    padding: 4px 8px;
-    border-radius: 4px;
+    background: rgba(0, 122, 255, 0.1);
+    padding: 4px 10px;
+    border-radius: 12px;
     font-size: 12px;
-    color: #666;
+    font-weight: 500;
+    color: #007AFF;
 }
 
+/* Progress section with improved visual hierarchy */
 .target-section {
     margin-bottom: 20px;
+    position: relative;
 }
 
 .target-section h4 {
     margin: 0 0 8px 0;
     font-size: 14px;
-    color: #555;
+    color: #1d1d1f;
     display: flex;
     align-items: center;
+    font-weight: 500;
 }
 
 .target-section h4 i {
     margin-right: 8px;
     color: #007AFF;
+    font-size: 16px;
 }
 
+/* Enhanced progress bar */
 .progress-container {
     margin-bottom: 12px;
 }
@@ -4023,44 +4061,115 @@ h2 {
     border-radius: 5px;
     overflow: hidden;
     margin-bottom: 4px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #34C759, #30D158);
     border-radius: 5px;
-    transition: width 0.3s ease;
+    transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Different progress colors for each party */
+.target-analytics-card:nth-child(2) .progress-fill {
+    background: linear-gradient(90deg, #007AFF, #5ac8fa);
+}
+
+.target-analytics-card:nth-child(3) .progress-fill {
+    background: linear-gradient(90deg, #34C759, #52e782);
+}
+
+/* Shimmer effect on progress bars */
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 2s infinite;
 }
 
 .progress-text {
     font-size: 12px;
-    color: #666;
+    color: #86868b;
     text-align: right;
+    font-weight: 500;
 }
 
+/* Metrics grid with improved spacing */
 .target-metrics {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    gap: 10px;
 }
 
 .metric {
-    background: #f8f8f8;
-    padding: 8px;
-    border-radius: 6px;
+    background: rgba(0, 122, 255, 0.05);
+    padding: 10px;
+    border-radius: 8px;
     text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.metric:hover {
+    transform: translateY(-2px);
 }
 
 .metric-label {
     display: block;
     font-size: 11px;
-    color: #888;
+    color: #86868b;
     margin-bottom: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .metric-value {
     display: block;
     font-size: 14px;
     font-weight: 600;
-    color: #333;
+    color: #1d1d1f;
+}
+
+/* Different metric colors for each party */
+.target-analytics-card:nth-child(2) .metric-value {
+    color: #007AFF;
+}
+
+.target-analytics-card:nth-child(3) .metric-value {
+    color: #34C759;
+}
+
+/* Animation for the shimmer effect */
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .target-analytics-card {
+        padding: 14px;
+    }
+    
+    .party-target-header h3 {
+        font-size: 16px;
+    }
+    
+    .target-section h4 {
+        font-size: 13px;
+    }
+    
+    .metric {
+        padding: 8px;
+    }
+    
+    .metric-value {
+        font-size: 13px;
+    }
 }
