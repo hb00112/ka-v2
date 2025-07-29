@@ -228,7 +228,7 @@ function injectLedgerStyles() {
     right: 0;
     background: #FFFFFF;
     border-radius: 13px 13px 0 0;
-    max-height: 90vh;
+    max-height: 95%;
     transform: translateY(100%);
     transition: transform 0.3s ease;
     display: flex;
@@ -566,7 +566,9 @@ function injectLedgerStyles() {
     }
     
     .party-modal {
-        max-height: 90vh;
+        max-height: 95%;
+        z-index: 2000;
+        height: 100%;
     }
     
     .party-modal-summary {
