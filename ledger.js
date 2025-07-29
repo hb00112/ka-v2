@@ -1,8 +1,26 @@
-// Ledger.js - Classic Premium iOS Themed Ledger Section
+// Ledger.js - Classic Premium iOS Themed Ledger Section with Filters and Targets
 
 // Global variables for ledger
 let currentPartyData = null;
 let currentPartyBills = [];
+let currentFilterType = 'yearly';
+let currentFilterValue = new Date().getFullYear();
+
+// Party targets configuration
+const partyTargets = {
+    'POSHAK RETAIL': {
+        quarterly: {
+            Q1: 405000, // 4.05 Lakh
+            Q2: 330000, // 3.30 Lakh
+            Q3: 345000, // 3.45 Lakh
+            Q4: 420000  // 4.20 Lakh
+        },
+        yearly: 1500000 // 15 Lakh
+    },
+    'MAHABALESHWAR S DANGUI & CO.': {
+        yearly: 600000 // 6 Lakh
+    }
+};
 
 // Inject CSS styles for ledger section
 function injectLedgerStyles() {
@@ -31,13 +49,12 @@ function injectLedgerStyles() {
 .ledger-title {
     font-size: 15px;
     margin: 0 0 15px;
-    display: flex
+    display: flex;
     align-items: center;
     gap: 7px;
     color: #1d1d1f;
-    Letter-spacing: -0.2rem;
+    letter-spacing: -0.2rem;
 }
-
 
 /* Parties Grid */
 .parties-grid {
@@ -241,15 +258,170 @@ function injectLedgerStyles() {
 .party-modal-header {
     padding: 0 20px 20px;
     background: #FFFFFF;
-   
+}
+
+.party-modal-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 16px;
 }
 
 .party-modal-title {
     font-size: 20px;
     font-weight: 700;
     color: #1d1d1f;
-    margin: 0 0 16px 0;
-    
+    margin: 0;
+}
+
+.close-party-modal-btn {
+    background: transparent;
+    font-weight: bold;
+    border: none;
+    background-color: transparent;
+    color: #f86962ff;
+    font-size: 13px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.close-party-modal-btn:hover {
+    color: #ff3b30;
+}
+
+/* Filters Section */
+.party-filters {
+    margin-bottom: 20px;
+}
+
+.filter-tabs {
+    display: flex;
+    background: #F2F2F7;
+    border-radius: 8px;
+    padding: 2px;
+    margin-bottom: 12px;
+}
+
+.filter-tab {
+    flex: 1;
+    padding: 8px 12px;
+    text-align: center;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #8E8E93;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-tab.active {
+    background: #FFFFFF;
+    color: #007AFF;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.filter-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.filter-dropdown {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid rgba(174, 174, 178, 0.3);
+    border-radius: 8px;
+    background: #FFFFFF;
+    font-size: 14px;
+    color: #1C1C1E;
+}
+
+.filter-nav-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(174, 174, 178, 0.3);
+    border-radius: 6px;
+    background: #FFFFFF;
+    color: #007AFF;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.15s ease;
+}
+
+.filter-nav-btn:hover {
+    background: #F2F2F7;
+}
+
+.filter-nav-btn:disabled {
+    color: #C7C7CC;
+    cursor: not-allowed;
+}
+
+/* Target Progress */
+.target-progress {
+    background: #F2F2F7;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+}
+
+.target-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1C1C1E;
+    margin-bottom: 8px;
+}
+
+.target-amount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.target-achieved {
+    font-size: 16px;
+    font-weight: 600;
+    color: #34C759;
+}
+
+.target-total {
+    font-size: 14px;
+    color: #8E8E93;
+}
+
+.target-bar {
+    height: 6px;
+    background: rgba(174, 174, 178, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.target-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #34C759 0%, #30D158 100%);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.target-fill.over-target {
+    background: linear-gradient(90deg, #FF9500 0%, #FF6B35 100%);
+}
+
+.target-percentage {
+    font-size: 12px;
+    color: #8E8E93;
+    text-align: center;
+    margin-top: 4px;
 }
 
 .party-modal-summary {
@@ -359,7 +531,7 @@ function injectLedgerStyles() {
 .bill-amount {
     font-size: 14px;
     font-weight: 600;
-    color: #048058
+    color: #048058;
     letter-spacing: -0.2px;
 }
 
@@ -369,38 +541,6 @@ function injectLedgerStyles() {
     margin-bottom: 70px;
     align-items: center;
 }
-
-.close-party-modal-btn {
-    
-   
-    background: transparent;
-    font-weight: bold;
-    margin: 0 0 18px 0;
-    border: none;
-    text-align: right;
-    background-color: transparent;
-    color: #f86962ff;
-    font-size: 13px;
-   width: 36px;
-    height: 36px;
-    cursor: pointer;
-    transition: all 0.15s ease-in-out;
-    ;
-}
-
-.close-party-modal-btn:hover{
-color: #ff3b30;
-}
-
-
-
-.party-modal-title-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
 
 /* Page Content */
 .page-content {
@@ -414,16 +554,15 @@ color: #ff3b30;
     -moz-osx-font-smoothing: grayscale;
 }
 
-
 /* Responsive Design */
 @media (max-width: 768px) {
     .ledger-title {
-          font-size: 18px;
-    margin: 0 0 15px;
-    display: flex
-    align-items: center;
-    gap: 8px;
-    color: #1d1d1f;
+        font-size: 18px;
+        margin: 0 0 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #1d1d1f;
     }
     
     .party-modal {
@@ -433,6 +572,14 @@ color: #ff3b30;
     .party-modal-summary {
         flex-direction: column;
         gap: 12px;
+    }
+    
+    .filter-tabs {
+        flex-wrap: wrap;
+    }
+    
+    .filter-tab {
+        min-width: 60px;
     }
 }
 
@@ -452,6 +599,10 @@ color: #ff3b30;
     }
     
     .party-bill-item {
+        border: 1px solid #8E8E93;
+    }
+    
+    .target-bar {
         border: 1px solid #8E8E93;
     }
 }
@@ -489,14 +640,40 @@ function createLedgerPage() {
                     <div class="modal-handle-bar"></div>
                 </div>
                 <div class="party-modal-header">
-    <div class="party-modal-title-row">
-        <h2 class="party-modal-title" id="partyModalTitle">Party Name</h2>
-        <button class="close-party-modal-btn" onclick="closePartyModal()">Close</button>
-    </div>
+                    <div class="party-modal-title-row">
+                        <h2 class="party-modal-title" id="partyModalTitle">Party Name</h2>
+                        <button class="close-party-modal-btn" onclick="closePartyModal()">Close</button>
+                    </div>
+                    
+                    <!-- Filters Section -->
+                    <div class="party-filters">
+                        <div class="filter-tabs">
+                            <button class="filter-tab active" onclick="setFilterType('yearly')">Yearly</button>
+                            <button class="filter-tab" onclick="setFilterType('quarterly')">Quarterly</button>
+                            <button class="filter-tab" onclick="setFilterType('monthly')">Monthly</button>
+                        </div>
+                        <div class="filter-selector" id="filterSelector">
+                            <!-- Filter controls will be inserted here -->
+                        </div>
+                    </div>
+
+                    <!-- Target Progress (if applicable) -->
+                    <div class="target-progress" id="targetProgress" style="display: none;">
+                        <div class="target-title" id="targetTitle">Target Progress</div>
+                        <div class="target-amount">
+                            <span class="target-achieved" id="targetAchieved">₹0</span>
+                            <span class="target-total">of <span id="targetTotal">₹0</span></span>
+                        </div>
+                        <div class="target-bar">
+                            <div class="target-fill" id="targetFill" style="width: 0%"></div>
+                        </div>
+                        <div class="target-percentage" id="targetPercentage">0% achieved</div>
+                    </div>
+                    
                     <div class="party-modal-summary">
                         <div class="summary-item">
                             <div class="summary-value count" id="partyBillsCount">0</div>
-                            <div class="summary-label">Total Bills</div>
+                            <div class="summary-label">Bills</div>
                         </div>
                         <div class="summary-item">
                             <div class="summary-value amount" id="partyTotalAmount">₹0</div>
@@ -509,9 +686,7 @@ function createLedgerPage() {
                         <!-- Bills will be inserted here -->
                     </div>
                 </div>
-                <div class="party-modal-footer">
-                    
-                </div>
+                <div class="party-modal-footer"></div>
             </div>
         </div>
     `;
@@ -521,6 +696,27 @@ function createLedgerPage() {
     if (billsPage) {
         billsPage.insertAdjacentHTML('afterend', ledgerPageHTML);
     }
+}
+
+// Show ledger page
+function showLedgerPage() {
+    // Hide all pages
+    document.querySelectorAll('.page-content').forEach(page => {
+        page.style.display = 'none';
+    });
+    
+    // Show ledger page
+    const ledgerPage = document.getElementById('ledgerPage');
+    if (ledgerPage) {
+        ledgerPage.style.display = 'block';
+        loadLedgerParties();
+    }
+    
+    // Update navigation
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    document.querySelector('.nav-item:nth-child(3)').classList.add('active');
 }
 
 // Show loading skeleton
@@ -634,23 +830,243 @@ function loadLedgerParties() {
     });
 }
 
-// Open party modal with bills
-function openPartyModal(partyData) {
-    currentPartyData = partyData;
-    currentPartyBills = partyData.bills.sort((a, b) => 
-        new Date(b.date || 0) - new Date(a.date || 0)
-    );
+// Set filter type
+function setFilterType(type) {
+    currentFilterType = type;
     
-    // Update modal header
-    document.getElementById('partyModalTitle').textContent = partyData.name;
-    document.getElementById('partyBillsCount').textContent = partyData.bills.length;
-    document.getElementById('partyTotalAmount').textContent = formatCurrency(partyData.totalAmount);
+    // Update active tab
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    event.target.classList.add('active');
     
-    // Render bills list
+    // Update filter controls
+    updateFilterControls();
+    
+    // Update display
+    updatePartyDisplay();
+}
+
+// Update filter controls based on type
+function updateFilterControls() {
+    const filterSelector = document.getElementById('filterSelector');
+    if (!filterSelector) return;
+    
+    const currentYear = new Date().getFullYear();
+    
+    if (currentFilterType === 'yearly') {
+        // Reset to current year
+        currentFilterValue = currentYear;
+        
+        filterSelector.innerHTML = `
+            <button class="filter-nav-btn" onclick="navigateFilter(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <select class="filter-dropdown" onchange="updateFilterValue(this.value)">
+                ${generateYearOptions()}
+            </select>
+            <button class="filter-nav-btn" onclick="navigateFilter(1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        `;
+    } else if (currentFilterType === 'quarterly') {
+        // Reset to current quarter
+        const currentQuarter = Math.ceil((new Date().getMonth() + 1) / 3);
+        currentFilterValue = `${currentYear}-Q${currentQuarter}`;
+        
+        filterSelector.innerHTML = `
+            <button class="filter-nav-btn" onclick="navigateFilter(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <select class="filter-dropdown" onchange="updateFilterValue(this.value)">
+                ${generateQuarterOptions()}
+            </select>
+            <button class="filter-nav-btn" onclick="navigateFilter(1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        `;
+    } else if (currentFilterType === 'monthly') {
+        // Reset to current month
+        const currentMonth = new Date().getMonth();
+        currentFilterValue = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}`;
+        
+        filterSelector.innerHTML = `
+            <button class="filter-nav-btn" onclick="navigateFilter(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <select class="filter-dropdown" onchange="updateFilterValue(this.value)">
+                ${generateMonthOptions()}
+            </select>
+            <button class="filter-nav-btn" onclick="navigateFilter(1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        `;
+    }
+}
+
+// Generate year options
+function generateYearOptions() {
+    const currentYear = new Date().getFullYear();
+    let options = '';
+    
+    for (let year = currentYear; year >= currentYear - 5; year--) {
+        const selected = year == currentFilterValue ? 'selected' : '';
+        options += `<option value="${year}" ${selected}>${year}</option>`;
+    }
+    
+    return options;
+}
+
+// Generate quarter options
+function generateQuarterOptions() {
+    const currentYear = new Date().getFullYear();
+    let options = '';
+    
+    for (let year = currentYear; year >= currentYear - 2; year--) {
+        for (let quarter = 4; quarter >= 1; quarter--) {
+            const value = `${year}-Q${quarter}`;
+            const selected = value === currentFilterValue ? 'selected' : '';
+            options += `<option value="${value}" ${selected}>Q${quarter} ${year}</option>`;
+        }
+    }
+    
+    return options;
+}
+
+// Generate month options
+function generateMonthOptions() {
+    const currentYear = new Date().getFullYear();
+    const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    let options = '';
+    
+    for (let year = currentYear; year >= currentYear - 2; year--) {
+        for (let month = 11; month >= 0; month--) {
+            const value = `${year}-${(month + 1).toString().padStart(2, '0')}`;
+            const selected = value === currentFilterValue ? 'selected' : '';
+            options += `<option value="${value}" ${selected}>${months[month]} ${year}</option>`;
+        }
+    }
+    
+    return options;
+}
+
+// Navigate filter (prev/next)
+function navigateFilter(direction) {
+    if (currentFilterType === 'yearly') {
+        currentFilterValue = parseInt(currentFilterValue) + direction;
+    } else if (currentFilterType === 'quarterly') {
+        const [year, quarter] = currentFilterValue.split('-Q');
+        let newYear = parseInt(year);
+        let newQuarter = parseInt(quarter) + direction;
+        
+        if (newQuarter > 4) {
+            newQuarter = 1;
+            newYear++;
+        } else if (newQuarter < 1) {
+            newQuarter = 4;
+            newYear--;
+        }
+        
+        currentFilterValue = `${newYear}-Q${newQuarter}`;
+    } else if (currentFilterType === 'monthly') {
+        const [year, month] = currentFilterValue.split('-');
+        let newYear = parseInt(year);
+        let newMonth = parseInt(month) + direction;
+        
+        if (newMonth > 12) {
+            newMonth = 1;
+            newYear++;
+        } else if (newMonth < 1) {
+            newMonth = 12;
+            newYear--;
+        }
+        
+        currentFilterValue = `${newYear}-${newMonth.toString().padStart(2, '0')}`;
+    }
+    
+    // Update controls and display
+    updateFilterControls();
+    updatePartyDisplay();
+}
+
+// Update filter value from dropdown
+function updateFilterValue(value) {
+    currentFilterValue = value;
+    updatePartyDisplay();
+}
+
+// Filter bills based on current filter
+function filterBillsByPeriod(bills) {
+    if (currentFilterType === 'yearly') {
+        const year = parseInt(currentFilterValue);
+        return bills.filter(bill => {
+            const billDate = new Date(bill.date);
+            return billDate.getFullYear() === year;
+        });
+    } else if (currentFilterType === 'quarterly') {
+        const [year, quarter] = currentFilterValue.split('-Q');
+        const yearNum = parseInt(year);
+        const quarterNum = parseInt(quarter);
+        
+        return bills.filter(bill => {
+            const billDate = new Date(bill.date);
+            const billYear = billDate.getFullYear();
+            const billQuarter = Math.ceil((billDate.getMonth() + 1) / 3);
+            
+            return billYear === yearNum && billQuarter === quarterNum;
+        });
+    } else if (currentFilterType === 'monthly') {
+        const [year, month] = currentFilterValue.split('-');
+        const yearNum = parseInt(year);
+        const monthNum = parseInt(month);
+        
+        return bills.filter(bill => {
+            const billDate = new Date(bill.date);
+            return billDate.getFullYear() === yearNum && 
+                   billDate.getMonth() + 1 === monthNum;
+        });
+    }
+    
+    return bills;
+}
+
+// Update party display based on current filter
+function updatePartyDisplay() {
+    if (!currentPartyData) return;
+    
+    // Filter bills for current period
+    const filteredBills = filterBillsByPeriod(currentPartyData.bills);
+    const totalAmount = filteredBills.reduce((sum, bill) => sum + (bill.amount || 0), 0);
+    
+    // Update summary
+    document.getElementById('partyBillsCount').textContent = filteredBills.length;
+    document.getElementById('partyTotalAmount').textContent = formatCurrency(totalAmount);
+    
+    // Update target progress
+    updateTargetProgress(totalAmount);
+    
+    // Update bills list
     const billsList = document.getElementById('partyBillsList');
     billsList.innerHTML = '';
     
-    currentPartyBills.forEach(bill => {
+    const sortedBills = filteredBills.sort((a, b) => 
+        new Date(b.date || 0) - new Date(a.date || 0)
+    );
+    
+    if (sortedBills.length === 0) {
+        billsList.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #8E8E93;">
+                <i class="fas fa-calendar-times" style="font-size: 32px; margin-bottom: 12px; display: block;"></i>
+                <p>No bills found for this period</p>
+            </div>
+        `;
+        return;
+    }
+    
+    sortedBills.forEach(bill => {
         const billItem = document.createElement('div');
         billItem.className = 'party-bill-item';
         billItem.onclick = () => showBillDetailsFromLedger(bill.id);
@@ -668,6 +1084,96 @@ function openPartyModal(partyData) {
         
         billsList.appendChild(billItem);
     });
+}
+
+// Update target progress
+function updateTargetProgress(currentAmount) {
+    const partyName = currentPartyData.name;
+    const targetSection = document.getElementById('targetProgress');
+    
+    // Check if party has targets
+    if (!partyTargets[partyName]) {
+        targetSection.style.display = 'none';
+        return;
+    }
+    
+    const targets = partyTargets[partyName];
+    let targetAmount = 0;
+    let targetTitle = '';
+    
+    // Determine target based on filter type
+    if (currentFilterType === 'yearly') {
+        if (targets.yearly) {
+            targetAmount = targets.yearly;
+            targetTitle = `${currentFilterValue} Target`;
+        }
+    } else if (currentFilterType === 'quarterly' && targets.quarterly) {
+        const quarter = currentFilterValue.split('-Q')[1];
+        const quarterKey = `Q${quarter}`;
+        if (targets.quarterly[quarterKey]) {
+            targetAmount = targets.quarterly[quarterKey];
+            targetTitle = `${currentFilterValue} Target`;
+        }
+    }
+    
+    // Show/hide target section
+    if (targetAmount === 0) {
+        targetSection.style.display = 'none';
+        return;
+    }
+    
+    targetSection.style.display = 'block';
+    
+    // Calculate progress
+    const percentage = Math.min((currentAmount / targetAmount) * 100, 100);
+    const isOverTarget = currentAmount > targetAmount;
+    
+    // Update target display
+    document.getElementById('targetTitle').textContent = targetTitle;
+    document.getElementById('targetAchieved').textContent = formatCurrency(currentAmount);
+    document.getElementById('targetTotal').textContent = formatCurrency(targetAmount);
+    
+    const targetFill = document.getElementById('targetFill');
+    targetFill.style.width = `${percentage}%`;
+    
+    if (isOverTarget) {
+        targetFill.classList.add('over-target');
+        document.getElementById('targetPercentage').textContent = 
+            `${Math.round((currentAmount / targetAmount) * 100)}% achieved (Target exceeded!)`;
+        document.getElementById('targetPercentage').style.color = '#FF9500';
+    } else {
+        targetFill.classList.remove('over-target');
+        document.getElementById('targetPercentage').textContent = 
+            `${Math.round(percentage)}% achieved`;
+        document.getElementById('targetPercentage').style.color = '#8E8E93';
+    }
+}
+
+// Open party modal with bills
+function openPartyModal(partyData) {
+    currentPartyData = partyData;
+    currentPartyBills = partyData.bills.sort((a, b) => 
+        new Date(b.date || 0) - new Date(a.date || 0)
+    );
+    
+    // Reset to yearly view
+    currentFilterType = 'yearly';
+    currentFilterValue = new Date().getFullYear();
+    
+    // Update modal header
+    document.getElementById('partyModalTitle').textContent = partyData.name;
+    
+    // Reset filter tabs
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    document.querySelector('.filter-tab').classList.add('active');
+    
+    // Update filter controls
+    updateFilterControls();
+    
+    // Update display
+    updatePartyDisplay();
     
     // Show modal
     const modal = document.getElementById('partyModal');
@@ -688,6 +1194,8 @@ function closePartyModal() {
     // Reset data
     currentPartyData = null;
     currentPartyBills = [];
+    currentFilterType = 'yearly';
+    currentFilterValue = new Date().getFullYear();
 }
 
 // Show bill details from ledger (reuse existing function)
@@ -698,13 +1206,7 @@ function showBillDetailsFromLedger(billId) {
     }, 300);
 }
 
-// Show ledger page
-
-
 // Initialize ledger section
-// Remove the updateBackButtonBehavior function completely as we don't need it anymore
-
-// Update the initializeLedger function to remove back button references:
 function initializeLedger() {
     // Inject CSS styles
     injectLedgerStyles();
@@ -747,9 +1249,6 @@ function initializeLedger() {
     });
 }
 
-// Updated navigation function to handle back button from ledger
-
-
 // Utility function to format currency (if not already defined)
 if (typeof formatCurrency === 'undefined') {
     function formatCurrency(amount) {
@@ -791,10 +1290,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Small delay to ensure other scripts are loaded
     setTimeout(() => {
         initializeLedger();
-       
     }, 100);
 });
 
 // Export functions for global access
 window.showLedgerPage = showLedgerPage;
 window.closePartyModal = closePartyModal;
+window.setFilterType = setFilterType;
+window.navigateFilter = navigateFilter;
+window.updateFilterValue = updateFilterValue;
