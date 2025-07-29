@@ -1,26 +1,88 @@
-// Ledger.js - Classic Premium iOS Themed Ledger Section with Filters and Targets
+// Ledger.js - Classic Premium iOS Themed Ledger Section with Financial Year Filters and Targets
 
 // Global variables for ledger
 let currentPartyData = null;
 let currentPartyBills = [];
 let currentFilterType = 'yearly';
-let currentFilterValue = new Date().getFullYear();
+let currentFilterValue = getCurrentFinancialYear();
 
-// Party targets configuration
+// Party targets configuration (Financial Year Based)
 const partyTargets = {
     'POSHAK RETAIL': {
         quarterly: {
-            Q1: 405000, // 4.05 Lakh
-            Q2: 330000, // 3.30 Lakh
-            Q3: 345000, // 3.45 Lakh
-            Q4: 420000  // 4.20 Lakh
+            Q1: 405000, // 4.05 Lakh (Apr-Jun)
+            Q2: 330000, // 3.30 Lakh (Jul-Sep)
+            Q3: 345000, // 3.45 Lakh (Oct-Dec)
+            Q4: 420000  // 4.20 Lakh (Jan-Mar)
         },
-        yearly: 1500000 // 15 Lakh
+        yearly: 1500000 // 15 Lakh (Apr-Mar)
     },
     'MAHABALESHWAR S DANGUI & CO.': {
-        yearly: 600000 // 6 Lakh
+        yearly: 600000 // 6 Lakh (Apr-Mar)
     }
 };
+
+// Financial Year Utility Functions
+function getCurrentFinancialYear() {
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth(); // 0-based (0 = January)
+    
+    // If current month is April (3) to December (11), FY starts with current year
+    // If current month is January (0) to March (2), FY started with previous year
+    if (currentMonth >= 3) { // April to December
+        return `${currentYear}-${(currentYear + 1).toString().substr(-2)}`;
+    } else { // January to March
+        return `${currentYear - 1}-${currentYear.toString().substr(-2)}`;
+    }
+}
+
+function getCurrentFinancialQuarter() {
+    const today = new Date();
+    const currentMonth = today.getMonth(); // 0-based
+    
+    // Financial quarters: Q1(Apr-Jun), Q2(Jul-Sep), Q3(Oct-Dec), Q4(Jan-Mar)
+    if (currentMonth >= 3 && currentMonth <= 5) { // April to June
+        return 'Q1';
+    } else if (currentMonth >= 6 && currentMonth <= 8) { // July to September
+        return 'Q2';
+    } else if (currentMonth >= 9 && currentMonth <= 11) { // October to December
+        return 'Q3';
+    } else { // January to March
+        return 'Q4';
+    }
+}
+
+function getFinancialYearFromDate(date) {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = d.getMonth();
+    
+    if (month >= 3) { // April to December
+        return `${year}-${(year + 1).toString().substr(-2)}`;
+    } else { // January to March
+        return `${year - 1}-${year.toString().substr(-2)}`;
+    }
+}
+
+function getFinancialQuarterFromDate(date) {
+    const d = new Date(date);
+    const month = d.getMonth();
+    
+    if (month >= 3 && month <= 5) return 'Q1'; // April to June
+    if (month >= 6 && month <= 8) return 'Q2'; // July to September
+    if (month >= 9 && month <= 11) return 'Q3'; // October to December
+    return 'Q4'; // January to March
+}
+
+function parseFinancialYear(fyString) {
+    // fyString format: "2024-25"
+    const [startYear] = fyString.split('-');
+    return {
+        startYear: parseInt(startYear),
+        endYear: parseInt(startYear) + 1
+    };
+}
 
 // Inject CSS styles for ledger section
 function injectLedgerStyles() {
@@ -626,9 +688,7 @@ function createLedgerPage() {
     const ledgerPageHTML = `
         <div id="ledgerPage" class="page-content" style="display: none;">
             <div class="ledger-container">
-                <div class="ledger-header">
-                    <h1 class="ledger-title">Party Wise Ledger</h1>
-                </div>
+             
                 <div class="parties-grid" id="partiesGrid">
                     <!-- Loading state will be inserted here -->
                 </div>
@@ -650,8 +710,8 @@ function createLedgerPage() {
                     <!-- Filters Section -->
                     <div class="party-filters">
                         <div class="filter-tabs">
-                            <button class="filter-tab active" onclick="setFilterType('yearly')">Yearly</button>
-                            <button class="filter-tab" onclick="setFilterType('quarterly')">Quarterly</button>
+                            <button class="filter-tab active" onclick="setFilterType('yearly')">FY Yearly</button>
+                            <button class="filter-tab" onclick="setFilterType('quarterly')">FY Quarterly</button>
                             <button class="filter-tab" onclick="setFilterType('monthly')">Monthly</button>
                         </div>
                         <div class="filter-selector" id="filterSelector">
@@ -854,76 +914,87 @@ function updateFilterControls() {
     const filterSelector = document.getElementById('filterSelector');
     if (!filterSelector) return;
     
-    const currentYear = new Date().getFullYear();
-    
     if (currentFilterType === 'yearly') {
-        // Reset to current year
-        currentFilterValue = currentYear;
+        // Reset to current financial year
+        currentFilterValue = getCurrentFinancialYear();
         
         filterSelector.innerHTML = `
-          
             <select class="filter-dropdown" onchange="updateFilterValue(this.value)">
-                ${generateYearOptions()}
+                ${generateFinancialYearOptions()}
             </select>
-          
         `;
     } else if (currentFilterType === 'quarterly') {
-        // Reset to current quarter
-        const currentQuarter = Math.ceil((new Date().getMonth() + 1) / 3);
-        currentFilterValue = `${currentYear}-Q${currentQuarter}`;
+        // Reset to current financial quarter
+        const currentFY = getCurrentFinancialYear();
+        const currentQuarter = getCurrentFinancialQuarter();
+        currentFilterValue = `${currentFY}-${currentQuarter}`;
         
         filterSelector.innerHTML = `
-           
             <select class="filter-dropdown" onchange="updateFilterValue(this.value)">
-                ${generateQuarterOptions()}
+                ${generateFinancialQuarterOptions()}
             </select>
-           
         `;
     } else if (currentFilterType === 'monthly') {
-        // Reset to current month
+        // Reset to current month (keep this normal)
+        const currentYear = new Date().getFullYear();
         const currentMonth = new Date().getMonth();
         currentFilterValue = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}`;
         
         filterSelector.innerHTML = `
-           
             <select class="filter-dropdown" onchange="updateFilterValue(this.value)">
                 ${generateMonthOptions()}
             </select>
-         
         `;
     }
 }
 
-// Generate year options
-function generateYearOptions() {
-    const currentYear = new Date().getFullYear();
+// Generate financial year options
+function generateFinancialYearOptions() {
+    const currentFY = getCurrentFinancialYear();
+    const currentStartYear = parseInt(currentFY.split('-')[0]);
     let options = '';
     
-    for (let year = currentYear; year >= currentYear - 5; year--) {
-        const selected = year == currentFilterValue ? 'selected' : '';
-        options += `<option value="${year}" ${selected}>${year}</option>`;
+    // Generate options for current FY and 4 previous FYs
+    for (let year = currentStartYear; year >= currentStartYear - 4; year--) {
+        const fyString = `${year}-${(year + 1).toString().substr(-2)}`;
+        const selected = fyString === currentFilterValue ? 'selected' : '';
+        options += `<option value="${fyString}" ${selected}>FY ${fyString}</option>`;
     }
     
     return options;
 }
 
-// Generate quarter options
-function generateQuarterOptions() {
-    const currentYear = new Date().getFullYear();
+// Generate financial quarter options
+function generateFinancialQuarterOptions() {
+    const currentFY = getCurrentFinancialYear();
+    const currentStartYear = parseInt(currentFY.split('-')[0]);
     let options = '';
     
-    for (let year = currentYear; year >= currentYear - 2; year--) {
+    // Generate options for current FY and 2 previous FYs
+    for (let year = currentStartYear; year >= currentStartYear - 2; year--) {
+        const fyString = `${year}-${(year + 1).toString().substr(-2)}`;
+        
+        // Add quarters in reverse order (Q4, Q3, Q2, Q1)
         for (let quarter = 4; quarter >= 1; quarter--) {
-            const value = `${year}-Q${quarter}`;
+            const value = `${fyString}-Q${quarter}`;
             const selected = value === currentFilterValue ? 'selected' : '';
-            options += `<option value="${value}" ${selected}>Q${quarter} ${year}</option>`;
+            
+            // Quarter display with months
+            const quarterMonths = {
+                1: 'Apr-Jun',
+                2: 'Jul-Sep', 
+                3: 'Oct-Dec',
+                4: 'Jan-Mar'
+            };
+            
+            options += `<option value="${value}" ${selected}>FY ${fyString} Q${quarter} (${quarterMonths[quarter]})</option>`;
         }
     }
     
     return options;
 }
 
-// Generate month options
+// Generate month options (keep normal)
 function generateMonthOptions() {
     const currentYear = new Date().getFullYear();
     const months = [
@@ -943,35 +1014,36 @@ function generateMonthOptions() {
     return options;
 }
 
-
-
 // Update filter value from dropdown
 function updateFilterValue(value) {
     currentFilterValue = value;
     updatePartyDisplay();
 }
 
-// Filter bills based on current filter
+// Filter bills based on current filter (Financial Year based)
 function filterBillsByPeriod(bills) {
     if (currentFilterType === 'yearly') {
-        const year = parseInt(currentFilterValue);
-        return bills.filter(bill => {
-            const billDate = new Date(bill.date);
-            return billDate.getFullYear() === year;
-        });
-    } else if (currentFilterType === 'quarterly') {
-        const [year, quarter] = currentFilterValue.split('-Q');
-        const yearNum = parseInt(year);
-        const quarterNum = parseInt(quarter);
+        // Financial year filtering (Apr 1 to Mar 31)
+        const { startYear, endYear } = parseFinancialYear(currentFilterValue);
         
         return bills.filter(bill => {
             const billDate = new Date(bill.date);
-            const billYear = billDate.getFullYear();
-            const billQuarter = Math.ceil((billDate.getMonth() + 1) / 3);
+            const billFY = getFinancialYearFromDate(bill.date);
+            return billFY === currentFilterValue;
+        });
+    } else if (currentFilterType === 'quarterly') {
+        // Financial quarter filtering
+        const [fyPart, quarter] = currentFilterValue.split('-Q');
+        const quarterNum = parseInt(quarter);
+        
+        return bills.filter(bill => {
+            const billFY = getFinancialYearFromDate(bill.date);
+            const billQuarter = getFinancialQuarterFromDate(bill.date);
             
-            return billYear === yearNum && billQuarter === quarterNum;
+            return billFY === fyPart && billQuarter === `Q${quarterNum}`;
         });
     } else if (currentFilterType === 'monthly') {
+        // Normal monthly filtering (unchanged)
         const [year, month] = currentFilterValue.split('-');
         const yearNum = parseInt(year);
         const monthNum = parseInt(month);
@@ -1039,7 +1111,7 @@ function updatePartyDisplay() {
     });
 }
 
-// Update target progress
+// Update target progress (Financial Year based)
 function updateTargetProgress(currentAmount) {
     const partyName = currentPartyData.name;
     const targetSection = document.getElementById('targetProgress');
@@ -1058,14 +1130,15 @@ function updateTargetProgress(currentAmount) {
     if (currentFilterType === 'yearly') {
         if (targets.yearly) {
             targetAmount = targets.yearly;
-            targetTitle = `${currentFilterValue} Target`;
+            targetTitle = `FY ${currentFilterValue} Target`;
         }
     } else if (currentFilterType === 'quarterly' && targets.quarterly) {
         const quarter = currentFilterValue.split('-Q')[1];
         const quarterKey = `Q${quarter}`;
         if (targets.quarterly[quarterKey]) {
             targetAmount = targets.quarterly[quarterKey];
-            targetTitle = `${currentFilterValue} Target`;
+            const fyPart = currentFilterValue.split('-Q')[0];
+            targetTitle = `FY ${fyPart} Q${quarter} Target`;
         }
     }
     
@@ -1103,16 +1176,15 @@ function updateTargetProgress(currentAmount) {
 }
 
 // Open party modal with bills
-// Open party modal with bills
 function openPartyModal(partyData) {
     currentPartyData = partyData;
     currentPartyBills = partyData.bills.sort((a, b) => 
         new Date(b.date || 0) - new Date(a.date || 0)
     );
     
-    // Reset to yearly view
+    // Reset to financial yearly view
     currentFilterType = 'yearly';
-    currentFilterValue = new Date().getFullYear();
+    currentFilterValue = getCurrentFinancialYear();
     
     // Update modal header
     document.getElementById('partyModalTitle').textContent = partyData.name;
@@ -1155,7 +1227,7 @@ function closePartyModal() {
     currentPartyData = null;
     currentPartyBills = [];
     currentFilterType = 'yearly';
-    currentFilterValue = new Date().getFullYear();
+    currentFilterValue = getCurrentFinancialYear();
 }
 
 // Show bill details from ledger (reuse existing function)
