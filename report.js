@@ -1001,9 +1001,11 @@ function safeNum(val) {
 
 // ---- PREMIUM SUMMARY TABLE ----
 // Fixed generatePremiumSummaryTable function - Replace ₹ with Rs.
+// ---- PREMIUM SUMMARY TABLE - Updated with amount column moved 1.5cm right ----
 function generatePremiumSummaryTable(doc, y) {
     const left = 16, width = 178, rowH = 9;
-    const colPartyX = left+15, colBillsX = left+90, colAmtX = left+132, colDrCrX = left+170;
+    // Updated column positions - moved amount column 15mm (1.5cm) to the right
+    const colPartyX = left+15, colBillsX = left+90, colAmtX = left+147, colDrCrX = left+170;
     
     // Table head
     doc.setFillColor(234, 235, 240);
@@ -1055,7 +1057,7 @@ function generatePremiumSummaryTable(doc, y) {
         doc.setTextColor(60,60,60);
         doc.text(String(d.billCount||0), colBillsX, yRow+4, {align: 'right'});
 
-        // FIXED: Replace ₹ with Rs. to avoid superscript '1'
+        // Amount formatting with updated position
         const amt = safeNum(d.totalAmount);
         const absAmount = Math.abs(amt);
         const amtStr = 'Rs. ' + absAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -1073,7 +1075,7 @@ function generatePremiumSummaryTable(doc, y) {
         yRow += rowH;
     });
 
-    // GRAND TOTAL with fixed formatting
+    // GRAND TOTAL with updated position
     doc.setFillColor(220,225,245);
     doc.rect(left, yRow-2, width, rowH+2, 'F');
     doc.setFont('helvetica', 'bold'); 
@@ -1097,15 +1099,17 @@ function generatePremiumSummaryTable(doc, y) {
     return yRow+rowH+5;
 }
 
-// Fixed generatePremiumDetailedTable function - Replace ₹ with Rs.
+// ---- PREMIUM DETAILED TABLE - Updated with amount column moved 1.5cm right ----
+// ---- PREMIUM DETAILED TABLE - Updated with better party name visibility ----
 function generatePremiumDetailedTable(doc, y) {
     const left = 16, width = 178, rowH = 8;
     let yRow = y;
     
+    // Updated column positions - adjusted to give more space for party names
     const colInvoiceX = left + 8;
-    const colDateX = left + 70;
-    const colAmtX = left + 132;
-    const colDrCrX = left + 170;
+    const colDateX = left + 65;      // Moved left to give more space for party name
+    const colAmtX = left + 140;      // Moved left slightly
+    const colDrCrX = left + 165;     // Moved left slightly
     const colPartyX = left + 5;
     
     const sorted = Object.entries(currentReportData.parties)
@@ -1113,39 +1117,54 @@ function generatePremiumDetailedTable(doc, y) {
     let partyNumber = 1;
 
     sorted.forEach(([name, d]) => {
-        if (yRow + 3*rowH > 275) { 
+        if (yRow + 4*rowH > 275) { 
             doc.addPage(); 
             yRow = 24; 
         }
+        
+        // Check if party name needs wrapping
+        const fullPartyName = `${partyNumber}. ${name}`;
+        const maxPartyWidth = width - 20; // Give more space for party name
+        const needsWrapping = doc.getTextWidth(fullPartyName) > maxPartyWidth;
+        const partyRowHeight = needsWrapping ? rowH + 6 : rowH + 2; // Extra height if wrapping
         
         doc.setFont('helvetica','bold');
         doc.setFontSize(11); 
         doc.setTextColor(60,66,85);
         doc.setFillColor(238,238,242); 
-        doc.rect(left, yRow-2, width, rowH+2, 'F');
+        doc.rect(left, yRow-2, width, partyRowHeight, 'F');
         
-        let pname = `${partyNumber}. ${name}`;
-        const maxPartyWidth = colDateX - colPartyX - 10;
-        
-        while (doc.getTextWidth(pname) > maxPartyWidth && pname.length > 10) {
-            const parts = pname.split('. ');
-            if (parts.length > 1) {
-                const number = parts[0];
-                let partyName = parts.slice(1).join('. ');
-                partyName = partyName.slice(0, -1);
-                pname = `${number}. ${partyName}`;
-            } else {
-                pname = pname.slice(0, -1);
+        if (needsWrapping) {
+            // Split party name into two lines
+            const partyNameOnly = name;
+            const line1 = `${partyNumber}. `;
+            let line2 = partyNameOnly;
+            
+            // If party name is still too long for second line, truncate it
+            const maxLine2Width = width - 30;
+            while (doc.getTextWidth(line2) > maxLine2Width && line2.length > 10) {
+                line2 = line2.slice(0, -1);
             }
+            if (line2.length < partyNameOnly.length) {
+                line2 = line2.slice(0, -3) + '...';
+            }
+            
+            // Draw two lines
+            doc.text(line1, colPartyX, yRow + 3);
+            doc.text(line2, colPartyX + 10, yRow + 9); // Indent second line slightly
+        } else {
+            // Single line - try to fit, truncate if necessary
+            let displayName = fullPartyName;
+            while (doc.getTextWidth(displayName) > maxPartyWidth && displayName.length > 15) {
+                displayName = displayName.slice(0, -1);
+            }
+            if (displayName.length < fullPartyName.length) {
+                displayName = displayName.slice(0, -3) + '...';
+            }
+            doc.text(displayName, colPartyX, yRow + 5);
         }
-        
-        if (pname !== `${partyNumber}. ${name}` && !pname.endsWith('...')) {
-            pname = pname.slice(0, -3) + '...';
-        }
-        
-        doc.text(pname, colPartyX, yRow+5);
 
-        // Party summary with fixed amount formatting
+        // Party summary with updated positioning
         doc.setFont('helvetica','normal'); 
         doc.setFontSize(10); 
         doc.setTextColor(90,90,90);
@@ -1155,18 +1174,20 @@ function generatePremiumDetailedTable(doc, y) {
         const amtStr = 'Rs. ' + absAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         const drcr = amt < 0 ? 'Cr' : 'Dr';
         
-        doc.text(`Invoices: ${d.billCount||0}  Total:`, colDateX + 20, yRow+5, {align:'right'});
+        // Position summary on the right side
+        const summaryY = needsWrapping ? yRow + 7 : yRow + 5;
+        doc.text(`Bills: ${d.billCount||0}`, colAmtX - 40, summaryY, {align:'right'});
         
         doc.setFont('helvetica','bold'); 
         doc.setTextColor(...(amt < 0 ? [220,53,69] : [40,167,69]));
-        doc.text(amtStr, colAmtX, yRow+5, {align:'right'});
+        doc.text(amtStr, colAmtX, summaryY, {align:'right'});
         
         doc.setFont('helvetica','normal');
-        doc.text(drcr, colDrCrX, yRow+5, {align:'center'});
+        doc.text(drcr, colDrCrX, summaryY, {align:'center'});
         
-        yRow += rowH + 2;
+        yRow += partyRowHeight + 2;
 
-        // Invoice headers
+        // Invoice headers - adjust positions to match new layout
         doc.setFont('helvetica','bold'); 
         doc.setFontSize(10); 
         doc.setTextColor(41,41,51);
@@ -1180,7 +1201,7 @@ function generatePremiumDetailedTable(doc, y) {
         
         yRow += rowH;
 
-        // Invoice details with fixed amount formatting
+        // Invoice details with updated column positions
         (d.invoices || []).forEach((inv, i) => {
             if (yRow + rowH > 275) { 
                 doc.addPage(); 
@@ -1196,7 +1217,7 @@ function generatePremiumDetailedTable(doc, y) {
             doc.setFontSize(10); 
             doc.setTextColor(60,60,60);
 
-            // Invoice number
+            // Invoice number - adjusted width
             let invoiceNo = inv?.invoiceNo ? String(inv.invoiceNo) : "N/A";
             const maxInvoiceWidth = colDateX - colInvoiceX - 5;
             
@@ -1214,7 +1235,7 @@ function generatePremiumDetailedTable(doc, y) {
             const dateStr = formatDate(inv.date);
             doc.text(dateStr, colDateX, yRow+4, {align:'left'});
 
-            // FIXED: Replace ₹ with Rs. to avoid superscript '1'
+            // Amount
             const invAmt = safeNum(inv.amount);
             const invAbsAmount = Math.abs(invAmt);
             const invAmtStr = 'Rs. ' + invAbsAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -1235,7 +1256,7 @@ function generatePremiumDetailedTable(doc, y) {
         yRow += 4;
     });
 
-    // Grand total with fixed formatting
+    // Grand total with updated position
     if (yRow + rowH > 275) { 
         doc.addPage(); 
         yRow = 24; 
@@ -1249,7 +1270,7 @@ function generatePremiumDetailedTable(doc, y) {
     
     doc.text('OVERALL TOTAL', left+15, yRow+5);
     doc.setTextColor(70,70,70); 
-    doc.text(String(currentReportData.totalBills||0), left+90, yRow+5, {align:'right'});
+    doc.text(String(currentReportData.totalBills||0), left+80, yRow+5, {align:'right'});
     
     const finalAmt = safeNum(currentReportData.totalAmount);
     const finalAbsAmount = Math.abs(finalAmt);
