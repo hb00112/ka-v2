@@ -1000,45 +1000,50 @@ function safeNum(val) {
 }
 
 // ---- PREMIUM SUMMARY TABLE ----
+// Fixed generatePremiumSummaryTable function - Replace ₹ with Rs.
 function generatePremiumSummaryTable(doc, y) {
     const left = 16, width = 178, rowH = 9;
     const colPartyX = left+15, colBillsX = left+90, colAmtX = left+132, colDrCrX = left+170;
+    
     // Table head
     doc.setFillColor(234, 235, 240);
     doc.rect(left, y, width, rowH, 'F');
     doc.setDrawColor(210,210,210);
 
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(34,40,49);
+    doc.setFont('helvetica', 'bold'); 
+    doc.setFontSize(11); 
+    doc.setTextColor(34,40,49);
     doc.text('No.', left+7, y+6, {align: 'center'});
     doc.text('Party', colPartyX+13, y+6, {align: 'left'});
     doc.text('Bills', colBillsX, y+6, {align: 'right'});
     doc.text('AMOUNT', colAmtX, y+6, {align: 'right'});
     doc.text('DR/CR', colDrCrX, y+6, {align: 'center'});
 
-    // Prepare data and column widths
+    // Prepare data
     const sorted = Object.entries(currentReportData.parties)
         .sort(([,a],[,b]) => safeNum(b.totalAmount) - safeNum(a.totalAmount));
-    let n = 1;
-    let maxAmtW = 0;
-
-    // Pre-measure widest amount for tightest possible align
-    sorted.forEach(([, d]) => {
-        const a = '₹'+Math.abs(safeNum(d.totalAmount)).toLocaleString('en-IN',{minimumFractionDigits:2});
-        const w = doc.getTextWidth(a);
-        if (w > maxAmtW) maxAmtW = w;
-    });
+    let serialNumber = 1;
 
     let yRow = y+rowH;
-    const partyWidth = colBillsX - colPartyX - 8; // extra padding
+    const partyWidth = colBillsX - colPartyX - 8;
 
     sorted.forEach(([name, d]) => {
-        if (yRow+rowH > 275) { doc.addPage(); yRow = 24; }
-        if (n%2===0) { doc.setFillColor(248,248,252); doc.rect(left, yRow-2, width, rowH, 'F'); }
+        if (yRow+rowH > 275) { 
+            doc.addPage(); 
+            yRow = 24; 
+        }
+        if (serialNumber%2===0) { 
+            doc.setFillColor(248,248,252); 
+            doc.rect(left, yRow-2, width, rowH, 'F'); 
+        }
 
-        doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(60,60,60);
-        doc.text(String(n), left+7, yRow+4, {align:'center'});
+        doc.setFont('helvetica','normal'); 
+        doc.setFontSize(10); 
+        doc.setTextColor(60,60,60);
+        
+        doc.text(String(serialNumber), left+7, yRow+4, {align:'center'});
 
-        // Party: dynamic truncate so it fits
+        // Party name truncation
         let pname = name;
         while (doc.getTextWidth(pname) > partyWidth) {
             if (pname.length < 4) break;
@@ -1050,31 +1055,41 @@ function generatePremiumSummaryTable(doc, y) {
         doc.setTextColor(60,60,60);
         doc.text(String(d.billCount||0), colBillsX, yRow+4, {align: 'right'});
 
-        // Amount and Dr/Cr
+        // FIXED: Replace ₹ with Rs. to avoid superscript '1'
         const amt = safeNum(d.totalAmount);
-        const amtStr = '₹' + Math.abs(amt).toLocaleString('en-IN', {minimumFractionDigits:2});
+        const absAmount = Math.abs(amt);
+        const amtStr = 'Rs. ' + absAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         const drcr = amt < 0 ? 'Cr' : 'Dr';
-        const c = amt < 0 ? [220,53,69] : [40,167,69];
-        doc.setTextColor(...c); doc.setFont('helvetica','bold');
+        const colorArray = amt < 0 ? [220,53,69] : [40,167,69];
+        
+        doc.setTextColor(...colorArray); 
+        doc.setFont('helvetica','bold');
         doc.text(amtStr, colAmtX, yRow+4, {align:'right'});
+        
         doc.setFont('helvetica','normal');
         doc.text(drcr, colDrCrX, yRow+4, {align:'center'});
 
-        n++; yRow += rowH;
+        serialNumber++;
+        yRow += rowH;
     });
 
-    // GRAND TOTAL
+    // GRAND TOTAL with fixed formatting
     doc.setFillColor(220,225,245);
     doc.rect(left, yRow-2, width, rowH+2, 'F');
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold'); 
+    doc.setFontSize(11);
     doc.setTextColor(34,40,49);
     doc.text('TOTAL', colPartyX+13, yRow+5, {align:'left'});
     doc.setTextColor(60,60,60);
     doc.text(String(currentReportData.totalBills||0), colBillsX, yRow+5, {align:'right'});
+    
     const totalAmt = safeNum(currentReportData.totalAmount);
-    const totalAmtStr = '₹' + Math.abs(totalAmt).toLocaleString('en-IN',{minimumFractionDigits:2});
+    const totalAbsAmount = Math.abs(totalAmt);
+    const totalAmtStr = 'Rs. ' + totalAbsAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     const totalCrDr = totalAmt<0 ? 'Cr' : 'Dr';
-    doc.setTextColor(...(totalAmt<0 ? [220,53,69] : [40,167,69]));
+    const totalColorArray = totalAmt<0 ? [220,53,69] : [40,167,69];
+    
+    doc.setTextColor(...totalColorArray);
     doc.text(totalAmtStr, colAmtX, yRow+5, {align:'right'});
     doc.setFont('helvetica','normal');
     doc.text(totalCrDr, colDrCrX, yRow+5, {align:'center'});
@@ -1082,108 +1097,183 @@ function generatePremiumSummaryTable(doc, y) {
     return yRow+rowH+5;
 }
 
-
-// ---- PREMIUM DETAILED TABLE ----
+// Fixed generatePremiumDetailedTable function - Replace ₹ with Rs.
 function generatePremiumDetailedTable(doc, y) {
     const left = 16, width = 178, rowH = 8;
     let yRow = y;
-    // Prepare data
+    
+    const colInvoiceX = left + 8;
+    const colDateX = left + 70;
+    const colAmtX = left + 132;
+    const colDrCrX = left + 170;
+    const colPartyX = left + 5;
+    
     const sorted = Object.entries(currentReportData.parties)
         .sort(([, a], [, b]) => safeNum(b.totalAmount) - safeNum(a.totalAmount));
-    let partyNum = 1;
-    let maxAmtW = 0;
-
-    // Find max amount width—includes invoices
-    sorted.forEach(([, d]) => {
-        [d.totalAmount, ...(d.invoices?.map(i => i.amount) || [])].forEach(val => {
-            const a = '₹'+Math.abs(safeNum(val)).toLocaleString('en-IN',{minimumFractionDigits:2});
-            const w = doc.getTextWidth(a);
-            if(w>maxAmtW)maxAmtW=w;
-        });
-    });
-
-    const colInvoiceX = left+8, colDateX = left+65, colAmtX = left+132, colDrCrX = left+170, colPartyX = left+5;
+    let partyNumber = 1;
 
     sorted.forEach(([name, d]) => {
-        if (yRow + 3*rowH > 275) { doc.addPage(); yRow = 24; }
-        doc.setFont('helvetica','bold');
-        doc.setFontSize(11); doc.setTextColor(60,66,85);
-        doc.setFillColor(238,238,242); doc.rect(left, yRow-2, width, rowH+2, 'F');
-        // Party name
-        let pname = `${partyNum}. ${name}`;
-        while (doc.getTextWidth(pname) > colDateX-6) {
-            pname = pname.slice(0, -2);
+        if (yRow + 3*rowH > 275) { 
+            doc.addPage(); 
+            yRow = 24; 
         }
-        if (!pname.endsWith('.') && pname.length < `${partyNum}. ${name}`.length) pname = pname.slice(0, -3) + '...';
+        
+        doc.setFont('helvetica','bold');
+        doc.setFontSize(11); 
+        doc.setTextColor(60,66,85);
+        doc.setFillColor(238,238,242); 
+        doc.rect(left, yRow-2, width, rowH+2, 'F');
+        
+        let pname = `${partyNumber}. ${name}`;
+        const maxPartyWidth = colDateX - colPartyX - 10;
+        
+        while (doc.getTextWidth(pname) > maxPartyWidth && pname.length > 10) {
+            const parts = pname.split('. ');
+            if (parts.length > 1) {
+                const number = parts[0];
+                let partyName = parts.slice(1).join('. ');
+                partyName = partyName.slice(0, -1);
+                pname = `${number}. ${partyName}`;
+            } else {
+                pname = pname.slice(0, -1);
+            }
+        }
+        
+        if (pname !== `${partyNumber}. ${name}` && !pname.endsWith('...')) {
+            pname = pname.slice(0, -3) + '...';
+        }
+        
         doc.text(pname, colPartyX, yRow+5);
 
-        // summary
-        doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(90,90,90);
-        const amt = safeNum(d.totalAmount), amtStr = '₹'+Math.abs(amt).toLocaleString('en-IN', {minimumFractionDigits:2}),
-              drcr = amt<0?'Cr':'Dr';
-        doc.text(`Invoices: ${d.billCount||0}  Total:`, colDateX+23, yRow+5, {align:'right'});
-        doc.setFont('helvetica','bold'); doc.setTextColor(...(amt<0?[220,53,69]:[40,167,69]));
+        // Party summary with fixed amount formatting
+        doc.setFont('helvetica','normal'); 
+        doc.setFontSize(10); 
+        doc.setTextColor(90,90,90);
+        
+        const amt = safeNum(d.totalAmount);
+        const absAmount = Math.abs(amt);
+        const amtStr = 'Rs. ' + absAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        const drcr = amt < 0 ? 'Cr' : 'Dr';
+        
+        doc.text(`Invoices: ${d.billCount||0}  Total:`, colDateX + 20, yRow+5, {align:'right'});
+        
+        doc.setFont('helvetica','bold'); 
+        doc.setTextColor(...(amt < 0 ? [220,53,69] : [40,167,69]));
         doc.text(amtStr, colAmtX, yRow+5, {align:'right'});
+        
         doc.setFont('helvetica','normal');
         doc.text(drcr, colDrCrX, yRow+5, {align:'center'});
-        yRow += rowH+2;
+        
+        yRow += rowH + 2;
 
-        // headers
-        doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(41,41,51);
-        doc.setFillColor(245,245,248); doc.rect(left, yRow-3, width, rowH, 'F');
+        // Invoice headers
+        doc.setFont('helvetica','bold'); 
+        doc.setFontSize(10); 
+        doc.setTextColor(41,41,51);
+        doc.setFillColor(245,245,248); 
+        doc.rect(left, yRow-3, width, rowH, 'F');
+        
         doc.text('Invoice No.', colInvoiceX, yRow+4);
         doc.text('Date', colDateX, yRow+4, {align: 'left'});
         doc.text('Amount', colAmtX, yRow+4, {align:'right'});
         doc.text('Dr/Cr', colDrCrX, yRow+4, {align:'center'});
+        
         yRow += rowH;
 
-        // Invoices
+        // Invoice details with fixed amount formatting
         (d.invoices || []).forEach((inv, i) => {
-            if (yRow + rowH > 275) { doc.addPage(); yRow = 24;}
-            if (i%2===1) { doc.setFillColor(250,250,252); doc.rect(left, yRow-3, width, rowH, 'F'); }
-            doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(60,60,60);
-
-            // Truncate invoice so it can't overlap with date/amount col
-            let ivNo = inv?.invoiceNo ? String(inv.invoiceNo) : "";
-            while (doc.getTextWidth(ivNo) > colDateX - colInvoiceX - 3 && ivNo.length > 3) {
-                ivNo = ivNo.slice(0, -2);
+            if (yRow + rowH > 275) { 
+                doc.addPage(); 
+                yRow = 24;
             }
-            if (ivNo.length !== String(inv?.invoiceNo).length) ivNo = ivNo.slice(0, -3) + "...";
-            doc.text(ivNo, colInvoiceX, yRow+4);
+            
+            if (i % 2 === 1) { 
+                doc.setFillColor(250,250,252); 
+                doc.rect(left, yRow-3, width, rowH, 'F'); 
+            }
+            
+            doc.setFont('helvetica','normal'); 
+            doc.setFontSize(10); 
+            doc.setTextColor(60,60,60);
 
+            // Invoice number
+            let invoiceNo = inv?.invoiceNo ? String(inv.invoiceNo) : "N/A";
+            const maxInvoiceWidth = colDateX - colInvoiceX - 5;
+            
+            while (doc.getTextWidth(invoiceNo) > maxInvoiceWidth && invoiceNo.length > 3) {
+                invoiceNo = invoiceNo.slice(0, -1);
+            }
+            
+            if (invoiceNo.length < String(inv?.invoiceNo || "").length && invoiceNo.length > 3) {
+                invoiceNo = invoiceNo.slice(0, -3) + "...";
+            }
+            
+            doc.text(invoiceNo, colInvoiceX, yRow+4);
+
+            // Date
             const dateStr = formatDate(inv.date);
             doc.text(dateStr, colDateX, yRow+4, {align:'left'});
 
-            const invAmt = safeNum(inv.amount), invAmtStr = '₹'+Math.abs(invAmt).toLocaleString('en-IN',{minimumFractionDigits:2}),
-                  invDrCr = invAmt<0?'Cr':'Dr', invColor = invAmt<0 ? [220,53,69] : [40,167,69];
-            doc.setFont('helvetica','bold'); doc.setTextColor(...invColor);
+            // FIXED: Replace ₹ with Rs. to avoid superscript '1'
+            const invAmt = safeNum(inv.amount);
+            const invAbsAmount = Math.abs(invAmt);
+            const invAmtStr = 'Rs. ' + invAbsAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            const invDrCr = invAmt < 0 ? 'Cr' : 'Dr';
+            const invColor = invAmt < 0 ? [220,53,69] : [40,167,69];
+            
+            doc.setFont('helvetica','bold'); 
+            doc.setTextColor(...invColor);
             doc.text(invAmtStr, colAmtX, yRow+4, {align:'right'});
+            
             doc.setFont('helvetica','normal');
             doc.text(invDrCr, colDrCrX, yRow+4, {align:'center'});
+            
             yRow += rowH;
         });
 
-        partyNum++; yRow+=4;
+        partyNumber++;
+        yRow += 4;
     });
 
-    // Grand total, same logic as in summary
-    if (yRow+rowH > 275) { doc.addPage(); yRow = 24; }
+    // Grand total with fixed formatting
+    if (yRow + rowH > 275) { 
+        doc.addPage(); 
+        yRow = 24; 
+    }
+    
     doc.setFillColor(225,230,245);
     doc.rect(left, yRow-2, width, rowH+2, 'F');
-    doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(41,41,61);
+    doc.setFont('helvetica','bold'); 
+    doc.setFontSize(11); 
+    doc.setTextColor(41,41,61);
+    
     doc.text('OVERALL TOTAL', left+15, yRow+5);
-    doc.setTextColor(70,70,70); doc.text(String(currentReportData.totalBills||0), left+90, yRow+5, {align:'right'});
+    doc.setTextColor(70,70,70); 
+    doc.text(String(currentReportData.totalBills||0), left+90, yRow+5, {align:'right'});
+    
     const finalAmt = safeNum(currentReportData.totalAmount);
-    const finalAmtStr = '₹'+Math.abs(finalAmt).toLocaleString('en-IN',{minimumFractionDigits:2});
-    const finalDrCr = finalAmt<0 ? 'Cr' : 'Dr';
-    doc.setTextColor(...(finalAmt<0 ? [220,53,69]:[40,167,69]));
+    const finalAbsAmount = Math.abs(finalAmt);
+    const finalAmtStr = 'Rs. ' + finalAbsAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const finalDrCr = finalAmt < 0 ? 'Cr' : 'Dr';
+    
+    doc.setTextColor(...(finalAmt < 0 ? [220,53,69] : [40,167,69]));
     doc.text(finalAmtStr, colAmtX, yRow+5, {align:'right'});
+    
     doc.setFont('helvetica','normal');
     doc.text(finalDrCr, colDrCrX, yRow+5, {align:'center'});
 
-    return yRow+rowH+5;
+    return yRow + rowH + 5;
 }
 
+// Also update the formatAmountForPDF function if it's used elsewhere
+function formatAmountForPDF(amount) {
+    if (amount === null || amount === undefined) return 'Rs. 0.00';
+    
+    const absAmount = Math.abs(parseFloat(amount));
+    const formattedAmount = 'Rs. ' + absAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    
+    return formattedAmount;
+}
 
 // Format date helper (common in your codebase)
 function formatDate(dateStr) {
@@ -1198,24 +1288,7 @@ function formatDate(dateStr) {
 
 
 // Updated function to format amounts for PDF with proper Dr/Cr alignment
-function formatAmountForPDF(amount) {
-    if (amount === null || amount === undefined) return '₹0.00 Dr';
-    
-    const absAmount = Math.abs(parseFloat(amount));
-    const formattedAmount = '₹' + absAmount.toLocaleString('en-IN', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    });
-    
-    // Fixed width formatting to ensure Dr/Cr alignment
-    const paddedAmount = formattedAmount.padStart(15, ' '); // Adjust padding as needed
-    
-    if (amount < 0) {
-        return paddedAmount + ' Cr';
-    } else {
-        return paddedAmount + ' Dr';
-    }
-}
+
 
 
 // Generate Excel report
