@@ -621,6 +621,99 @@ function generateReport() {
 }
 
 // Select report type
+// With this corrected version:
+// Updated generateReportData function with proper period selection handling
+function generateReportData(reportDetailType) {
+    // Get selected period FIRST before showing loading state
+    const periodSelect = document.getElementById('reportPeriodSelect');
+    if (periodSelect && periodSelect.value) {
+        currentReportPeriod = periodSelect.value;
+        console.log('Period selected from dropdown:', currentReportPeriod);
+    } else {
+        console.warn('No period selected, using fallback');
+        // Fallback to current periods if selection fails
+        if (currentReportType === 'financialYear') {
+            currentReportPeriod = getCurrentFinancialYear();
+        } else if (currentReportType === 'quarterly') {
+            const currentFY = getCurrentFinancialYear();
+            const currentQuarter = getCurrentFinancialQuarter();
+            currentReportPeriod = `${currentFY}-Q${currentQuarter}`;
+        } else if (currentReportType === 'monthly') {
+            const now = new Date();
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            currentReportPeriod = `${now.getFullYear()}-${month}`;
+        }
+    }
+    
+    console.log('Final report period before generation:', currentReportPeriod);
+    console.log('Report type:', currentReportType);
+    console.log('Report detail type:', reportDetailType);
+    
+    // Show loading state AFTER getting the period
+    document.getElementById('reportModalBody').innerHTML = `
+        <div class="report-loading">
+            <div class="report-loading-spinner"></div>
+            <div class="report-loading-text">Generating report data...</div>
+        </div>
+    `;
+    
+    // Check if Firebase database is available
+    if (typeof database === 'undefined' || !database) {
+        alert('Database connection not available. Please check your Firebase configuration.');
+        closeReportModal();
+        return;
+    }
+    
+    // Fetch bills data
+    database.ref('bills').once('value', (snapshot) => {
+        const allBills = snapshot.val();
+        
+        console.log('Raw bills data:', allBills);
+        
+        if (!allBills) {
+            alert('No bill data available to generate report');
+            closeReportModal();
+            return;
+        }
+        
+        // Convert to array and add some debug info
+        const billsArray = Object.entries(allBills).map(([id, bill]) => ({ id, ...bill }));
+        console.log('Bills array length:', billsArray.length);
+        console.log('Sample bill dates:', billsArray.slice(0, 3).map(b => b.date));
+        
+        // Filter by period using the correctly set currentReportPeriod
+        const filteredBills = filterBillsByReportPeriod(billsArray);
+        
+        console.log('Filtered bills length:', filteredBills.length);
+        console.log('Used period for filtering:', currentReportPeriod);
+        
+        if (filteredBills.length === 0) {
+            let periodText = getPeriodText();
+            alert(`No bills found for the selected period: ${periodText}`);
+            closeReportModal();
+            return;
+        }
+        
+        // Process data based on report detail type
+        if (reportDetailType === 'summarized') {
+            currentReportData = generateSummarizedReportData(filteredBills);
+        } else {
+            currentReportData = generateDetailedReportData(filteredBills);
+        }
+        
+        console.log('Generated report data:', currentReportData);
+        
+        // Close report modal and show export options
+        closeReportModal();
+        showExportModal();
+    }).catch(error => {
+        console.error('Error fetching bills data:', error);
+        alert('Error fetching data. Please try again.');
+        closeReportModal();
+    });
+}
+
+// Updated selectReportType function with better period handling
 function selectReportType(type) {
     currentReportType = type;
     
@@ -632,16 +725,16 @@ function selectReportType(type) {
     
     // Update modal content based on report type
     let periodSelectorHTML = '';
-    let currentPeriod = '';
+    let defaultPeriod = '';
     
     if (type === 'financialYear') {
-        currentPeriod = getCurrentFinancialYear();
+        defaultPeriod = getCurrentFinancialYear();
         periodSelectorHTML = `
             <div class="report-period-selector">
                 <label class="report-period-label">
                     <i class="fas fa-calendar-alt"></i> Select Financial Year:
                 </label>
-                <select class="report-period-select" id="reportPeriodSelect">
+                <select class="report-period-select" id="reportPeriodSelect" onchange="updateSelectedPeriod()">
                     ${generateFinancialYearOptions()}
                 </select>
             </div>
@@ -649,31 +742,42 @@ function selectReportType(type) {
     } else if (type === 'quarterly') {
         const currentFY = getCurrentFinancialYear();
         const currentQuarter = getCurrentFinancialQuarter();
-        currentPeriod = `${currentFY}-Q${currentQuarter}`;
+        defaultPeriod = `${currentFY}-Q${currentQuarter}`;
+        
+        console.log('Quarterly Debug:');
+        console.log('- currentFY:', currentFY);
+        console.log('- currentQuarter:', currentQuarter, typeof currentQuarter);
+        console.log('- defaultPeriod:', defaultPeriod);
+        
         periodSelectorHTML = `
             <div class="report-period-selector">
                 <label class="report-period-label">
                     <i class="fas fa-chart-pie"></i> Select Financial Quarter:
                 </label>
-                <select class="report-period-select" id="reportPeriodSelect">
+                <select class="report-period-select" id="reportPeriodSelect" onchange="updateSelectedPeriod()">
                     ${generateFinancialQuarterOptions()}
                 </select>
             </div>
         `;
     } else if (type === 'monthly') {
         const currentDate = new Date();
-        currentPeriod = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}`;
+        const currentMonth = currentDate.getMonth() + 1;
+        defaultPeriod = `${currentDate.getFullYear()}-${currentMonth.toString().padStart(2, '0')}`;
         periodSelectorHTML = `
             <div class="report-period-selector">
                 <label class="report-period-label">
                     <i class="fas fa-calendar-day"></i> Select Month:
                 </label>
-                <select class="report-period-select" id="reportPeriodSelect">
+                <select class="report-period-select" id="reportPeriodSelect" onchange="updateSelectedPeriod()">
                     ${generateMonthOptions()}
                 </select>
             </div>
         `;
     }
+    
+    // Set the current report period to default
+    currentReportPeriod = defaultPeriod;
+    console.log('Set default period:', currentReportPeriod);
     
     const reportTitles = {
         'financialYear': 'Financial Year Report',
@@ -719,28 +823,65 @@ function selectReportType(type) {
         </div>
     `;
     
-    // Set the current period in the select if it exists
+    // Set the current period in the select after DOM is updated
     setTimeout(() => {
         const periodSelect = document.getElementById('reportPeriodSelect');
-        if (periodSelect && currentPeriod) {
-            periodSelect.value = currentPeriod;
+        if (periodSelect && defaultPeriod) {
+            console.log('Setting period select to:', defaultPeriod);
+            periodSelect.value = defaultPeriod;
+            console.log('Period select value after setting:', periodSelect.value);
+            // Update the currentReportPeriod to match the selected value
+            currentReportPeriod = periodSelect.value;
         }
     }, 100);
 }
 
-// Generate report data based on selected options
+// New function to handle period selection changes
+function updateSelectedPeriod() {
+    const periodSelect = document.getElementById('reportPeriodSelect');
+    if (periodSelect) {
+        currentReportPeriod = periodSelect.value;
+        console.log('Period updated to:', currentReportPeriod);
+    }
+}
+
+
+
+
+// Updated generateReportData function with better error handling
 function generateReportData(reportDetailType) {
-    // Show loading state
+    // Get selected period FIRST before showing loading state
+    const periodSelect = document.getElementById('reportPeriodSelect');
+    if (periodSelect && periodSelect.value) {
+        currentReportPeriod = periodSelect.value;
+        console.log('Period selected from dropdown:', currentReportPeriod);
+    } else {
+        console.warn('No period selected, using fallback');
+        // Fallback to current periods if selection fails
+        if (currentReportType === 'financialYear') {
+            currentReportPeriod = getCurrentFinancialYear();
+        } else if (currentReportType === 'quarterly') {
+            const currentFY = getCurrentFinancialYear();
+            const currentQuarter = getCurrentFinancialQuarter();
+            currentReportPeriod = `${currentFY}-Q${currentQuarter}`;
+        } else if (currentReportType === 'monthly') {
+            const now = new Date();
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            currentReportPeriod = `${now.getFullYear()}-${month}`;
+        }
+    }
+    
+    console.log('Final report period before generation:', currentReportPeriod);
+    console.log('Report type:', currentReportType);
+    console.log('Report detail type:', reportDetailType);
+    
+    // Show loading state AFTER getting the period
     document.getElementById('reportModalBody').innerHTML = `
         <div class="report-loading">
             <div class="report-loading-spinner"></div>
             <div class="report-loading-text">Generating report data...</div>
         </div>
     `;
-    
-    // Get selected period
-    const periodSelect = document.getElementById('reportPeriodSelect');
-    currentReportPeriod = periodSelect ? periodSelect.value : getCurrentFinancialYear();
     
     // Check if Firebase database is available
     if (typeof database === 'undefined' || !database) {
@@ -753,18 +894,28 @@ function generateReportData(reportDetailType) {
     database.ref('bills').once('value', (snapshot) => {
         const allBills = snapshot.val();
         
+        console.log('Raw bills data:', allBills);
+        
         if (!allBills) {
             alert('No bill data available to generate report');
             closeReportModal();
             return;
         }
         
-        // Convert to array and filter by period
+        // Convert to array and add some debug info
         const billsArray = Object.entries(allBills).map(([id, bill]) => ({ id, ...bill }));
+        console.log('Bills array length:', billsArray.length);
+        console.log('Sample bill dates:', billsArray.slice(0, 3).map(b => b.date));
+        
+        // Filter by period using the correctly set currentReportPeriod
         const filteredBills = filterBillsByReportPeriod(billsArray);
         
+        console.log('Filtered bills length:', filteredBills.length);
+        console.log('Used period for filtering:', currentReportPeriod);
+        
         if (filteredBills.length === 0) {
-            alert('No bills found for the selected period');
+            let periodText = getPeriodText();
+            alert(`No bills found for the selected period: ${periodText}`);
             closeReportModal();
             return;
         }
@@ -776,6 +927,8 @@ function generateReportData(reportDetailType) {
             currentReportData = generateDetailedReportData(filteredBills);
         }
         
+        console.log('Generated report data:', currentReportData);
+        
         // Close report modal and show export options
         closeReportModal();
         showExportModal();
@@ -786,37 +939,143 @@ function generateReportData(reportDetailType) {
     });
 }
 
+
 // Filter bills by report period
 function filterBillsByReportPeriod(bills) {
+    console.log('=== FILTERING BILLS ===');
+    console.log('Total bills to filter:', bills.length);
+    console.log('Report type:', currentReportType);
+    console.log('Report period:', currentReportPeriod);
+    
     if (currentReportType === 'financialYear') {
-        return bills.filter(bill => {
-            const billFY = getFinancialYearFromDate(bill.date);
-            return billFY === currentReportPeriod;
-        });
-    } else if (currentReportType === 'quarterly') {
-        const [fyPart, quarter] = currentReportPeriod.split('-Q');
-        const quarterNum = parseInt(quarter);
+        console.log('Filtering by Financial Year:', currentReportPeriod);
         
-        return bills.filter(bill => {
+        const filtered = bills.filter(bill => {
+            const billFY = getFinancialYearFromDate(bill.date);
+            const match = billFY === currentReportPeriod;
+            if (match) {
+                console.log(`Bill ${bill.id}: Date=${bill.date}, FY=${billFY}, MATCH`);
+            }
+            return match;
+        });
+        
+        console.log('Financial Year filtered bills:', filtered.length);
+        if (filtered.length === 0) {
+            console.log('No bills found for FY:', currentReportPeriod);
+            console.log('Sample bill FYs:', bills.slice(0, 5).map(b => ({
+                date: b.date,
+                fy: getFinancialYearFromDate(b.date)
+            })));
+        }
+        return filtered;
+        
+    } else if (currentReportType === 'quarterly') {
+        console.log('Filtering by Quarter:', currentReportPeriod);
+        
+        // Validate period format
+        if (!currentReportPeriod || !currentReportPeriod.includes('-Q')) {
+            console.error('Invalid quarterly period format:', currentReportPeriod);
+            alert('Invalid quarterly period format. Please select a valid quarter.');
+            return [];
+        }
+        
+        const [fyPart, quarterPart] = currentReportPeriod.split('-Q');
+        const targetQuarter = parseInt(quarterPart);
+        
+        console.log('Quarterly filter details:');
+        console.log('- Target FY:', fyPart);
+        console.log('- Target Quarter:', targetQuarter);
+        
+        if (isNaN(targetQuarter) || targetQuarter < 1 || targetQuarter > 4) {
+            console.error('Invalid quarter number:', quarterPart);
+            alert('Invalid quarter number. Please select a valid quarter.');
+            return [];
+        }
+        
+        const filtered = bills.filter(bill => {
+            if (!bill.date || bill.date === 'N/A') {
+                console.log('Skipping bill with invalid date:', bill);
+                return false;
+            }
+            
             const billFY = getFinancialYearFromDate(bill.date);
             const billQuarter = getFinancialQuarterFromDate(bill.date);
             
-            return billFY === fyPart && billQuarter === `Q${quarterNum}`;
+            const fyMatch = billFY === fyPart;
+            const quarterMatch = billQuarter === targetQuarter;
+            const match = fyMatch && quarterMatch;
+            
+            if (match) {
+                console.log(`Bill ${bill.id || 'unknown'}: Date=${bill.date}, FY=${billFY}, Quarter=${billQuarter}, MATCH`);
+            }
+            
+            return match;
         });
-    } else if (currentReportType === 'monthly') {
-        const [year, month] = currentReportPeriod.split('-');
-        const yearNum = parseInt(year);
-        const monthNum = parseInt(month);
         
-        return bills.filter(bill => {
+        console.log('Quarterly filtered bills:', filtered.length);
+        
+        if (filtered.length === 0) {
+            console.log('No bills found. Debug info:');
+            console.log('Sample bill analysis:');
+            bills.slice(0, 5).forEach(bill => {
+                const billFY = getFinancialYearFromDate(bill.date);
+                const billQuarter = getFinancialQuarterFromDate(bill.date);
+                console.log(`- Bill date: ${bill.date}, FY: ${billFY}, Quarter: ${billQuarter}`);
+            });
+        }
+        
+        return filtered;
+        
+    } else if (currentReportType === 'monthly') {
+        console.log('Filtering by Month:', currentReportPeriod);
+        
+        const [targetYear, targetMonth] = currentReportPeriod.split('-');
+        const yearNum = parseInt(targetYear);
+        const monthNum = parseInt(targetMonth);
+        
+        console.log('Monthly filter - Target Year:', yearNum, 'Target Month:', monthNum);
+        
+        const filtered = bills.filter(bill => {
+            if (!bill.date || bill.date === 'N/A') {
+                return false;
+            }
+            
             const billDate = new Date(bill.date);
-            return billDate.getFullYear() === yearNum && 
-                   billDate.getMonth() + 1 === monthNum;
+            if (isNaN(billDate.getTime())) {
+                return false;
+            }
+            
+            const billYear = billDate.getFullYear();
+            const billMonth = billDate.getMonth() + 1;
+            
+            const match = billYear === yearNum && billMonth === monthNum;
+            
+            if (match) {
+                console.log(`Bill ${bill.id}: Date=${bill.date}, Year=${billYear}, Month=${billMonth}, MATCH`);
+            }
+            
+            return match;
         });
+        
+        console.log('Monthly filtered bills:', filtered.length);
+        if (filtered.length === 0) {
+            console.log('No bills found for period:', currentReportPeriod);
+            console.log('Sample bill dates:', bills.slice(0, 5).map(b => ({
+                date: b.date,
+                year: new Date(b.date).getFullYear(),
+                month: new Date(b.date).getMonth() + 1
+            })));
+        }
+        return filtered;
     }
     
+    console.log('No filter applied, returning all bills');
     return bills;
 }
+
+
+
+
 
 // Generate summarized report data
 function generateSummarizedReportData(bills) {
@@ -1575,21 +1834,49 @@ function getPeriodText() {
     if (currentReportType === 'financialYear') {
         return `Financial Year: ${currentReportPeriod}`;
     } else if (currentReportType === 'quarterly') {
-        const [fy, quarter] = currentReportPeriod.split('-Q');
+        if (!currentReportPeriod || !currentReportPeriod.includes('-Q')) {
+            return `Quarter: ${currentReportPeriod || 'undefined'}`;
+        }
+        const [fy, quarterPart] = currentReportPeriod.split('-Q');
+        const quarter = quarterPart;
         const quarterNames = {
-            '1': 'Apr-Jun',
-            '2': 'Jul-Sep',
-            '3': 'Oct-Dec',
-            '4': 'Jan-Mar'
+            '1': 'Q1 (Apr-Jun)',
+            '2': 'Q2 (Jul-Sep)',
+            '3': 'Q3 (Oct-Dec)',
+            '4': 'Q4 (Jan-Mar)'
         };
-        return `Quarter: ${quarterNames[quarter]} ${fy}`;
-    } else {
+        return `Quarter: ${quarterNames[quarter] || quarter} FY ${fy}`;
+    } else if (currentReportType === 'monthly') {
         const [year, month] = currentReportPeriod.split('-');
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
                            'July', 'August', 'September', 'October', 'November', 'December'];
         return `Month: ${monthNames[parseInt(month) - 1]} ${year}`;
     }
+    return `Period: ${currentReportPeriod}`;
 }
+
+function debugCurrentQuarter() {
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1;
+    const currentFY = getCurrentFinancialYear();
+    const currentQuarter = getCurrentFinancialQuarter();
+    
+    console.log('=== DEBUG CURRENT QUARTER ===');
+    console.log('Today:', today.toISOString());
+    console.log('Current Month (1-12):', currentMonth);
+    console.log('Current Financial Year:', currentFY);
+    console.log('Current Financial Quarter:', currentQuarter);
+    console.log('Expected Period:', `${currentFY}-Q${currentQuarter}`);
+    console.log('===========================');
+    
+    return {
+        month: currentMonth,
+        fy: currentFY,
+        quarter: currentQuarter,
+        period: `${currentFY}-Q${currentQuarter}`
+    };
+}
+
 
 function generateReportFileName(format) {
     let periodPart = '';
@@ -1679,49 +1966,59 @@ function formatCurrency(amount) {
 }
 
 // Financial Year Utility Functions
+// Fixed Financial Year Utility Functions
 function getCurrentFinancialYear() {
     const today = new Date();
     const currentYear = today.getFullYear();
-    const currentMonth = today.getMonth();
+    const currentMonth = today.getMonth() + 1; // getMonth() returns 0-11, so add 1
     
-    if (currentMonth >= 3) { // April to March
+    if (currentMonth >= 4) { // April to March (4-12)
         return `${currentYear}-${(currentYear + 1).toString().substr(-2)}`;
-    } else {
+    } else { // January to March (1-3)
         return `${currentYear - 1}-${currentYear.toString().substr(-2)}`;
     }
 }
 
 function getCurrentFinancialQuarter() {
     const today = new Date();
-    const currentMonth = today.getMonth();
+    const currentMonth = today.getMonth() + 1; // getMonth() returns 0-11, so add 1
     
-    if (currentMonth >= 3 && currentMonth <= 5) return '1'; // Apr-Jun
-    if (currentMonth >= 6 && currentMonth <= 8) return '2'; // Jul-Sep
-    if (currentMonth >= 9 && currentMonth <= 11) return '3'; // Oct-Dec
-    return '4'; // Jan-Mar
+    if (currentMonth >= 4 && currentMonth <= 6) return 1; // Apr-Jun = Q1
+    if (currentMonth >= 7 && currentMonth <= 9) return 2; // Jul-Sep = Q2  
+    if (currentMonth >= 10 && currentMonth <= 12) return 3; // Oct-Dec = Q3
+    return 4; // Jan-Mar = Q4
 }
-
-function getFinancialYearFromDate(date) {
-    const d = new Date(date);
-    const year = d.getFullYear();
-    const month = d.getMonth();
+function getFinancialYearFromDate(dateString) {
+    if (!dateString || dateString === 'N/A') return null;
     
-    if (month >= 3) {
+    const d = new Date(dateString);
+    if (isNaN(d.getTime())) return null;
+    
+    const year = d.getFullYear();
+    const month = d.getMonth() + 1; // getMonth() returns 0-11, so add 1
+    
+    if (month >= 4) { // April to December
         return `${year}-${(year + 1).toString().substr(-2)}`;
-    } else {
+    } else { // January to March
         return `${year - 1}-${year.toString().substr(-2)}`;
     }
 }
 
-function getFinancialQuarterFromDate(date) {
-    const d = new Date(date);
-    const month = d.getMonth();
+function getFinancialQuarterFromDate(dateString) {
+    if (!dateString || dateString === 'N/A') return null;
     
-    if (month >= 3 && month <= 5) return 'Q1';
-    if (month >= 6 && month <= 8) return 'Q2';
-    if (month >= 9 && month <= 11) return 'Q3';
-    return 'Q4';
+    const d = new Date(dateString);
+    if (isNaN(d.getTime())) return null;
+    
+    const month = d.getMonth() + 1; // getMonth() returns 0-11, so add 1
+    
+    if (month >= 4 && month <= 6) return 1; // Apr-Jun = Q1
+    if (month >= 7 && month <= 9) return 2; // Jul-Sep = Q2
+    if (month >= 10 && month <= 12) return 3; // Oct-Dec = Q3
+    return 4; // Jan-Mar = Q4
 }
+
+
 
 // Generate options for dropdowns
 function generateFinancialYearOptions() {
@@ -1751,43 +2048,98 @@ function generateFinancialYearOptions() {
 
 function generateFinancialQuarterOptions() {
     const currentFY = getCurrentFinancialYear();
-    const currentQuarter = getCurrentFinancialQuarter();
+    const currentQuarter = getCurrentFinancialQuarter(); // Returns NUMBER: 1, 2, 3, or 4
+    const currentPeriod = `${currentFY}-Q${currentQuarter}`;
     const options = [];
     
-    // Generate options for all quarters in current FY
+    console.log('generateFinancialQuarterOptions Debug:');
+    console.log('- currentFY:', currentFY);
+    console.log('- currentQuarter:', currentQuarter, typeof currentQuarter);
+    console.log('- currentPeriod:', currentPeriod);
+    
+    // Quarter display names
+    const quarterNames = {
+        1: 'Q1 (Apr-Jun)',
+        2: 'Q2 (Jul-Sep)', 
+        3: 'Q3 (Oct-Dec)',
+        4: 'Q4 (Jan-Mar)'
+    };
+    
+    // Generate current FY quarters first
     for (let q = 1; q <= 4; q++) {
-        const isSelected = (q.toString() === currentQuarter && currentFY === getCurrentFinancialYear());
-        options.push(`<option value="${currentFY}-Q${q}" ${isSelected ? 'selected' : ''}>FY ${currentFY} Q${q}</option>`);
+        const value = `${currentFY}-Q${q}`; // This creates "2025-26-Q1", "2025-26-Q2", etc.
+        const isSelected = (q === currentQuarter);
+        const label = `FY ${currentFY} ${quarterNames[q]}`;
+        options.push(`<option value="${value}" ${isSelected ? 'selected' : ''}>${label}</option>`);
+        
+        console.log(`Option ${q}: value="${value}", selected=${isSelected}, label="${label}"`);
     }
     
-    // Generate options for previous FY quarters if we're in Q1 of current FY
-    if (currentQuarter === '1') {
-        const prevFY = `${parseInt(currentFY.split('-')[0]) - 1}-${parseInt(currentFY.split('-')[1]) - 1}`;
-        for (let q = 2; q <= 4; q++) {
-            options.push(`<option value="${prevFY}-Q${q}">FY ${prevFY} Q${q}</option>`);
-        }
+    // Generate previous FY quarters
+    const [startYear, endYear] = currentFY.split('-');
+    const prevStartYear = parseInt(startYear) - 1;
+    const prevFY = `${prevStartYear}-${(prevStartYear + 1).toString().substr(-2)}`;
+    
+    for (let q = 1; q <= 4; q++) {
+        const value = `${prevFY}-Q${q}`;
+        const label = `FY ${prevFY} ${quarterNames[q]}`;
+        options.push(`<option value="${value}">${label}</option>`);
+    }
+    
+    // Generate next FY quarters  
+    const nextStartYear = parseInt(startYear) + 1;
+    const nextFY = `${nextStartYear}-${(nextStartYear + 1).toString().substr(-2)}`;
+    
+    for (let q = 1; q <= 4; q++) {
+        const value = `${nextFY}-Q${q}`;
+        const label = `FY ${nextFY} ${quarterNames[q]}`;
+        options.push(`<option value="${value}">${label}</option>`);
     }
     
     return options.join('');
 }
 
+function testQuarterFix() {
+    console.log('=== TESTING QUARTER FIX ===');
+    const fy = getCurrentFinancialYear();
+    const quarter = getCurrentFinancialQuarter();
+    const period = `${fy}-Q${quarter}`;
+    
+    console.log('Financial Year:', fy);
+    console.log('Quarter (should be number):', quarter, typeof quarter);
+    console.log('Period (should be like "2025-26-Q2"):', period);
+    
+    // Test parsing
+    const [fyPart, quarterPart] = period.split('-Q');
+    const targetQuarter = parseInt(quarterPart);
+    
+    console.log('Parsed FY:', fyPart);
+    console.log('Parsed Quarter Part:', quarterPart);
+    console.log('Target Quarter (parsed):', targetQuarter);
+    console.log('Is valid quarter?', !isNaN(targetQuarter) && targetQuarter >= 1 && targetQuarter <= 4);
+    
+    return { fy, quarter, period, fyPart, quarterPart, targetQuarter };
+}
+
+
 function generateMonthOptions() {
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth() + 1;
+    const currentMonth = currentDate.getMonth() + 1; // getMonth() returns 0-11, so add 1
+    const currentPeriod = `${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
     const options = [];
     
-    // Generate options for current year
-    for (let m = 1; m <= 12; m++) {
-        const monthStr = m.toString().padStart(2, '0');
-        const isSelected = (m === currentMonth);
-        options.push(`<option value="${currentYear}-${monthStr}" ${isSelected ? 'selected' : ''}>${getMonthName(m)} ${currentYear}</option>`);
-    }
+    console.log('Current Year:', currentYear, 'Current Month:', currentMonth, 'Current Period:', currentPeriod);
     
-    // Generate options for previous year
-    for (let m = 1; m <= 12; m++) {
-        const monthStr = m.toString().padStart(2, '0');
-        options.push(`<option value="${currentYear - 1}-${monthStr}">${getMonthName(m)} ${currentYear - 1}</option>`);
+    // Generate options for current year and previous year
+    for (let year = currentYear; year >= currentYear - 1; year--) {
+        for (let m = 12; m >= 1; m--) {
+            const monthStr = m.toString().padStart(2, '0');
+            const value = `${year}-${monthStr}`;
+            const isSelected = (value === currentPeriod);
+            const label = `${getMonthName(m)} ${year}`;
+            options.push(`<option value="${value}" ${isSelected ? 'selected' : ''}>${label}</option>`);
+        }
     }
     
     return options.join('');
@@ -1817,3 +2169,4 @@ window.generateReportData = generateReportData;
 window.exportReport = exportReport;
 window.closeReportModal = closeReportModal;
 window.closeExportModal = closeExportModal;
+window.updateSelectedPeriod = updateSelectedPeriod;
