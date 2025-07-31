@@ -168,6 +168,7 @@ function renderAllBills(billsToRender) {
     
     billsToRender.forEach(bill => {
         const isCreditNote = bill.type === 'credit_note' || bill.amount < 0;
+        const amountClass = bill.amount < 0 ? 'negative-amount' : '';
         const billRow = document.createElement('div');
         billRow.className = 'all-bills-row';
         billRow.innerHTML = `
@@ -177,7 +178,7 @@ function renderAllBills(billsToRender) {
                 ${isCreditNote ? '<span class="cn-badge">CN</span>' : ''}
             </div>
             <div class="bill-party">${bill.partyName || 'N/A'}</div>
-            <div class="bill-amount ${isCreditNote ? 'credit-note' : ''}">
+            <div class="bill-amount ${amountClass}">
                 ${formatCurrency(bill.amount || 0)}
             </div>
             <div class="bill-actions">
@@ -350,11 +351,27 @@ function populateBillDetailModalNew(billData) {
     console.log('Party Name:', billData.partyName);
     console.log('Amount:', billData.amount);
 
+    // Check if it's a credit note
+    const isCreditNote = billData.type === 'credit_note' || billData.amount < 0;
+    
     // Set values with new IDs
-    document.getElementById('billDetailInvoiceNo').textContent = billData.invoiceNo || 'N/A';
+    const invoiceNoElement = document.getElementById('billDetailInvoiceNo');
+    invoiceNoElement.textContent = billData.invoiceNo || 'N/A';
+    if (isCreditNote) {
+        invoiceNoElement.innerHTML += ' <span class="cn-badge">CN</span>';
+    }
+
     document.getElementById('billDetailInvoiceDate').textContent = billData.date ? formatDate(billData.date) : 'N/A';
     document.getElementById('billDetailPartyName').textContent = billData.partyName || 'N/A';
-    document.getElementById('billDetailAmount').textContent = billData.amount ? formatCurrency(billData.amount) : '₹0.00';
+
+    // Handle amount with color based on value
+    const amountElement = document.getElementById('billDetailAmount');
+    amountElement.textContent = billData.amount ? formatCurrency(billData.amount) : '₹0.00';
+    if (isCreditNote) {
+        amountElement.classList.add('negative-amount');
+    } else {
+        amountElement.classList.remove('negative-amount');
+    }
 
     // Handle image with new ID
     const imageSection = document.getElementById('billDetailImageSection');
