@@ -3744,6 +3744,31 @@ h2 {
     margin-right: 16px;
 }
 
+.negative-amount {
+    color: #ff3b30;
+    font-weight: bold;
+}
+
+.bill-amount.negative-amount::before {
+    content: "-";
+}
+
+.cn-badge {
+    background-color: #ff3b30;
+    color: white;
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 10px;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.bill-detail-modal-new .cn-badge {
+    font-size: 12px;
+    padding: 3px 6px;
+    vertical-align: middle;
+}
+
 .bill-value {
     font-size: 16px;
     font-weight: 500;
