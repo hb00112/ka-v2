@@ -824,6 +824,7 @@ function loadBills() {
         billsTableBody.innerHTML = '';
         
         billsArray.forEach(bill => {
+            const isNegative = bill.amount < 0;
             const billRow = document.createElement('div');
             billRow.className = 'bill-row';
             billRow.style.cursor = 'pointer';
@@ -832,7 +833,10 @@ function loadBills() {
                 <div class="date">${formatDate(bill.date)}</div>
                 <div class="invoice">${bill.invoiceNo}</div>
                 <div class="party">${bill.partyName}</div>
-                <div class="amount">${formatCurrency(bill.amount)}</div>
+                <div class="amount ${isNegative ? 'negative-amount' : ''}">
+                    ${formatCurrency(bill.amount)}
+                    ${bill.type === 'credit_note' ? '<span class="cn-badge">CN</span>' : ''}
+                </div>
             `;
             billsTableBody.appendChild(billRow);
         });
@@ -855,10 +859,24 @@ function showBillDetails(billId) {
         document.getElementById('detailPartyName').textContent = bill.partyName || '--';
         document.getElementById('detailInvoiceNo').textContent = bill.invoiceNo || '--';
         document.getElementById('detailDate').textContent = bill.date ? formatDateLong(bill.date) : '--';
-        document.getElementById('detailAmount').textContent = bill.amount ? formatCurrency(bill.amount) : '₹0';
+        
+        // Handle amount styling
+        const amountElement = document.getElementById('detailAmount');
+        amountElement.textContent = bill.amount ? formatCurrency(bill.amount) : '₹0';
+        if (bill.amount < 0) {
+            amountElement.classList.add('negative-amount');
+        } else {
+            amountElement.classList.remove('negative-amount');
+        }
         
         // Calculate ledger balance (for now, just show the bill amount)
-        document.getElementById('detailLedgerBalance').textContent = bill.amount ? formatCurrency(bill.amount) : '₹0';
+        const balanceElement = document.getElementById('detailLedgerBalance');
+        balanceElement.textContent = bill.amount ? formatCurrency(bill.amount) : '₹0';
+        if (bill.amount < 0) {
+            balanceElement.classList.add('negative-amount');
+        } else {
+            balanceElement.classList.remove('negative-amount');
+        }
         
         // Show bill image if exists
         const billImageContainer = document.getElementById('billImageContainer');
