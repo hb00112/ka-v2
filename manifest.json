@@ -4,8 +4,8 @@
   "description": "StreakWise Analytics is a comprehensive productivity app that helps students study sessions with a Pomodoro timer, monitor progress with analytics, and stay motivated with achievements and goals.",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#00000000",
-  "theme_color": "transparent",
+  "background_color": "#fbfbfb",
+  "theme_color": "#ffffff",
   "icons": [
     {
       "src": "icons/192x192/icon-192x192.png",
@@ -19,4 +19,5 @@
     }
   ]
 }
+
 
