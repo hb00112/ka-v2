@@ -4251,7 +4251,7 @@ h2 {
 }
 
 .report-modal-body {
-    padding: 20px;
+    
     max-height: 60vh;
     overflow-y: auto;
 }
@@ -4259,13 +4259,13 @@ h2 {
 .report-options {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    
 }
 
 .report-option {
     padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    border-top: 1px solid #ddd;
+    
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: center;
