@@ -303,7 +303,7 @@ function updateEntryModeUI() {
             modalHeader.style.borderColor = '#ef9a9a';
         }
         if (submitBtn) {
-            submitBtn.style.backgroundColor = '#d32f2f';
+            
             submitBtn.textContent = 'Submit Credit Note';
         }
         modal.classList.add('cn-mode-active');
@@ -321,7 +321,7 @@ function updateEntryModeUI() {
             modalHeader.style.borderColor = '#90caf9';
         }
         if (submitBtn) {
-            submitBtn.style.backgroundColor = '#1976d2';
+            
             submitBtn.textContent = 'Submit Bill';
         }
         modal.classList.add('bill-mode-active');
