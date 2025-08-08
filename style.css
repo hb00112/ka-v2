@@ -864,7 +864,7 @@ body:has([href="index.html"]) .header h1 {
 .bill-amount {
     font-size: 15px;
     font-weight: 700;
-    color: var(--ios-blue);
+    color: #1d0200;
     text-align: right;
     letter-spacing: -0.01em;
 }
@@ -1418,9 +1418,9 @@ body:has([href="index.html"]) .header h1 {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1447,7 +1447,7 @@ body:has([href="index.html"]) .header h1 {
     overflow-y: auto;
     transform: scale(0.9) translateY(20px);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    
 }
 
 #manualEntryModal.modal-overlay.active .modal {
@@ -1456,8 +1456,8 @@ body:has([href="index.html"]) .header h1 {
 
 /* Modal Header */
 #manualEntryModal .modal-header {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    background: #FFFFFF !important;
+    
     padding: 24px 28px 20px;
     display: flex;
     align-items: center;
@@ -1474,31 +1474,30 @@ body:has([href="index.html"]) .header h1 {
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    background: #FFF !important;
 }
 
 #manualEntryModal .modal-header h2 {
     font-size: 20px;
     font-weight: 600;
-    color: #1a1a1a;
-    margin: 0;
-    letter-spacing: -0.3px;
+    color: #333;
+    
 }
 
 #manualEntryModal .close-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    
     border: none;
-    background: rgba(0, 0, 0, 0.06);
-    color: #666;
-    font-size: 18px;
+    
+    color: #f86962ff;
+    font-size: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-weight: 300;
+    font-weight: bold;
 }
 
 #manualEntryModal .close-btn:hover {
@@ -1520,26 +1519,26 @@ body:has([href="index.html"]) .header h1 {
 }
 
 #manualEntryModal .mode-toggle-btn {
-    background: linear-gradient(135deg, #007AFF 0%, #0051D5 100%);
+    background: #007AFF;
     color: white;
     border: none;
     padding: 12px 20px;
     border-radius: 12px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
-    align-items: center;
+    align-items: left;
     gap: 8px;
-    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.25);
+    
     min-width: 140px;
     justify-content: center;
 }
 
 #manualEntryModal .mode-toggle-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(0, 122, 255, 0.3);
+   
 }
 
 #manualEntryModal .mode-toggle-btn:active {
@@ -1547,13 +1546,11 @@ body:has([href="index.html"]) .header h1 {
 }
 
 #manualEntryModal .mode-toggle-btn.cn-mode {
-    background: linear-gradient(135deg, #FF3B30 0%, #D70015 100%);
-    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.25);
+    background: #d32f2f;
+    
 }
 
-#manualEntryModal .mode-toggle-btn.cn-mode:hover {
-    box-shadow: 0 6px 16px rgba(255, 59, 48, 0.3);
-}
+
 
 /* Form Styling */
 #manualEntryModal .form-group {
@@ -1563,10 +1560,10 @@ body:has([href="index.html"]) .header h1 {
 #manualEntryModal .form-label,
 #manualEntryModal label {
     display: block;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 500;
-    color: #1a1a1a;
-    margin-bottom: 8px;
+    color: #666666;
+    margin-left: 6px;
     letter-spacing: -0.1px;
 }
 
@@ -1577,12 +1574,12 @@ body:has([href="index.html"]) .header h1 {
 #manualEntryModal .form-select,
 #manualEntryModal select {
     width: 100%;
-    padding: 14px 16px;
-    border: 2px solid rgba(0, 0, 0, 0.06);
-    border-radius: 12px;
-    font-size: 16px;
-    background: #fafbfc;
-    color: #1a1a1a;
+    padding: 8px 14px;
+    border: 1px solid #cecece;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #fff;
+    color: #000;
     transition: all 0.2s ease;
     box-sizing: border-box;
     appearance: none;
@@ -1616,8 +1613,8 @@ body:has([href="index.html"]) .header h1 {
 #manualEntryModal .photo-section {
     background: #f8f9fa;
     border-radius: 16px;
-    padding: 24px;
-    margin: 24px 0;
+    
+    margin-bottom: 5px;
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
@@ -1625,9 +1622,9 @@ body:has([href="index.html"]) .header h1 {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
-    color: #1a1a1a;
+    color: #000;
     margin-bottom: 16px;
 }
 
@@ -1643,24 +1640,24 @@ body:has([href="index.html"]) .header h1 {
 #manualEntryModal .camera-btn {
     width: 100%;
     padding: 16px;
-    background: linear-gradient(135deg, #007AFF 0%, #0051D5 100%);
+    background: #007AFF;
     color: white;
     border: none;
     border-radius: 12px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.25);
+    gap: 8px;
+    
 }
 
 #manualEntryModal .camera-btn:hover:not(.disabled) {
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(0, 122, 255, 0.3);
+   
 }
 
 #manualEntryModal .camera-btn.disabled {
@@ -1709,8 +1706,8 @@ body:has([href="index.html"]) .header h1 {
 }
 
 #manualEntryModal .text-muted {
-    color: #8e8e93;
-    font-size: 13px;
+    color: #78787a;
+    font-size: 11px;
     text-align: center;
     margin-top: 12px;
 }
@@ -1719,22 +1716,22 @@ body:has([href="index.html"]) .header h1 {
 #manualEntryModal .submit-btn {
     width: 100%;
     padding: 16px;
-    background: linear-gradient(135deg, #34C759 0%, #248A3D 100%);
+    background: #248A3D;
     color: white;
     border: none;
     border-radius: 12px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
     margin-top: 24px;
-    box-shadow: 0 4px 12px rgba(52, 199, 89, 0.25);
+   
     letter-spacing: -0.1px;
 }
 
 #manualEntryModal .submit-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(52, 199, 89, 0.3);
+    
 }
 
 #manualEntryModal .submit-btn:active {
@@ -1767,22 +1764,19 @@ body:has([href="index.html"]) .header h1 {
 
 /* Mode-specific styling */
 #manualEntryModal.cn-mode-active .modal-header {
-    background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
-    border-bottom-color: rgba(255, 59, 48, 0.1);
+    background: #f86962ff;
+   
 }
 
 #manualEntryModal.cn-mode-active .submit-btn {
-    background: linear-gradient(135deg, #FF3B30 0%, #D70015 100%);
-    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.25);
+    background: #d32f2f;
+    
 }
 
-#manualEntryModal.cn-mode-active .submit-btn:hover {
-    box-shadow: 0 6px 16px rgba(255, 59, 48, 0.3);
-}
 
 #manualEntryModal.bill-mode-active .modal-header {
-    background: linear-gradient(135deg, #f0f8ff 0%, #e1f5fe 100%);
-    border-bottom-color: rgba(0, 122, 255, 0.1);
+    background: #FFF;
+    
 }
 
 /* Responsive Design */
@@ -1796,6 +1790,7 @@ body:has([href="index.html"]) .header h1 {
     #manualEntryModal .modal-header {
         padding: 20px 24px 16px;
         border-radius: 16px 16px 0 0;
+        padding-bottom: 0;
     }
     
     #manualEntryModal .modal-header h2 {
@@ -1804,12 +1799,13 @@ body:has([href="index.html"]) .header h1 {
     
     #manualEntryModal .modal-body {
         padding: 24px 20px;
+        padding-top: 3px;
     }
     
     #manualEntryModal .form-input,
     #manualEntryModal input,
     #manualEntryModal select {
-        font-size: 16px; /* Prevents zoom on iOS */
+        font-size: 14px; /* Prevents zoom on iOS */
     }
 }
 
@@ -3151,7 +3147,7 @@ h2 {
 .bill-amount {
     font-size: 14.5px;
     font-weight: 600;
-    color: var(--ios-blue);
+    color: #1d0200;
     text-align: right;
 }
 
@@ -3779,7 +3775,7 @@ h2 {
 }
 
 .bill-amount {
-    color: var(--ios-blue-dark);
+    color: #1d0200;
     font-weight: 600;
     font-size: 15px;
 }
