@@ -61,7 +61,7 @@ function injectReportStyles() {
             border-radius: 20px;
             width: 80%;
             max-width: 500px;
-            max-height: 90vh;
+            max-height: 80vh;
             overflow: hidden;
          
             transform: translateY(30px) scale(0.95);
@@ -74,7 +74,7 @@ function injectReportStyles() {
         }
         
         .report-modal-header {
-            padding: 15px 25px 2px;
+            padding: 15px 25px 15px;
             background: #fff;
             border-bottom: none;
             color: #fff;
@@ -112,7 +112,7 @@ function injectReportStyles() {
         }
         
         .report-modal-body {
-            padding: 25px;
+          
             max-height: 60vh;
             overflow-y: auto;
             background: #ffffff;
@@ -121,18 +121,18 @@ function injectReportStyles() {
         .report-options {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            
         }
         
         .report-option {
-            padding: 20px;
-            border: 2px solid rgba(226, 232, 240, 0.8);
-            border-radius: 16px;
+            
+            border-top: 2px solid rgba(226, 232, 240, 0.8);
+            
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-align: left;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
+            text-align: center;
+            background: rgba(255, 255, 255, 1);
+            
             position: relative;
             overflow: hidden;
         }
@@ -171,13 +171,13 @@ function injectReportStyles() {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 8px;
+            
+             justify-content: center; /* horizontal center */
+    text-align: center;      /* ensure text aligns too */
+    width: 100%;    
         }
         
-        .report-option-icon {
-            font-size: 24px;
-            opacity: 0.8;
-        }
+    
         
         .report-option.selected .report-option-icon {
             opacity: 1;
@@ -200,6 +200,7 @@ function injectReportStyles() {
             color: #64748b;
             line-height: 1.5;
             margin: 0;
+          display: none;
         }
         
         .report-option.selected .report-option-description {
@@ -365,6 +366,14 @@ function injectReportStyles() {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
         }
+
+        .report-modal-subtitle {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin: 10px 20px 15px;
+    line-height: 1.4;
+}
         
         /* Loading indicator */
         .report-loading {
@@ -464,10 +473,7 @@ function injectReportStyles() {
                 margin: 20px;
             }
             
-            .report-modal-body {
-                padding: 20px;
-            }
-            
+           
             .report-action-buttons {
                 flex-direction: column;
             }
@@ -496,22 +502,27 @@ function injectReportStyles() {
 // Create report modal structure
 function createReportModal() {
     const modalHTML = `
-        <div class="report-modal-overlay" id="reportModal">
-            <div class="report-modal">
-                <div class="report-modal-header">
-                    <h3 class="report-modal-title">
-                     
-                        Generate Report
-                    </h3>
-                    <button class="report-close-btn" onclick="closeReportModal()">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="report-modal-body" id="reportModalBody">
-                    <!-- Content will be injected here -->
-                </div>
-            </div>
+       <div class="report-modal-overlay" id="reportModal">
+    <div class="report-modal">
+        <div class="report-modal-header">
+            <h3 class="report-modal-title">Generate Report</h3>
+            <button class="report-close-btn" onclick="closeReportModal()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
+
+        <!-- New subtitle/message -->
+        <div class="report-modal-subtitle">
+             Please choose the type of report you would like to generate.
+            You can view detailed summaries for a financial year, quarterly performance, or monthly breakdown.
+        </div>
+
+        <div class="report-modal-body" id="reportModalBody">
+            <!-- Content will be injected here -->
+        </div>
+    </div>
+</div>
+
         
         <div class="report-modal-overlay" id="reportExportModal">
             <div class="report-export-modal">
@@ -594,28 +605,27 @@ function generateReport() {
         <div class="report-options">
             <div class="report-option" onclick="selectReportType('financialYear')">
                 <div class="report-option-header">
-                    <i class="fas fa-calendar-alt report-option-icon"></i>
                     <div>
                         <div class="report-option-title">Financial Year Report</div>
-                        <div class="report-option-description">Generate report for a financial year (Apr-Mar)</div>
+                       
                     </div>
                 </div>
             </div>
             <div class="report-option" onclick="selectReportType('quarterly')">
                 <div class="report-option-header">
-                    <i class="fas fa-chart-pie report-option-icon"></i>
+                    
                     <div>
                         <div class="report-option-title">Quarterly Report</div>
-                        <div class="report-option-description">Generate report for a financial quarter</div>
+                       
                     </div>
                 </div>
             </div>
             <div class="report-option" onclick="selectReportType('monthly')">
                 <div class="report-option-header">
-                    <i class="fas fa-calendar-day report-option-icon"></i>
+                    
                     <div>
                         <div class="report-option-title">Monthly Report</div>
-                        <div class="report-option-description">Generate report for a specific month</div>
+                       
                     </div>
                 </div>
             </div>
