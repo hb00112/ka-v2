@@ -303,7 +303,7 @@ function injectReportStyles() {
             max-width: 400px;
            padding-top: 20px;
             text-align: center;
-            
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
         
         .report-export-title {
