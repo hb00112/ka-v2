@@ -4264,8 +4264,9 @@ h2 {
 
 .report-option {
     padding: 15px;
-    border-top: 1px solid #ddd;
-    
+    border-top: 1px solid #cecece;
+    padding-top: 13px;
+    padding-bottom: 13px;
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: center;
@@ -4277,10 +4278,7 @@ h2 {
     border-color: #007bff;
 }
 
-.report-option.selected {
-    background: #e7f1ff;
-    border-color: #007bff;
-}
+
 
 .report-option-title {
     font-weight: 600;
@@ -4314,63 +4312,23 @@ h2 {
 
 .report-action-buttons {
     display: flex;
-    gap: 10px;
+    
     margin-top: 20px;
 }
 
-.report-action-btn {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
 
-.report-action-btn.primary {
-    background: #007bff;
-    color: white;
-}
 
-.report-action-btn.primary:hover {
-    background: #0069d9;
-}
-
-.report-action-btn.secondary {
-    background: #6c757d;
-    color: white;
-}
-
-.report-action-btn.secondary:hover {
-    background: #5a6268;
-}
-
-.report-export-modal {
-    background: white;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 400px;
-    padding: 20px;
-    text-align: center;
-}
-
-.report-export-title {
-    margin: 0 0 20px;
-    font-size: 18px;
-    color: #333;
-}
 
 .report-export-buttons {
     display: flex;
-    gap: 15px;
+    
     justify-content: center;
 }
 
 .report-export-btn {
     padding: 12px 20px;
     border: none;
-    border-radius: 6px;
+   
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -4387,6 +4345,7 @@ h2 {
 
 .report-export-btn.pdf:hover {
     background: #c82333;
+    color: white;
 }
 
 .report-export-btn.excel {
@@ -4396,6 +4355,7 @@ h2 {
 
 .report-export-btn.excel:hover {
     background: #218838;
+    color: white;
 }
 
 /* Loading indicator */
@@ -4426,3 +4386,4 @@ h2 {
     color: #666;
     font-size: 14px;
 }
+
