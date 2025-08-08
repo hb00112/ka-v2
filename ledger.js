@@ -628,7 +628,7 @@ function injectLedgerStyles() {
     }
     
     .party-modal {
-        max-height: 95%;
+        max-height: 85%;
         z-index: 2000;
         height: 100%;
     }
