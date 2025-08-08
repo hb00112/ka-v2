@@ -1165,7 +1165,7 @@ body:has([href="index.html"]) .header h1 {
     backdrop-filter: blur(1px);
     -webkit-backdrop-filter: var(--blur-sm);
     display: flex;
-   height: 100dvh;
+   height: 100%;
     align-items: flex-end;
     justify-content: center;
     z-index: 1000;
@@ -1426,11 +1426,12 @@ body:has([href="index.html"]) .header h1 {
     align-items: center;
     justify-content: center;
     opacity: 0;
-   height: 100dvh;
+   height: 100%;
     visibility: hidden;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
     padding: 20px;
+   padding-top: 0px;
 }
 
 #manualEntryModal.modal-overlay.active {
@@ -4384,6 +4385,7 @@ h2 {
     color: #666;
     font-size: 14px;
 }
+
 
 
 
