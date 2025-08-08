@@ -74,7 +74,7 @@ function injectReportStyles() {
         }
         
         .report-modal-header {
-            padding: 15px 25px 15px;
+            padding: 20px 25px 2px;
             background: #fff;
             border-bottom: none;
             color: #fff;
@@ -126,7 +126,7 @@ function injectReportStyles() {
         
         .report-option {
             
-            border-top: 2px solid rgba(226, 232, 240, 0.8);
+            border-top: 1px solid #cecece;
             
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -160,11 +160,10 @@ function injectReportStyles() {
         }
         
         .report-option.selected {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-color: #667eea;
-            color: white;
+            background: #f2f2f2;
+            color: #000000;
             transform: translateY(-2px);
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+            
         }
         
         .report-option-header {
@@ -181,18 +180,18 @@ function injectReportStyles() {
         
         .report-option.selected .report-option-icon {
             opacity: 1;
-            color: white;
+            color: #000000;
         }
         
         .report-option-title {
             font-weight: 600;
-            font-size: 16px;
+            font-size: 14px;
             color: #007AFF;
             margin: 0;
         }
         
         .report-option.selected .report-option-title {
-            color: white;
+            color: #000;
         }
         
         .report-option-description {
@@ -208,43 +207,42 @@ function injectReportStyles() {
         }
         
         .report-period-selector {
-            margin-top: 20px;
+            margin-top: 10px;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 16px;
-            border: 2px solid rgba(226, 232, 240, 0.8);
+            padding-top: 10px;
         }
         
         .report-period-label {
             display: block;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
+            margin-left: 7px;
             font-weight: 600;
             color: #334155;
-            font-size: 15px;
+            font-size: 14px;
         }
         
         .report-period-select {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid rgba(226, 232, 240, 0.8);
-            border-radius: 12px;
-            font-size: 15px;
-            background: rgba(255, 255, 255, 0.9);
+            width: 95%;
+            padding: 12px 16px;
+            border: 1px solid #cecece;
+            border-radius: 10px;
+            font-size: 14.5px;
+            background: #fff;
             color: #334155;
             transition: all 0.3s ease;
             font-family: 'SF Pro Text';
-            backdrop-filter: blur(10px);
+            
         }
         
         .report-period-select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #1a41f0ff;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         
         .report-action-buttons {
             display: flex;
-            gap: 12px;
+           
             margin-top: 25px;
             flex-wrap: wrap;
         }
@@ -252,20 +250,23 @@ function injectReportStyles() {
         .report-action-btn {
             flex: 1;
             min-width: 120px;
-            padding: 14px 20px;
-            border: none;
-            border-radius: 12px;
+            padding: 15px;;
+            padding-top: 13px;
+            padding-bottom: 13px;
+            border-top: 1px solid #cecece;
+            
             font-weight: 600;
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+           border-radius: none;
             font-family: 'SF Pro Text';
             text-transform: none;
-            letter-spacing: 0.5px;
+            
+
         }
         
         .report-action-btn i {
@@ -273,45 +274,43 @@ function injectReportStyles() {
         }
         
         .report-action-btn.primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            background: #fff;
+            color: #007aff;
+            
         }
         
         .report-action-btn.primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            
         }
         
         .report-action-btn.secondary {
-            background: rgba(100, 116, 139, 0.1);
-            color: #64748b;
-            border: 2px solid rgba(100, 116, 139, 0.2);
+            background: #fff;
+            color: #78787a;
+            font-weight: 500;
+            
         }
         
         .report-action-btn.secondary:hover {
-            background: rgba(100, 116, 139, 0.15);
+            
             transform: translateY(-1px);
         }
         
         .report-export-modal {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: #ffffff;
             border-radius: 20px;
-            width: 90%;
+            width: 80%;
             max-width: 400px;
-            padding: 30px;
+           padding-top: 20px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            
         }
         
         .report-export-title {
-            margin: 0 0 25px;
-            font-size: 20px;
+            margin: 0 0 15px;
+            font-size: 18px;
             font-weight: 600;
-            color: #1e293b;
+            color: #000000;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -320,15 +319,15 @@ function injectReportStyles() {
         
         .report-export-buttons {
             display: flex;
-            gap: 15px;
+           
             justify-content: center;
             flex-wrap: wrap;
         }
         
         .report-export-btn {
-            padding: 16px 24px;
-            border: none;
-            border-radius: 14px;
+            padding: 13px 24px;
+            border-top: 1px solid #cecece;
+           
             font-weight: 600;
             font-size: 15px;
             cursor: pointer;
@@ -336,7 +335,7 @@ function injectReportStyles() {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+          
             min-width: 120px;
             font-family: 'SF Pro Text';
         }
@@ -346,9 +345,9 @@ function injectReportStyles() {
         }
         
         .report-export-btn.pdf {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+            color: #dc2626;
+            background: white;
+           
         }
         
         .report-export-btn.pdf:hover {
@@ -357,9 +356,11 @@ function injectReportStyles() {
         }
         
         .report-export-btn.excel {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            color: #059669;
+            background: white;
+            
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
         }
         
         .report-export-btn.excel:hover {
@@ -368,10 +369,17 @@ function injectReportStyles() {
         }
 
         .report-modal-subtitle {
-    font-size: 14px;
-    color: #666;
+    font-size: 13.5px;
+    color: #78787a;
     text-align: center;
-    margin: 10px 20px 15px;
+    margin: 5px 25px 32px;
+    line-height: 1.4;
+}
+         .report-export-subtitle {
+    font-size: 13.5px;
+    color: #78787a;
+    text-align: center;
+    margin: 5px 35px 32px;
     line-height: 1.4;
 }
         
@@ -527,9 +535,12 @@ function createReportModal() {
         <div class="report-modal-overlay" id="reportExportModal">
             <div class="report-export-modal">
                 <h3 class="report-export-title">
-                    <i class="fas fa-download"></i>
+                    
                     Export Report As
                 </h3>
+                <div class="report-export-subtitle">
+                    Choose the download format that best suits how you plan to view or work with this report.
+                </div>
                 <div class="report-export-buttons">
                     <button class="report-export-btn pdf" onclick="exportReport('pdf')">
                         <i class="fas fa-file-pdf"></i> PDF
@@ -748,7 +759,7 @@ function selectReportType(type) {
         periodSelectorHTML = `
             <div class="report-period-selector">
                 <label class="report-period-label">
-                    <i class="fas fa-calendar-alt"></i> Select Financial Year:
+                     Select Financial Year:
                 </label>
                 <select class="report-period-select" id="reportPeriodSelect" onchange="updateSelectedPeriod()">
                     ${generateFinancialYearOptions()}
@@ -768,7 +779,7 @@ function selectReportType(type) {
         periodSelectorHTML = `
             <div class="report-period-selector">
                 <label class="report-period-label">
-                    <i class="fas fa-chart-pie"></i> Select Financial Quarter:
+                   Select Financial Quarter:
                 </label>
                 <select class="report-period-select" id="reportPeriodSelect" onchange="updateSelectedPeriod()">
                     ${generateFinancialQuarterOptions()}
@@ -782,7 +793,7 @@ function selectReportType(type) {
         periodSelectorHTML = `
             <div class="report-period-selector">
                 <label class="report-period-label">
-                    <i class="fas fa-calendar-day"></i> Select Month:
+                    Select Month:
                 </label>
                 <select class="report-period-select" id="reportPeriodSelect" onchange="updateSelectedPeriod()">
                     ${generateMonthOptions()}
@@ -826,14 +837,15 @@ function selectReportType(type) {
             </div>
             ${periodSelectorHTML}
             <div class="report-action-buttons">
-                <button class="report-action-btn secondary" onclick="generateReport()">
-                    <i class="fas fa-arrow-left"></i> Back
-                </button>
+                
                 <button class="report-action-btn primary" onclick="generateReportData('summarized')">
-                    <i class="fas fa-chart-bar"></i> Summarized
+                    Summarized
                 </button>
                 <button class="report-action-btn primary" onclick="generateReportData('detailed')">
-                    <i class="fas fa-list-ul"></i> Detailed
+                     Detailed
+                </button>
+                <button class="report-action-btn secondary" onclick="generateReport()">
+                     Cancel
                 </button>
             </div>
         </div>
