@@ -1426,6 +1426,7 @@ body:has([href="index.html"]) .header h1 {
     align-items: center;
     justify-content: center;
     opacity: 0;
+   height: 100vh;
     visibility: hidden;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
@@ -4383,5 +4384,6 @@ h2 {
     color: #666;
     font-size: 14px;
 }
+
 
 
