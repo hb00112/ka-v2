@@ -1165,6 +1165,7 @@ body:has([href="index.html"]) .header h1 {
     backdrop-filter: blur(1px);
     -webkit-backdrop-filter: var(--blur-sm);
     display: flex;
+   height: 100vh;
     align-items: flex-end;
     justify-content: center;
     z-index: 1000;
@@ -4382,4 +4383,5 @@ h2 {
     color: #666;
     font-size: 14px;
 }
+
 
