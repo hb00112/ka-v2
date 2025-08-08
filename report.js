@@ -187,7 +187,7 @@ function injectReportStyles() {
         .report-option-title {
             font-weight: 600;
             font-size: 16px;
-            color: #1e293b;
+            color: #007AFF;
             margin: 0;
         }
         
