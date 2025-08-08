@@ -162,7 +162,7 @@ function injectLedgerStyles() {
 .party-amount {
     font-size: 15px;
     font-weight: 600;
-    color: #0051D5;
+    color: #860c03;
     letter-spacing: 0.3px;
 }
 
@@ -593,7 +593,7 @@ function injectLedgerStyles() {
 .bill-amount {
     font-size: 14px;
     font-weight: 600;
-    color: #048058;
+    color: #860c03;
     letter-spacing: -0.2px;
 }
 
