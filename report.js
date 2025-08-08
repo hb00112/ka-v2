@@ -21,8 +21,14 @@ function initializeReports() {
 function injectReportStyles() {
     const styles = `
         <style id="report-styles">
-        /* Font Import */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @font-face {
+    font-family: 'SF Pro Text';
+    src: url('SF-Pro-Text-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
         
         /* Report Modal Styles - Professional iOS Theme */
         .report-modal-overlay {
@@ -31,9 +37,9 @@ function injectReportStyles() {
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
             z-index: 1000;
             display: flex;
             justify-content: center;
@@ -41,7 +47,7 @@ function injectReportStyles() {
             opacity: 0;
             visibility: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
         }
         
         .report-modal-overlay.active {
@@ -50,19 +56,17 @@ function injectReportStyles() {
         }
         
         .report-modal {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: #ffffff;
+           
             border-radius: 20px;
-            width: 90%;
+            width: 80%;
             max-width: 500px;
             max-height: 90vh;
             overflow: hidden;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15), 
-                        0 0 0 1px rgba(255, 255, 255, 0.2);
+         
             transform: translateY(30px) scale(0.95);
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            
         }
         
         .report-modal-overlay.active .report-modal {
@@ -70,9 +74,10 @@ function injectReportStyles() {
         }
         
         .report-modal-header {
-            padding: 25px 25px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            padding: 15px 25px 2px;
+            background: #fff;
+            border-bottom: none;
+            color: #fff;
             position: relative;
             overflow: hidden;
         }
@@ -90,7 +95,7 @@ function injectReportStyles() {
         
         .report-modal-title {
             margin: 0;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             text-align: center;
             position: relative;
@@ -99,6 +104,7 @@ function injectReportStyles() {
             align-items: center;
             justify-content: center;
             gap: 10px;
+        
         }
         
         .report-modal-title i {
@@ -109,7 +115,7 @@ function injectReportStyles() {
             padding: 25px;
             max-height: 60vh;
             overflow-y: auto;
-            background: rgba(248, 250, 252, 0.8);
+            background: #ffffff;
         }
         
         .report-options {
@@ -225,7 +231,7 @@ function injectReportStyles() {
             background: rgba(255, 255, 255, 0.9);
             color: #334155;
             transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
+            font-family: 'SF Pro Text';
             backdrop-filter: blur(10px);
         }
         
@@ -256,7 +262,7 @@ function injectReportStyles() {
             align-items: center;
             justify-content: center;
             gap: 8px;
-            font-family: 'Inter', sans-serif;
+            font-family: 'SF Pro Text';
             text-transform: none;
             letter-spacing: 0.5px;
         }
@@ -331,7 +337,7 @@ function injectReportStyles() {
             justify-content: center;
             gap: 10px;
             min-width: 120px;
-            font-family: 'Inter', sans-serif;
+            font-family: 'SF Pro Text';
         }
         
         .report-export-btn i {
@@ -407,7 +413,7 @@ function injectReportStyles() {
             align-items: center;
             justify-content: center;
             color: white;
-            font-family: 'Inter', sans-serif;
+            font-family: 'SF Pro Text';
         }
         
         .report-global-loading .report-loading-spinner {
@@ -454,7 +460,7 @@ function injectReportStyles() {
         /* Responsive design */
         @media (max-width: 768px) {
             .report-modal {
-                width: 95%;
+                width: 80%;
                 margin: 20px;
             }
             
@@ -494,7 +500,7 @@ function createReportModal() {
             <div class="report-modal">
                 <div class="report-modal-header">
                     <h3 class="report-modal-title">
-                        <i class="fas fa-chart-line"></i>
+                     
                         Generate Report
                     </h3>
                     <button class="report-close-btn" onclick="closeReportModal()">
