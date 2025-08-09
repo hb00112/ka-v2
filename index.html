@@ -184,13 +184,13 @@
     </nav>
 
     <!-- Rest of your modals and scripts remain the same -->
-    <!-- Manual Entry Form Modal -->
+ <!-- Manual Entry Form Modal -->
 <div id="manualEntryModal" class="modal-overlay">
     <div class="modal">
         <div class="modal-header">
             <h2>Bill Entry</h2>
-            <button class="close-btn" onclick="closeModal('manualEntryModal')">Close</button>
         </div>
+
         <div class="modal-body">
             <div class="entry-mode-toggle-container">
                 <button type="button" id="entryModeToggle" class="mode-toggle-btn" onclick="toggleEntryMode()">
@@ -211,7 +211,7 @@
                     <label class="form-label">Party Name*</label>
                     <select class="form-select" id="partyName" required>
                         <option value="">Select Party</option>
-                        <option value="ADVAIT ENTERPRISES">ADVAIT ENTERPRISES</option>
+                         <option value="ADVAIT ENTERPRISES">ADVAIT ENTERPRISES</option>
                         <option value="ANISHKA LINGERIES">ANISHKA LINGERIES</option>
                         <option value="AVNI TRADERS">AVNI TRADERS</option>
                         <option value="BARON">BARON</option>
@@ -257,16 +257,13 @@
                     </div>
                     
                     <div class="camera-container">
-                        <!-- Camera Button -->
                         <button type="button" class="camera-btn disabled" id="cameraBtn" onclick="openCamera()" disabled>
                             <i class="fas fa-camera"></i>
                             Take Photo
                         </button>
                         
-                        <!-- Hidden File Input -->
                         <input type="file" id="cameraInput" accept="image/*" capture="environment">
                         
-                        <!-- Photo Preview -->
                         <div class="photo-preview" id="photoPreview">
                             <img id="previewImg" class="preview-image" alt="Bill Preview">
                             <button type="button" class="retake-btn" id="retakeBtn" onclick="retakePhoto()">
@@ -286,15 +283,20 @@
                 </button>
             </form>
         </div>
+
+        <!-- Footer Close Button -->
+        <div class="edit-bill-modal-footer">
+            <button class="close-btn" onclick="closeModal('manualEntryModal')">Close</button>
+        </div>
     </div>
 </div>
+
 
 <!-- Bill Details Modal (Updated to show image) -->
 <div class="modal-overlay" id="billDetailsModal">
     <div class="form-modal">
         <div class="form-header">
             <div class="form-title">Bill Details</div>
-            <button class="close-btn" onclick="closeModal('billDetailsModal')">Close</button>
         </div>
         <div class="form-content">
             <div class="detail-group">
@@ -324,15 +326,15 @@
             
             <!-- Bill Image Container -->
             <div id="billImageContainer"></div>
-            
-         <!----  <div class="detail-actions" style="margin-top: 20px; display: flex; gap: 10px;">
-                <button class="submit-btn" style="background: #dc3545; flex: 1;" onclick="confirmDeleteBill()">
-                    <i class="fas fa-trash"></i>
-                    Delete Bill
-                </button>
-            </div> -->
+            </div>
+
+            <!-- Close button at bottom -->
+          <div class="modal-footer">
+                <button class="close-btn" onclick="closeModal('billDetailsModal')">Close</button>
         </div>
+        
     </div>
+</div>
 
                 
                 <div class="bill-details-buttons">
