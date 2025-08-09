@@ -2206,14 +2206,7 @@ body:has([href="index.html"]) .header h1 {
     .main-content {
         padding: 16px;
     }
-    
-    .summary-grid {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-    
-    .summary-card {
-        padding: 12px 8px;
-    }
+   
     
     .summary-card .value {
         font-size: 20px;
@@ -4427,6 +4420,7 @@ h2 {
     color: #666;
     font-size: 14px;
 }
+
 
 
 
