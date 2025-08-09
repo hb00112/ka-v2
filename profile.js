@@ -568,7 +568,7 @@ function callAdmin() {
 function sendEmail() {
     const subject = encodeURIComponent('Kambeshwar Agencies App Support');
     const body = encodeURIComponent('Hello,\n\nI need assistance with the Kambeshwar Agencies app.\n\nDetails:\n\n\nThank you!');
-    window.location.href = `mailto:kambeshwar.enamor@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:kambeshwar@gmail.com?subject=${subject}&body=${body}`;
 }
 
 // Utility functions
@@ -640,3 +640,4 @@ function showProfilePage() {
     // Load user data when showing the profile page
     loadUserData();
 }
+
