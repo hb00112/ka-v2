@@ -8,15 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
-    <script>
-    // Disable all default browser popups
-window.alert = function () { return false; };
-window.confirm = function () { return false; };
-window.prompt = function () { return null; };
-
-// Optional: If any library calls console log for success instead of alert
-console.success = function () { return false; }; // custom if needed
-</script>
+   
 </head>
 <body>
       <!-- SPLASH SCREEN (Add this at the very beginning) -->
@@ -216,7 +208,7 @@ console.success = function () { return false; }; // custom if needed
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">Party Name</label>
+                    <label class="form-label">Party Name*</label>
                     <select class="form-select" id="partyName" required>
                         <option value="">Select Party</option>
                         <option value="ADVAIT ENTERPRISES">ADVAIT ENTERPRISES</option>
@@ -253,7 +245,7 @@ console.success = function () { return false; }; // custom if needed
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">Amount (₹)</label>
+                    <label class="form-label">Amount (₹)*</label>
                     <input type="number" class="form-input" id="amount" placeholder="Enter amount" step="0.01" required>
                 </div>
                 
@@ -405,7 +397,6 @@ console.success = function () { return false; }; // custom if needed
  
 </body>
 </html>
-
 
 
 
