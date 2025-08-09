@@ -1978,7 +1978,7 @@ function formatDate(dateString) {
         return date.toLocaleDateString('en-IN', {
             day: '2-digit',
             month: '2-digit',
-            year: 'numeric'
+            year: '2-digit'
         });
     } catch (error) {
         return 'N/A';
