@@ -1997,7 +1997,7 @@ body:has([href="index.html"]) .header h1 {
 
         /* Delete Confirmation Modal - Classic iOS Style */
         .confirm-modal {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.959);
             border-radius: 12px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             margin: 20px;
@@ -2011,7 +2011,7 @@ body:has([href="index.html"]) .header h1 {
         .confirm-content {
             padding: 30px 20px 20px 20px;
             text-align: center;
-            background: #ffffff;
+            background: transparent;
         }
 
         .confirm-icon {
@@ -2019,7 +2019,7 @@ body:has([href="index.html"]) .header h1 {
             height: 50px;
             background: #ff9500;
             border-radius: 50%;
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             margin: 0 auto 20px auto;
@@ -2042,7 +2042,7 @@ body:has([href="index.html"]) .header h1 {
             font-size: 14px;
             color: #8e8e93;
             line-height: 1.4;
-            margin: 0 0 25px 0;
+            margin: 0 0 50px 0;
         }
 
         .confirm-buttons {
@@ -2054,7 +2054,7 @@ body:has([href="index.html"]) .header h1 {
         .confirm-btn {
             padding: 14px 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
@@ -2075,15 +2075,12 @@ body:has([href="index.html"]) .header h1 {
         }
 
         .confirm-btn.cancel {
-            background: #f2f2f7;
+            
             color: #007aff;
-            border: 1px solid #e5e5ea;
+            
         }
 
-        .confirm-btn.cancel:hover {
-            background: #e5e5ea;
-        }
-
+      
         /* Animations */
         @keyframes modalSlideUp {
             0% {
@@ -3716,6 +3713,7 @@ h2 {
 }
 
 
+
 .bill-info-row {
     display: flex;
     justify-content: space-between;
@@ -4373,7 +4371,6 @@ h2 {
     color: #666;
     font-size: 14px;
 }
-
 
 
 
