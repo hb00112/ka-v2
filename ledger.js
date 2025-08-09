@@ -288,8 +288,8 @@ function injectLedgerStyles() {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #FFFFFF;
-    border-radius: 13px 13px 0 0;
+    background: rgba(255, 255, 255, 0.959);
+    border-radius: 25px 25px 0 0;
     max-height: 95%;
     transform: translateY(100%);
     transition: transform 0.3s ease;
@@ -305,7 +305,7 @@ function injectLedgerStyles() {
 .party-modal-handle {
     padding: 8px 0 12px;
     text-align: center;
-    background: #FFFFFF;
+    background: transparent;
     border-radius: 13px 13px 0 0;
 }
 
@@ -319,7 +319,7 @@ function injectLedgerStyles() {
 
 .party-modal-header {
     padding: 0 20px 20px;
-    background: #FFFFFF;
+    background: transparent;
 }
 
 .party-modal-title-row {
@@ -397,7 +397,7 @@ function injectLedgerStyles() {
 .filter-dropdown {
     flex: 1;
     padding: 8px 12px;
-    border: 1px solid rgba(174, 174, 178, 0.3);
+    border: 1px solid #cecece;
     border-radius: 8px;
     background: #FFFFFF;
     font-size: 14px;
@@ -521,7 +521,7 @@ function injectLedgerStyles() {
     flex: 1;
     overflow-y: auto;
     padding: 20px 20px 0;
-    background: #FFFFFF;
+    background: transparent;
 }
 
 .party-bills-list {
@@ -599,8 +599,8 @@ function injectLedgerStyles() {
 
 .party-modal-footer {
     padding: 20px;
-    background: #FFFFFF;
-    margin-bottom: 70px;
+    background: transparent;
+    
     align-items: center;
 }
 
