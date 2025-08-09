@@ -2206,7 +2206,8 @@ body:has([href="index.html"]) .header h1 {
     .main-content {
         padding: 16px;
     }
-   
+    
+ 
     
     .summary-card .value {
         font-size: 20px;
@@ -3377,7 +3378,7 @@ h2 {
     
     .bill-party {
         font-size: 12.5px;
-       font-weight: 600;
+        font-weight: 500;
        color: #000;
     }
     
@@ -3988,7 +3989,7 @@ h2 {
     }
     
     .bill-amount {
-        font-size: 15.5px;
+        font-size: 13px;
     }
     
     .bill-image-header {
@@ -4239,7 +4240,7 @@ h2 {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(2px);
     z-index: 1000;
     display: flex;
@@ -4256,7 +4257,7 @@ h2 {
 }
 
 .report-modal {
-    background: white;
+    background: rgba(255, 255, 255, 0.959);
     border-radius: 12px;
     width: 90%;
     max-width: 500px;
@@ -4293,7 +4294,7 @@ h2 {
 .report-options {
     display: flex;
     flex-direction: column;
-    
+    background: transparent;
 }
 
 .report-option {
@@ -4304,7 +4305,7 @@ h2 {
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: center;
-    background: white;
+    background: rgba(255, 255, 255, 0.959);
 }
 
 .report-option:hover {
@@ -4327,6 +4328,7 @@ h2 {
 
 .report-period-selector {
     margin-top: 15px;
+    background: rgba(255, 255, 255, 0.959);
 }
 
 .report-period-label {
@@ -4420,7 +4422,6 @@ h2 {
     color: #666;
     font-size: 14px;
 }
-
 
 
 
