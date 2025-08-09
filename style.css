@@ -710,7 +710,7 @@ body:has([href="index.html"]) .header h1 {
 
 .summary-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
     gap: var(--space-3);
 }
 
@@ -720,10 +720,43 @@ body:has([href="index.html"]) .header h1 {
     padding: var(--space-4);
     box-shadow: var(--shadow-ios-card);
     text-align: center;
+      display: grid;
+    grid-template-columns: repeat(2, 1fr); /* two columns */
+    grid-gap: 1rem; /* spacing between cards */
     border: 0.5px solid rgba(0, 0, 0, 0.04);
     transition: all var(--transition-base);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
+     height: auto;
+    min-height: auto;
+    max-height: none;
+    white-space: normal; 
+   
+}
+
+/* Target the middle card only */
+.summary-grid .summary-card:nth-child(1) {
+    grid-column: 1 / -1;
+    white-space: nowrap;
+    min-width: fit-content;
+     text-align: right; /* align text to right */
+    padding-right: 30px; /* small spacing from edge */
+}
+
+/* Target the middle card only */
+.summary-grid .summary-card:nth-child(2) {
+    flex: 0 1 auto; /* Let width adjust to content */
+    min-width: fit-content; /* No shrinking below content width */
+    white-space: nowrap; /* Keep amount on one line */
+     grid-column: auto; /* default grid placement */
+}
+
+/* Target the middle card only */
+.summary-grid .summary-card:nth-child(3) {
+    flex: 0 1 auto; /* Let width adjust to content */
+    min-width: fit-content; /* No shrinking below content width */
+    white-space: nowrap; /* Keep amount on one line */
+     grid-column: auto; /* default grid placement */
 }
 
 .summary-card::before {
