@@ -56,7 +56,7 @@ function injectReportStyles() {
         }
         
         .report-modal {
-            background: rgba(255, 255, 255, 0.959);
+            background: #ffffff;
             border-radius: 20px;
             width: 75%;
             max-width: 500px;
@@ -113,13 +113,13 @@ function injectReportStyles() {
           
             max-height: 60vh;
             overflow-y: auto;
-            background: rgba(255, 255, 255, 0.959);
+            background: #ffffff;
         }
         
         .report-options {
             display: flex;
             flex-direction: column;
-            
+            background: transparent;
         }
         
         .report-option {
@@ -294,7 +294,7 @@ function injectReportStyles() {
         }
         
         .report-export-modal {
-            background: rgba(255, 255, 255, 0.959);
+            background: #ffffff;
             border-radius: 20px;
             width: 80%;
             max-width: 400px;
