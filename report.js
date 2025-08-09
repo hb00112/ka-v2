@@ -56,14 +56,12 @@ function injectReportStyles() {
         }
         
         .report-modal {
-            background: #ffffff;
-           
+            background: rgba(255, 255, 255, 0.959);
             border-radius: 20px;
-            width: 80%;
+            width: 75%;
             max-width: 500px;
             max-height: 80vh;
             overflow: hidden;
-         
             transform: translateY(30px) scale(0.95);
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             
@@ -75,7 +73,7 @@ function injectReportStyles() {
         
         .report-modal-header {
             padding: 20px 25px 2px;
-            background: #fff;
+            background: transparent;
             border-bottom: none;
             color: #fff;
             position: relative;
@@ -115,7 +113,7 @@ function injectReportStyles() {
           
             max-height: 60vh;
             overflow-y: auto;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.959);
         }
         
         .report-options {
@@ -131,8 +129,7 @@ function injectReportStyles() {
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: center;
-            background: rgba(255, 255, 255, 1);
-            
+            background: transparent;
             position: relative;
             overflow: hidden;
         }
@@ -227,7 +224,7 @@ function injectReportStyles() {
             border: 1px solid #cecece;
             border-radius: 10px;
             font-size: 14.5px;
-            background: #fff;
+            background: #ffffff;
             color: #334155;
             transition: all 0.3s ease;
             font-family: 'SF Pro Text';
@@ -297,7 +294,7 @@ function injectReportStyles() {
         }
         
         .report-export-modal {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.959);
             border-radius: 20px;
             width: 80%;
             max-width: 400px;
