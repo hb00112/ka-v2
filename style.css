@@ -1038,6 +1038,27 @@ body:has([href="index.html"]) .header h1 {
     text-align: center;
 }
 
+.table-header > div:nth-child(4) {      
+    text-align: right;   
+    padding-left: 25px;
+}
+
+.table-header > div:nth-child(3) {      
+    text-align: left;  
+    padding-right: 15px; 
+}
+
+.table-header > div:nth-child(2) {      
+    text-align: left;   
+    
+}
+
+.table-header > div:nth-child(1) {      
+    text-align: left;   
+    padding-right: 15px; 
+}
+
+
 
 .bill-row {
     padding: var(--space-3);
@@ -2079,6 +2100,8 @@ body:has([href="index.html"]) .header h1 {
             color: #007aff;
             
         }
+
+
 
       
         /* Animations */
