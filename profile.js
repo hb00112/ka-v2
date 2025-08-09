@@ -84,7 +84,7 @@ function initProfilePage() {
                             </div>
                             <div class="info-content">
                                 <div class="info-label">Email Support</div>
-                                <div class="info-value">kambeshwar.enamor@gmail.com</div>
+                                <div class="info-value">kambeshwar@gmail.com</div>
                             </div>
                         </div>
                     </div>
@@ -640,4 +640,5 @@ function showProfilePage() {
     // Load user data when showing the profile page
     loadUserData();
 }
+
 
