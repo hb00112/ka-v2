@@ -521,6 +521,7 @@ function injectLedgerStyles() {
     flex: 1;
     overflow-y: auto;
     padding: 20px 20px 0;
+    padding-top: 0;
     background: transparent;
 }
 
@@ -628,7 +629,7 @@ function injectLedgerStyles() {
     }
     
     .party-modal {
-        max-height: 85%;
+        max-height: 90%;
         z-index: 2000;
         height: 100%;
     }
