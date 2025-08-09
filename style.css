@@ -1491,7 +1491,7 @@ body:has([href="index.html"]) .header h1 {
 }
 
 #manualEntryModal .modal {
-    background: rgba(255, 255, 255, 0.25);       /* Light translucent white */
+  background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(15px) saturate(180%);  /* Strong blur + more vibrant colors behind */
     -webkit-backdrop-filter: blur(15px) saturate(180%);
     border-radius: 20px;
@@ -4422,6 +4422,7 @@ body:has([href="index.html"]) .header h1 {
     color: #666;
     font-size: 14px;
 }
+
 
 
 
