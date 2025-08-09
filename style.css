@@ -3715,9 +3715,6 @@ h2 {
     -webkit-overflow-scrolling: touch;
 }
 
-.bill-info-list {
-    background: #ffffff;
-}
 
 .bill-info-row {
     display: flex;
@@ -3785,7 +3782,7 @@ h2 {
     align-items: center;
     padding: 16px 24px;
    padding-top: 0%;
-    background: #ffffff;
+    background: transparent;
 }
 
 .bill-image-header span {
@@ -3817,7 +3814,7 @@ h2 {
     display: flex;
     justify-content: left;
     align-items: center;
-    background: #fff;
+    background: transparent;
     min-height: 200px;
 }
 
@@ -4376,6 +4373,7 @@ h2 {
     color: #666;
     font-size: 14px;
 }
+
 
 
 
