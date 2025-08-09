@@ -1185,4 +1185,3 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeApp();
     }, 4100); // Slightly after splash screen ends
 });
-
