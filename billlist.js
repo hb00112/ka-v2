@@ -291,8 +291,8 @@ function createBillDetailModalNew() {
         <div class="bill-detail-modal-new">
             <div class="bill-detail-header">
                 <h2>Bill Details</h2>
-                <button class="bill-detail-close-btn" onclick="closeBillDetailModalNew()">
-                    <i class="fas fa-times"></i>
+                <button class="close-btn" onclick="closeBillDetailModalNew()">
+                    Close
                 </button>
             </div>
             
@@ -505,7 +505,7 @@ function createEditBillModal() {
         <div class="edit-bill-modal">
             <div class="modal-header">
                 <h2>Edit Bill</h2>
-                <button class="close-btn" onclick="closeEditBillModal()">×</button>
+                <button class="close-btn" onclick="closeEditBillModal()">Close</button>
             </div>
             <div class="modal-body">
                 <form id="editBillForm" onsubmit="submitEditBillForm(event)">
@@ -551,7 +551,6 @@ function createEditBillModal() {
                     </div>
                     
                     <div class="form-actions">
-                        <button type="button" class="cancel-btn" onclick="closeEditBillModal()">Cancel</button>
                         <button type="submit" id="editSubmitBtn" class="submit-btn">
                             <i class="fas fa-save"></i>
                             Update Bill
