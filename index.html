@@ -363,10 +363,12 @@
                 </div>
                 <h3>Delete Bill</h3>
                 <p>Are you sure you want to delete this bill? 
-This action cannot be undone.</p>
+                    This action cannot be undone.</p>
                 <div class="confirm-buttons">
                     <button class="confirm-btn delete" onclick="deleteBill()">Delete</button>
-                    <button class="confirm-btn cancel" onclick="closeModal('deleteConfirmModal')">Cancel</button>
+                    <div class="modal-footer">
+                    <button class="close-btn" onclick="closeModal('deleteConfirmModal')">Cancel</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -400,7 +402,6 @@ This action cannot be undone.</p>
  
 </body>
 </html>
-
 
 
 
