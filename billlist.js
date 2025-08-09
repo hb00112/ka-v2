@@ -288,51 +288,52 @@ function createBillDetailModalNew() {
     modal.id = 'billDetailModalNew';
     modal.className = 'modal-overlay bill-detail-modal-overlay';
     modal.innerHTML = `
-        <div class="bill-detail-modal-new">
-            <div class="bill-detail-header">
-                <h2>Bill Details</h2>
-                <button class="close-btn" onclick="closeBillDetailModalNew()">
-                    Close
-                </button>
+      <div class="bill-detail-modal-new">
+    <div class="bill-detail-header">
+        <h2>Bill Details</h2>
+    </div>
+    
+    <div class="bill-detail-content"> 
+        <div class="bill-info-list">
+            <div class="bill-info-row">
+                <span class="bill-label">Invoice Number</span>
+                <span class="bill-value" id="billDetailInvoiceNo">-</span>
             </div>
             
-            <div class="bill-detail-content"> 
-                <div class="bill-info-list">
-                    <!-- Changed IDs to be more specific and consistent -->
-                    <div class="bill-info-row">
-                        <span class="bill-label">Invoice Number</span>
-                        <span class="bill-value" id="billDetailInvoiceNo">-</span>
-                    </div>
-                    
-                    <div class="bill-info-row">
-                        <span class="bill-label">Invoice Date</span>
-                        <span class="bill-value" id="billDetailInvoiceDate">-</span>
-                    </div>
-                    
-                    <div class="bill-info-row">
-                        <span class="bill-label">Party Name</span>
-                        <span class="bill-value" id="billDetailPartyName">-</span>
-                    </div>
-                    
-                    <div class="bill-info-row">
-                        <span class="bill-label">Amount</span>
-                        <span class="bill-value bill-amount" id="billDetailAmount">-</span>
-                    </div>
-                </div>
-                
-                <div class="bill-image-section" id="billDetailImageSection" style="display: none;">
-                    <div class="bill-image-header">
-                        <span>Bill Preview</span>
-                        <button class="image-expand-btn" onclick="openImageFullscreen()" title="View Fullscreen">
-                            <i class="fas fa-expand-alt"></i>
-                        </button>
-                    </div>
-                    <div class="bill-image-container">
-                        <img id="billDetailImage" src="" alt="Bill Image" onclick="openImageFullscreen()">
-                    </div>
-                </div>
+            <div class="bill-info-row">
+                <span class="bill-label">Invoice Date</span>
+                <span class="bill-value" id="billDetailInvoiceDate">-</span>
+            </div>
+            
+            <div class="bill-info-row">
+                <span class="bill-label">Party Name</span>
+                <span class="bill-value" id="billDetailPartyName">-</span>
+            </div>
+            
+            <div class="bill-info-row">
+                <span class="bill-label">Amount</span>
+                <span class="bill-value bill-amount" id="billDetailAmount">-</span>
             </div>
         </div>
+        
+        <div class="bill-image-section" id="billDetailImageSection" style="display: none;">
+            <div class="bill-image-header">
+                <span>Bill Preview</span>
+                <button class="image-expand-btn" onclick="openImageFullscreen()" title="View Fullscreen">
+                    <i class="fas fa-expand-alt"></i>
+                </button>
+            </div>
+            <div class="bill-image-container">
+                <img id="billDetailImage" src="" alt="Bill Image" onclick="openImageFullscreen()">
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer without content padding -->
+    <div class="bill-detail-modal-footer">
+        <button class="close-btn" onclick="closeBillDetailModalNew()">Close</button>
+    </div>
+</div>
     `;
     
     // Add event listeners
@@ -501,65 +502,71 @@ function createEditBillModal() {
     const modal = document.createElement('div');
     modal.id = 'editBillModal';
     modal.className = 'modal-overlay';
-    modal.innerHTML = `
-        <div class="edit-bill-modal">
-            <div class="modal-header">
-                <h2>Edit Bill</h2>
-                <button class="close-btn" onclick="closeEditBillModal()">Close</button>
-            </div>
-            <div class="modal-body">
-                <form id="editBillForm" onsubmit="submitEditBillForm(event)">
-                    <div class="form-group">
-                        <label for="editInvoiceNo">Invoice Number*</label>
-                        <input type="text" id="editInvoiceNo" name="editInvoiceNo" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="editInvoiceDate">Invoice Date*</label>
-                        <input type="date" id="editInvoiceDate" name="editInvoiceDate" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="editPartyName">Party Name*</label>
-                        <input type="text" id="editPartyName" name="editPartyName" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="editAmount">Amount*</label>
-                        <input type="number" id="editAmount" name="editAmount" step="0.01" min="0" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Bill Photo</label>
-                        <div class="camera-section">
-                            <button type="button" id="editCameraBtn" class="camera-btn" onclick="openEditCamera()">
-                                <i class="fas fa-camera"></i>
-                                <span>Take Photo</span>
-                            </button>
-                            
-                            <div id="editPhotoPreview" class="photo-preview" style="display: none;">
-                                <img id="editPreviewImg" src="" alt="Bill Preview">
-                            </div>
-                            
-                            <button type="button" id="editRetakeBtn" class="retake-btn" onclick="retakeEditPhoto()" style="display: none;">
-                                <i class="fas fa-redo"></i>
-                                <span>Retake Photo</span>
-                            </button>
-                            
-                            <input type="file" id="editCameraInput" accept="image/*" capture="environment" style="display: none;">
-                        </div>
-                    </div>
-                    
-                    <div class="form-actions">
-                        <button type="submit" id="editSubmitBtn" class="submit-btn">
-                            <i class="fas fa-save"></i>
-                            Update Bill
-                        </button>
-                    </div>
-                </form>
-            </div>
+   modal.innerHTML = `
+    <div class="edit-bill-modal">
+        <div class="modal-header">
+            <h2>Edit Bill</h2>
         </div>
-    `;
+
+        <div class="modal-body">
+            <form id="editBillForm" onsubmit="submitEditBillForm(event)">
+                <div class="form-group">
+                    <label for="editInvoiceNo">Invoice Number*</label>
+                    <input type="text" id="editInvoiceNo" name="editInvoiceNo" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editInvoiceDate">Invoice Date*</label>
+                    <input type="date" id="editInvoiceDate" name="editInvoiceDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editPartyName">Party Name*</label>
+                    <input type="text" id="editPartyName" name="editPartyName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editAmount">Amount*</label>
+                    <input type="number" id="editAmount" name="editAmount" step="0.01" min="0" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Bill Photo</label>
+                    <div class="camera-section">
+                        <button type="button" id="editCameraBtn" class="camera-btn" onclick="openEditCamera()">
+                            <i class="fas fa-camera"></i>
+                            <span>Take Photo</span>
+                        </button>
+                        
+                        <div id="editPhotoPreview" class="photo-preview" style="display: none;">
+                            <img id="editPreviewImg" src="" alt="Bill Preview">
+                        </div>
+                        
+                        <button type="button" id="editRetakeBtn" class="retake-btn" onclick="retakeEditPhoto()" style="display: none;">
+                            <i class="fas fa-redo"></i>
+                            <span>Retake Photo</span>
+                        </button>
+                        
+                        <input type="file" id="editCameraInput" accept="image/*" capture="environment" style="display: none;">
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" id="editSubmitBtn" class="submit-btn">
+                       
+                        Update Bill
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer with Close Button -->
+        <div class="edit-bill-modal-footer">
+            <button class="close-btn" onclick="closeEditBillModal()">Close</button>
+        </div>
+    </div>
+`;
+
     
     // Add event listeners
     modal.addEventListener('click', function(e) {
