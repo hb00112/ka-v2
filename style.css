@@ -2770,7 +2770,7 @@ body:has([href="index.html"]) .header h1 {
 
 .form-modal {
     background: rgba(255, 255, 255, 0.959);
-    border-radius: 16px;
+    border-radius: 25px;
     width: 60%;
     max-width: 400px;
     max-height: 90vh;
@@ -4371,6 +4371,7 @@ h2 {
     color: #666;
     font-size: 14px;
 }
+
 
 
 
