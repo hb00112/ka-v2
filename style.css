@@ -3043,6 +3043,7 @@ body:has([href="index.html"]) .header h1 {
     color: var(--color-primary);
     flex: 1;
     letter-spacing: -0.02em;
+      padding-right: 35px;
 }
 
 .all-bills-modal .modal-body {
@@ -3052,9 +3053,6 @@ body:has([href="index.html"]) .header h1 {
     flex-direction: column;
 }
 
-h2 {
-    padding-right: 35px;
-}
 
 /* Filter Section */
 .bills-filter-section {
@@ -4422,6 +4420,7 @@ h2 {
     color: #666;
     font-size: 14px;
 }
+
 
 
 
