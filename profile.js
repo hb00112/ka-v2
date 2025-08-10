@@ -55,8 +55,9 @@ function initProfilePage() {
                             <input type="text" id="userNameInput" placeholder="Enter your name">
                         </div>
                         <div class="form-buttons">
+                        <button class="btn-save" id="saveNameBtn">Save</button>
                             <button class="btn-cancel" id="cancelEditBtn">Cancel</button>
-                            <button class="btn-save" id="saveNameBtn">Save</button>
+                            
                         </div>
                     </div>
                 </div>
@@ -84,7 +85,7 @@ function initProfilePage() {
                             </div>
                             <div class="info-content">
                                 <div class="info-label">Email Support</div>
-                                <div class="info-value">kambeshwar@gmail.com</div>
+                                <div class="info-value">kambeshwar.enamor@gmail.com</div>
                             </div>
                         </div>
                     </div>
@@ -467,39 +468,43 @@ function addProfileStyles() {
             font-size: 15px;
             width: 100%;
         }
-        
-        .form-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-        
-        .btn-cancel, .btn-save {
-            padding: 8px 20px;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s;
-        }
-        
-        .btn-cancel {
-            background: #f0f0f0;
-            color: #666;
-        }
-        
-        .btn-cancel:hover {
-            background: #e0e0e0;
-        }
-        
-        .btn-save {
-            background: #667eea;
-            color: white;
-        }
-        
-        .btn-save:hover {
-            background: #5a6fd1;
-        }
+
+       /* Remove parent padding influence */
+.form-buttons {
+    display: flex;
+    margin: -11px -13px; /* negative margin to counter parent padding */
+    border-top: 1px solid #cecece;
+}
+
+.btn-save, .btn-cancel {
+    flex: 1;
+    padding: 12px 0;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    background: white;
+    transition: background 0.3s;
+}
+
+/* Divider between Save and Cancel */
+.btn-save {
+    color: #007aff; /* iOS blue */
+    border-right: 1px solid #cecece;
+    font-weight: 600;
+}
+
+.btn-save:hover {
+    background: #f8f8f8;
+}
+
+.btn-cancel {
+    color: #666;
+}
+
+.btn-cancel:hover {
+    background: #f8f8f8;
+}
+
         
         /* Toast Notification */
         .toast {
@@ -568,7 +573,7 @@ function callAdmin() {
 function sendEmail() {
     const subject = encodeURIComponent('Kambeshwar Agencies App Support');
     const body = encodeURIComponent('Hello,\n\nI need assistance with the Kambeshwar Agencies app.\n\nDetails:\n\n\nThank you!');
-    window.location.href = `mailto:kambeshwar@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:kambeshwar.enamor@gmail.com?subject=${subject}&body=${body}`;
 }
 
 // Utility functions
@@ -640,5 +645,3 @@ function showProfilePage() {
     // Load user data when showing the profile page
     loadUserData();
 }
-
-
