@@ -121,11 +121,11 @@ function injectLedgerStyles() {
 /* Parties Grid */
 .parties-grid {
     padding: 8px 23px 100px;
-    background: #FFFFFF;
+    background: rgba(255, 255, 255, 0.959);
 }
 
 .party-card {
-    background: #FFFFFF;
+    background: rgba(255, 255, 255, 0.959);
     border: 0.33px solid rgba(174, 174, 178, 0.2);
     border-radius: 10px;
     margin-bottom: 8px;
@@ -153,7 +153,7 @@ function injectLedgerStyles() {
 
 .party-name {
     font-size: 14.5px;
-    font-weight: 600;
+    font-weight: 500;
     color: #1C1C1E;
     margin: 0;
     letter-spacing: -0.2px;
@@ -162,7 +162,7 @@ function injectLedgerStyles() {
 .party-amount {
     font-size: 15px;
     font-weight: 600;
-    color: #021944;
+    color: #248A3D;
     letter-spacing: 0.3px;
 }
 
@@ -289,7 +289,7 @@ function injectLedgerStyles() {
     left: 0;
     right: 0;
     background: rgba(255, 255, 255, 0.959);
-    border-radius: 25px 25px 0 0;
+    border-radius: 30px 30px 0 0;
     max-height: 95%;
     transform: translateY(100%);
     transition: transform 0.3s ease;
@@ -533,8 +533,8 @@ function injectLedgerStyles() {
 }
 
 .party-bill-item {
-    background: #FFFFFF;
-    border: 0.33px solid rgba(174, 174, 178, 0.2);
+    background: transparent;
+   
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.15s ease-in-out;
@@ -542,8 +542,13 @@ function injectLedgerStyles() {
     align-items: center;
     padding: 16px;
     gap: 12px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  
 }
+
+.party-bill-item:nth-child(odd) {
+  background-color: #f3f1f1ff; /* Light gray for odd rows */
+}
+
 
 .party-bill-item:hover {
     transform: translateY(-1px);
@@ -601,7 +606,6 @@ function injectLedgerStyles() {
 .party-modal-footer {
     padding: 20px;
     background: transparent;
-    
     align-items: center;
 }
 
@@ -774,6 +778,10 @@ function showLedgerPage() {
         ledgerPage.style.display = 'block';
         loadLedgerParties();
     }
+
+    
+    // Update header
+    document.getElementById('headerTitle').textContent = 'Ledger';
     
     // Update navigation
     document.querySelectorAll('.nav-item').forEach(item => {
