@@ -358,9 +358,11 @@ function updateCameraButtonState() {
     const invoiceNo = document.getElementById('invoiceNo').value.trim();
     const invoiceDate = document.getElementById('invoiceDate').value;
     const partyName = document.getElementById('partyName').value;
-    const amount = document.getElementById('amount').value.trim();
+    const taxableAmount = parseFloat(document.getElementById('taxableAmount').value) || 0;
+    const taxAmount = parseFloat(document.getElementById('taxAmount').value) || 0;
     
-    const allFieldsFilled = invoiceNo && invoiceDate && partyName && amount;
+    // Check if all required fields are filled (discount can be zero)
+    const allFieldsFilled = invoiceNo && invoiceDate && partyName && taxableAmount > 0 && taxAmount > 0;
     
     if (allFieldsFilled) {
         cameraBtn.disabled = false;
@@ -869,6 +871,36 @@ function showBillDetails(billId) {
             amountElement.classList.remove('negative-amount');
         }
         
+        // Show amount breakdown if available
+        const amountBreakdownContainer = document.getElementById('amountBreakdownContainer');
+        if (amountBreakdownContainer) {
+            if (bill.taxableAmount !== undefined && bill.taxAmount !== undefined) {
+                amountBreakdownContainer.innerHTML = `
+                    <div class="amount-breakdown-section">
+                        <h4>Amount Breakdown</h4>
+                        <div class="breakdown-row">
+                            <span class="breakdown-label">Taxable Amount:</span>
+                            <span class="breakdown-value">${formatCurrency(bill.taxableAmount || 0)}</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-label">Tax Amount:</span>
+                            <span class="breakdown-value">${formatCurrency(bill.taxAmount || 0)}</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-label">Discount:</span>
+                            <span class="breakdown-value">${formatCurrency(bill.discount || 0)}</span>
+                        </div>
+                        <div class="breakdown-row breakdown-total">
+                            <span class="breakdown-label">Final Amount:</span>
+                            <span class="breakdown-value">${formatCurrency(bill.amount || 0)}</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                amountBreakdownContainer.innerHTML = '';
+            }
+        }
+        
         // Calculate ledger balance (for now, just show the bill amount)
         const balanceElement = document.getElementById('detailLedgerBalance');
         balanceElement.textContent = bill.amount ? formatCurrency(bill.amount) : '₹0';
@@ -895,6 +927,7 @@ function showBillDetails(billId) {
         document.getElementById('billDetailsModal').classList.add('active');
     });
 }
+
 
 function openImageModal(imageUrl) {
     const modal = document.createElement('div');
@@ -994,11 +1027,13 @@ async function submitBillForm(e) {
         submitBtn.innerHTML = '<span class="loading"></span>Validating...';
         submitBtn.disabled = true;
         
-        // Get form data
+        // Get form data - UPDATED to use new fields
         const invoiceNo = document.getElementById('invoiceNo').value.trim();
         const invoiceDate = document.getElementById('invoiceDate').value;
         const partyName = document.getElementById('partyName').value.trim();
-        const amount = parseFloat(document.getElementById('amount').value);
+        const taxableAmount = parseFloat(document.getElementById('taxableAmount').value) || 0;
+        const taxAmount = parseFloat(document.getElementById('taxAmount').value) || 0;
+        const discount = parseFloat(document.getElementById('discount').value) || 0;
         
         // Validate invoice number
         const validation = await validateInvoiceNumber(invoiceNo);
@@ -1018,22 +1053,46 @@ async function submitBillForm(e) {
             return;
         }
         
-        if (isNaN(amount) || amount <= 0) {
-            showValidationError('amount', 'Please enter a valid amount');
+        // Validate new amount fields
+        if (taxableAmount <= 0) {
+            showValidationError('taxableAmount', 'Taxable amount must be greater than 0');
             return;
         }
         
-        // Prepare bill data
-        let finalAmount = amount;
+        if (taxAmount <= 0) {
+            showValidationError('taxAmount', 'Tax amount must be greater than 0');
+            return;
+        }
+        
+        // Discount validation (can be zero, but cannot be negative)
+        if (discount < 0) {
+            showValidationError('discount', 'Discount cannot be negative');
+            return;
+        }
+        
+        // Calculate final amount
+        const finalAmount = taxableAmount + taxAmount - discount;
+        
+        // Validate final amount
+        if (finalAmount <= 0) {
+            showValidationError('discount', 'Final amount must be greater than 0 (discount is too high)');
+            return;
+        }
+        
+        // Prepare bill data with calculated amount
+        let amount = finalAmount;
         if (isCreditNoteMode) {
-            finalAmount = -Math.abs(amount);
+            amount = -Math.abs(finalAmount);
         }
         
         const billData = {
             invoiceNo: invoiceNo,
             date: invoiceDate,
             partyName: partyName,
-            amount: finalAmount,
+            amount: amount, // This is the calculated final amount
+            taxableAmount: taxableAmount, // Store taxable amount
+            taxAmount: taxAmount, // Store tax amount
+            discount: discount, // Store discount
             timestamp: Date.now(),
             type: isCreditNoteMode ? 'credit_note' : 'bill'
         };
@@ -1094,6 +1153,13 @@ async function submitBillForm(e) {
         
         // Reset form and states
         document.getElementById('billForm').reset();
+        
+        // Reset final amount display
+        const finalAmountDisplay = document.getElementById('finalAmountDisplay');
+        if (finalAmountDisplay) {
+            finalAmountDisplay.style.display = 'none';
+        }
+        
         resetCameraState();
         resetToBillMode();
         closeModal('manualEntryModal');
@@ -1115,6 +1181,30 @@ async function submitBillForm(e) {
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
     }
+}
+
+
+
+
+function calculateFinalAmount() {
+    const taxableAmount = parseFloat(document.getElementById('taxableAmount').value) || 0;
+    const taxAmount = parseFloat(document.getElementById('taxAmount').value) || 0;
+    const discount = parseFloat(document.getElementById('discount').value) || 0;
+    
+    // Calculate final amount: taxable + tax - discount
+    const finalAmount = taxableAmount + taxAmount - discount;
+    
+    // Display the calculated amount
+    const finalAmountDisplay = document.getElementById('finalAmountDisplay');
+    if (finalAmountDisplay) {
+        finalAmountDisplay.textContent = formatCurrency(finalAmount);
+        finalAmountDisplay.style.display = 'block';
+    }
+    
+    // Update camera button state
+    updateCameraButtonState();
+    
+    return finalAmount;
 }
 
 
@@ -1144,12 +1234,19 @@ function initializePage() {
         
         setupInvoiceValidation();
         
-        const formFields = ['invoiceNo', 'invoiceDate', 'partyName', 'amount'];
+        // Updated form fields to include new amount fields
+        const formFields = ['invoiceNo', 'invoiceDate', 'partyName', 'taxableAmount', 'taxAmount', 'discount'];
         formFields.forEach(fieldId => {
             const field = document.getElementById(fieldId);
             if (field) {
                 field.addEventListener('input', updateCameraButtonState);
                 field.addEventListener('change', updateCameraButtonState);
+                
+                // Add calculation listener for amount fields
+                if (fieldId === 'taxableAmount' || fieldId === 'taxAmount' || fieldId === 'discount') {
+                    field.addEventListener('input', calculateFinalAmount);
+                    field.addEventListener('change', calculateFinalAmount);
+                }
             }
         });
         

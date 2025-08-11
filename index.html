@@ -191,98 +191,131 @@
             <h2>Bill Entry</h2>
         </div>
 
-        <div class="modal-body">
-            <div class="entry-mode-toggle-container">
-                <button type="button" id="entryModeToggle" class="mode-toggle-btn" onclick="toggleEntryMode()">
-                    <i class="fas fa-exchange-alt"></i> Switch to CN
-                </button>
-            </div>
-            <form id="billForm" onsubmit="submitBillForm(event)">
-                <div class="form-group">
-                    <label id="invoiceLabel">Invoice Number*</label>
-                    <input type="text" id="invoiceNo" required>
-                </div>
-                <div class="form-group">
-                    <label id="dateLabel">Invoice Date*</label>
-                    <input type="date" id="invoiceDate" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Party Name*</label>
-                    <select class="form-select" id="partyName" required>
-                        <option value="">Select Party</option>
-                         <option value="ADVAIT ENTERPRISES">ADVAIT ENTERPRISES</option>
-                        <option value="ANISHKA LINGERIES">ANISHKA LINGERIES</option>
-                        <option value="AVNI TRADERS">AVNI TRADERS</option>
-                        <option value="BARON">BARON</option>
-                        <option value="BHARNE FASHION AND LIFESTYLE">BHARNE FASHION AND LIFESTYLE</option>
-                        <option value="CALLICAS">CALLICAS</option>
-                        <option value="CARO CENTRE">CARO CENTRE</option>
-                        <option value="CHIRAG BAG HOUSE">CHIRAG BAG HOUSE</option>
-                        <option value="DEEPAK STORE">DEEPAK STORE</option>
-                        <option value="FALARI ENTERPRISES">FALARI ENTERPRISES</option>
-                        <option value="FEELINGS WOMENS INNERWEAR">FEELINGS WOMENS INNERWEAR</option>
-                        <option value="FEMILINE COLLECTIONS">FEMILINE COLLECTIONS</option>
-                        <option value="J.V. MANERKAR">J.V. MANERKAR</option>
-                        <option value="CASH">CASH</option>
-                          <option value="ISL MULTISERVICE LLP">ISL MULTISERVICE LLP</option>
-                        <option value="KANEKAR CORNER UNIT ONE">KANEKAR CORNER UNIT ONE</option>
-                        <option value="LOVELY COLLECTION">LOVELY COLLECTION</option>
-                        <option value="MAHABALESHWAR S DANGUI & CO.">MAHABALESHWAR S DANGUI & CO.</option>
-                        <option value="MAHABALESHWAR S DANGUI AND SONS">MAHABALESHWAR S DANGUI AND SONS</option>
-                        <option value="MANISH COSMETIC GIFT TOYS ALL ONE">MANISH COSMETIC GIFT TOYS ALL ONE</option>
-                        <option value="PUJA  S">PUJA  S</option>
-                        <option value="ROOP DARPAN">ROOP DARPAN</option>
-                        <option value="SHETYE ENTERPRISES">SHETYE ENTERPRISES</option>
-                        <option value="SIDDHI STORES">SIDDHI STORES</option>
-                        <option value="SIDDHIVINAYAK ENTERPRISES">SIDDHIVINAYAK ENTERPRISES</option>
-                        <option value="SUDHIR TRADER">SUDHIR TRADERS</option>
-                        <option value="POSHAK RETAIL">POSHAK RETAIL</option>
-                        <option value="ULTIMATE CHOICE">ULTIMATE CHOICE</option>
-                         <option value="UNIQUE LIFESTYLE BICHOLIM">UNIQUE LIFESTYLE BICHOLIM</option>
-                        <option value="YASH MARKETING">YASH MARKETING</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Amount (₹)*</label>
-                    <input type="number" class="form-input" id="amount" placeholder="Enter amount" step="0.01" required>
-                </div>
-                
-                <!-- Photo Section -->
-                <div class="photo-section">
-                    <div class="photo-section-title">
-                        <i class="fas fa-camera"></i>
-                        Bill Photo (Optional)
-                    </div>
-                    
-                    <div class="camera-container">
-                        <button type="button" class="camera-btn disabled" id="cameraBtn" onclick="openCamera()" disabled>
-                            <i class="fas fa-camera"></i>
-                            Take Photo
-                        </button>
-                        
-                        <input type="file" id="cameraInput" accept="image/*" capture="environment">
-                        
-                        <div class="photo-preview" id="photoPreview">
-                            <img id="previewImg" class="preview-image" alt="Bill Preview">
-                            <button type="button" class="retake-btn" id="retakeBtn" onclick="retakePhoto()">
-                                <i class="fas fa-redo"></i>
-                                Retake Photo
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="text-muted mt-2">
-                        Fill all details above to enable photo capture
-                    </div>
-                </div>
-                
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    Submit
-                </button>
-            </form>
+       <div class="modal-body">
+    <div class="entry-mode-toggle-container">
+        <button type="button" id="entryModeToggle" class="mode-toggle-btn" onclick="toggleEntryMode()">
+            <i class="fas fa-exchange-alt"></i> Switch to CN
+        </button>
+    </div>
+    <form id="billForm" onsubmit="submitBillForm(event)">
+        <div class="form-group">
+            <label id="invoiceLabel">Invoice Number*</label>
+            <input type="text" id="invoiceNo" required>
         </div>
+        <div class="form-group">
+            <label id="dateLabel">Invoice Date*</label>
+            <input type="date" id="invoiceDate" required>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Party Name*</label>
+            <select class="form-select" id="partyName" required>
+                <option value="">Select Party</option>
+                <option value="ADVAIT ENTERPRISES">ADVAIT ENTERPRISES</option>
+                <option value="ANISHKA LINGERIES">ANISHKA LINGERIES</option>
+                <option value="AVNI TRADERS">AVNI TRADERS</option>
+                <option value="BARON">BARON</option>
+                <option value="BHARNE FASHION AND LIFESTYLE">BHARNE FASHION AND LIFESTYLE</option>
+                <option value="CALLICAS">CALLICAS</option>
+                <option value="CARO CENTRE">CARO CENTRE</option>
+                <option value="CHIRAG BAG HOUSE">CHIRAG BAG HOUSE</option>
+                <option value="DEEPAK STORE">DEEPAK STORE</option>
+                <option value="FALARI ENTERPRISES">FALARI ENTERPRISES</option>
+                <option value="FEELINGS WOMENS INNERWEAR">FEELINGS WOMENS INNERWEAR</option>
+                <option value="FEMILINE COLLECTIONS">FEMILINE COLLECTIONS</option>
+                <option value="J.V. MANERKAR">J.V. MANERKAR</option>
+                <option value="CASH">CASH</option>
+                <option value="ISL MULTISERVICE LLP">ISL MULTISERVICE LLP</option>
+                <option value="KANEKAR CORNER UNIT ONE">KANEKAR CORNER UNIT ONE</option>
+                <option value="LOVELY COLLECTION">LOVELY COLLECTION</option>
+                <option value="MAHABALESHWAR S DANGUI & CO.">MAHABALESHWAR S DANGUI & CO.</option>
+                <option value="MAHABALESHWAR S DANGUI AND SONS">MAHABALESHWAR S DANGUI AND SONS</option>
+                <option value="MANISH COSMETIC GIFT TOYS ALL ONE">MANISH COSMETIC GIFT TOYS ALL ONE</option>
+                <option value="PUJA  S">PUJA  S</option>
+                <option value="ROOP DARPAN">ROOP DARPAN</option>
+                <option value="SHETYE ENTERPRISES">SHETYE ENTERPRISES</option>
+                <option value="SIDDHI STORES">SIDDHI STORES</option>
+                <option value="SIDDHIVINAYAK ENTERPRISES">SIDDHIVINAYAK ENTERPRISES</option>
+                <option value="SUDHIR TRADER">SUDHIR TRADERS</option>
+                <option value="POSHAK RETAIL">POSHAK RETAIL</option>
+                <option value="ULTIMATE CHOICE">ULTIMATE CHOICE</option>
+                <option value="UNIQUE LIFESTYLE BICHOLIM">UNIQUE LIFESTYLE BICHOLIM</option>
+                <option value="YASH MARKETING">YASH MARKETING</option>
+            </select>
+        </div>
+        
+        <!-- Updated Amount Section with Calculation Fields -->
+        <div class="amount-calculation-section">
+            <h4 class="amount-section-title">
+                <i class="fas fa-calculator"></i>
+                Amount Calculation
+            </h4>
+            
+            <div class="form-group">
+                <label class="form-label">Taxable Amount (₹)*</label>
+                <input type="number" class="form-input" id="taxableAmount" placeholder="Enter taxable amount" step="0.01" min="0.01" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Tax Amount (₹)*</label>
+                <input type="number" class="form-input" id="taxAmount" placeholder="Enter tax amount" step="0.01" min="0.01" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Discount (₹)</label>
+                <input type="number" class="form-input" id="discount" placeholder="Enter discount (optional)" step="0.01" min="0" value="0">
+            </div>
+            
+            <!-- Final Amount Display -->
+            <div class="form-group final-amount-group">
+                <label class="form-label">Final Amount</label>
+                <div class="final-amount-container">
+                    <div id="finalAmountDisplay" class="calculated-amount" style="display: none;">₹0</div>
+                    <div class="calculation-formula">
+                        <small class="text-muted">Formula: Taxable + Tax - Discount</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="amountBreakdownContainer">
+    <!-- This will be populated dynamically by JavaScript -->
+</div>
+        
+        <!-- Photo Section -->
+        <div class="photo-section">
+            <div class="photo-section-title">
+                <i class="fas fa-camera"></i>
+                Bill Photo (Optional)
+            </div>
+            
+            <div class="camera-container">
+                <button type="button" class="camera-btn disabled" id="cameraBtn" onclick="openCamera()" disabled>
+                    <i class="fas fa-camera"></i>
+                    Take Photo
+                </button>
+                
+                <input type="file" id="cameraInput" accept="image/*" capture="environment">
+                
+                <div class="photo-preview" id="photoPreview">
+                    <img id="previewImg" class="preview-image" alt="Bill Preview">
+                    <button type="button" class="retake-btn" id="retakeBtn" onclick="retakePhoto()">
+                        <i class="fas fa-redo"></i>
+                        Retake Photo
+                    </button>
+                </div>
+            </div>
+            
+            <div class="text-muted mt-2">
+                Fill all details above to enable photo capture
+            </div>
+        </div>
+        
+        <button type="submit" class="submit-btn" id="submitBtn">
+            Submit
+        </button>
+    </form>
+</div>
+
 
         <!-- Footer Close Button -->
         <div class="edit-bill-modal-footer">

@@ -4009,7 +4009,90 @@ body:has([href="index.html"]) .header h1 {
     }
 }
 
+amount-breakdown-section {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+}
 
+.amount-breakdown-section h4 {
+    color: #495057;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.breakdown-row:last-child {
+    border-bottom: none;
+}
+
+.breakdown-total {
+    background: #fff;
+    margin: 8px -16px -16px -16px;
+    padding: 16px;
+    border-top: 2px solid #28a745;
+    border-radius: 0 0 6px 6px;
+    font-weight: bold;
+}
+
+.breakdown-label {
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.breakdown-total .breakdown-label {
+    color: #28a745;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.breakdown-value {
+    color: #495057;
+    font-weight: 500;
+}
+
+.breakdown-total .breakdown-value {
+    color: #28a745;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .amount-breakdown-section {
+        margin: 12px -16px;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+    
+    .breakdown-total {
+        margin: 8px -16px -16px -16px;
+    }
+    
+    .breakdown-label,
+    .breakdown-value {
+        font-size: 13px;
+    }
+    
+    .breakdown-total .breakdown-label,
+    .breakdown-total .breakdown-value {
+        font-size: 15px;
+    }
+}
 
 
 /* Target Analytics Styles */
