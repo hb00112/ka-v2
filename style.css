@@ -4510,7 +4510,469 @@ amount-breakdown-section {
 
 
 
+.upload-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
 
+.upload-option {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border: 2px solid #f0f0f0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.upload-option:hover {
+    border-color: #007AFF;
+    background: rgba(0, 122, 255, 0.02);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 122, 255, 0.1);
+}
+
+.option-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 24px;
+}
+
+.upload-option:first-child .option-icon {
+    background: rgba(0, 122, 255, 0.1);
+    color: #007AFF;
+}
+
+.upload-option:last-child .option-icon {
+    background: rgba(52, 199, 89, 0.1);
+    color: #34c759;
+}
+
+.option-content {
+    flex: 1;
+}
+
+.option-content h4 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+.option-content p {
+    margin: 0;
+    color: #86868b;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.option-arrow {
+    color: #86868b;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.upload-option:hover .option-arrow {
+    color: #007AFF;
+    transform: translateX(3px);
+}
+
+/* Large modal for Excel upload */
+.large-modal {
+    max-width: 700px;
+    width: 90vw;
+}
+
+/* File upload section styling */
+.file-upload-section {
+    border: 2px dashed #007AFF;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    background: rgba(0, 122, 255, 0.02);
+}
+
+.file-upload-section:hover {
+    border-color: #0056b3;
+    background: rgba(0, 122, 255, 0.05);
+}
+
+.upload-icon {
+    font-size: 48px;
+    color: #007AFF;
+    margin-bottom: 15px;
+}
+
+.file-upload-section h4 {
+    margin: 0 0 5px 0;
+    color: #1d1d1f;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.file-upload-section p {
+    margin: 0 0 20px 0;
+    color: #86868b;
+    font-size: 14px;
+}
+
+.file-input-wrapper {
+    position: relative;
+    display: inline-block;
+    margin: 10px 0;
+}
+
+.file-input-btn {
+    background: #007AFF;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.file-input-btn:hover {
+    background: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
+}
+
+.file-input-hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.file-name-display {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background: rgba(52, 199, 89, 0.1);
+    border: 1px solid rgba(52, 199, 89, 0.3);
+    border-radius: 8px;
+    color: #1d4428;
+    font-weight: 500;
+    display: inline-block;
+    border-radius: 20px;
+}
+
+.upload-format-info {
+    margin-top: 10px;
+    color: #86868b;
+    font-size: 13px;
+}
+
+.upload-format-info i {
+    margin-right: 5px;
+    color: #007AFF;
+}
+
+/* Excel preview styles */
+.excel-preview-container {
+    margin-top: 25px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.excel-preview-header h4 {
+    color: #1d1d1f;
+    margin: 0 0 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.excel-preview-table {
+    border: 1px solid #d2d2d7;
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+}
+
+.preview-header {
+    background: #f5f5f7;
+    display: flex;
+    font-weight: 600;
+    color: #1d1d1f;
+    font-size: 14px;
+}
+
+.preview-col {
+    padding: 12px 15px;
+    flex: 1;
+    border-right: 1px solid #d2d2d7;
+    text-align: left;
+}
+
+.preview-col:last-child {
+    border-right: none;
+    text-align: right;
+}
+
+.preview-col-full {
+    padding: 12px 15px;
+    text-align: center;
+    color: #86868b;
+    font-style: italic;
+    font-size: 13px;
+}
+
+.preview-row {
+    display: flex;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+}
+
+.preview-row:last-child {
+    border-bottom: none;
+}
+
+.preview-row:nth-child(even) {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.preview-row:hover {
+    background: rgba(0, 122, 255, 0.05);
+}
+
+.more-indicator {
+    background: rgba(0, 122, 255, 0.05) !important;
+    font-weight: 500;
+}
+
+/* Excel error styling */
+.excel-error {
+    padding: 25px;
+    background: rgba(255, 59, 48, 0.08);
+    border: 1px solid rgba(255, 59, 48, 0.2);
+    border-radius: 12px;
+    color: #d70015;
+    text-align: center;
+}
+
+.excel-error i {
+    font-size: 32px;
+    margin-bottom: 15px;
+    display: block;
+    opacity: 0.8;
+}
+
+.excel-error p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+/* Upload button styling */
+.upload-excel-btn {
+    background: #34c759;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.upload-excel-btn:hover:not(:disabled) {
+    background: #28a745;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(52, 199, 89, 0.3);
+}
+
+.upload-excel-btn:disabled {
+    background: #86868b;
+    cursor: not-allowed;
+    transform: none;
+    opacity: 0.6;
+}
+
+/* Loading animation */
+.loading {
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Upload result modal styling */
+.upload-result-modal .modal {
+    max-width: 500px;
+}
+
+.success-header {
+    background: rgba(52, 199, 89, 0.1);
+    border-bottom: 1px solid rgba(52, 199, 89, 0.2);
+    color: #1d4428;
+}
+
+.success-header i {
+    color: #34c759;
+}
+
+.upload-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 25px;
+    gap: 10px;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 20px 15px;
+    border-radius: 12px;
+    flex: 1;
+    min-width: 100px;
+}
+
+.stat-item.success {
+    background: rgba(52, 199, 89, 0.1);
+    border: 1px solid rgba(52, 199, 89, 0.2);
+}
+
+.stat-item.warning {
+    background: rgba(255, 149, 0, 0.1);
+    border: 1px solid rgba(255, 149, 0, 0.2);
+}
+
+.stat-item.error {
+    background: rgba(255, 59, 48, 0.1);
+    border: 1px solid rgba(255, 59, 48, 0.2);
+}
+
+.stat-number {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.stat-item.success .stat-number {
+    color: #34c759;
+}
+
+.stat-item.warning .stat-number {
+    color: #ff9500;
+}
+
+.stat-item.error .stat-number {
+    color: #ff3b30;
+}
+
+.stat-label {
+    font-size: 12px;
+    opacity: 0.8;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.error-details {
+    margin-top: 25px;
+    padding: 20px;
+    background: rgba(255, 59, 48, 0.05);
+    border: 1px solid rgba(255, 59, 48, 0.1);
+    border-radius: 10px;
+}
+
+.error-details h4 {
+    margin: 0 0 15px 0;
+    color: #d70015;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.error-details ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.error-details li {
+    margin-bottom: 8px;
+    color: #d70015;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .large-modal {
+        width: 95vw;
+        max-width: none;
+        margin: 10px;
+    }
+    
+    .upload-stats {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .stat-item {
+        padding: 15px 10px;
+    }
+    
+    .file-upload-section {
+        padding: 20px 15px;
+    }
+    
+    .upload-icon {
+        font-size: 36px;
+    }
+    
+    .preview-col {
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+    
+    .upload-option {
+        padding: 15px;
+    }
+    
+    .option-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        margin-right: 12px;
+    }
+}
 
 
 

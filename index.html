@@ -6,6 +6,7 @@
      <meta name="theme-color" content="#ffffff">
     <title>Kambeshwar Agencies</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
    
@@ -106,7 +107,7 @@
             <section class="quick-buttons-section">
                 <h2 class="section-title">Quick Buttons</h2>
                 <div class="quick-buttons-grid">
-                    <button class="quick-btn" onclick="openManualEntryModal()">
+                   <button class="quick-btn" onclick="openAddBillModal()">
                         <i class="fas fa-plus"></i>
                         <span>Upload Bill</span>
                     </button>
@@ -182,6 +183,88 @@
             </svg>
         </a>
     </nav>
+    <div id="addBillModal" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Add New Bills</h3>
+            <button class="close-btn" onclick="closeModal('addBillModal')">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="upload-options">
+                <div class="upload-option" onclick="openManualEntryModal()">
+                    <div class="option-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <div class="option-content">
+                        <h4>Manual Entry</h4>
+                        <p>Enter bill details manually with optional photo capture</p>
+                    </div>
+                    <div class="option-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                
+                <div class="upload-option" onclick="openExcelUploadModal()">
+                    <div class="option-icon">
+                        <i class="fas fa-file-excel"></i>
+                    </div>
+                    <div class="option-content">
+                        <h4>Excel Upload</h4>
+                        <p>Upload multiple bills from Excel file (.xlsx, .xls)</p>
+                    </div>
+                    <div class="option-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Excel Upload Modal -->
+<div id="excelUploadModal" class="modal-overlay">
+    <div class="modal large-modal">
+        <div class="modal-header">
+            <h3><i class="fas fa-file-excel"></i> Excel Upload</h3>
+            <button class="close-btn" onclick="closeModal('excelUploadModal')">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="excel-upload-container">
+                <div class="file-upload-section">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h4>Select Excel File</h4>
+                    <p>Choose an Excel file containing your bill data</p>
+                    <div class="file-input-wrapper">
+                        <button class="file-input-btn">
+                            <i class="fas fa-folder-open"></i>
+                            Choose Excel File
+                        </button>
+                        <input type="file" id="excelFileInput" class="file-input-hidden" accept=".xlsx,.xls">
+                    </div>
+                    <div id="excelFileName" class="file-name-display" style="display: none;"></div>
+                    <div class="upload-format-info">
+                        <small><i class="fas fa-info-circle"></i> Supported formats: .xlsx, .xls</small>
+                    </div>
+                </div>
+                
+                <div id="excelPreviewContainer" class="excel-preview-container">
+                    <!-- Preview will be inserted here -->
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeModal('excelUploadModal')">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button id="uploadExcelBtn" class="upload-excel-btn" onclick="uploadExcelBills()" disabled>
+                <i class="fas fa-upload"></i> Upload Bills
+            </button>
+        </div>
+    </div>
+</div>
+
 
     <!-- Rest of your modals and scripts remain the same -->
  <!-- Manual Entry Form Modal -->
@@ -431,6 +514,8 @@
                 initializePage();
             }
         }, 4000);
+
+
     </script>
  
 </body>
