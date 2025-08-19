@@ -8,7 +8,7 @@ let currentFilterValue = getCurrentFinancialYear();
 
 // Party targets configuration (Financial Year Based)
 const partyTargets = {
-    'POSHAK RETAIL': {
+    'POSHAK RETAIL                 PARVORIM': {
         quarterly: {
             Q1: 405000, // 4.05 Lakh (Apr-Jun)
             Q2: 330000, // 3.30 Lakh (Jul-Sep)
@@ -17,9 +17,13 @@ const partyTargets = {
         },
         yearly: 1500000 // 15 Lakh (Apr-Mar)
     },
-    'MAHABALESHWAR S DANGUI & CO.': {
+    'MAHABALESHWAR.S.DANGUI & CO.  PANAJI': {
+        yearly: 600000 // 6 Lakh (Apr-Mar)
+    },
+     'NEW MAHABALESHWAR S DANGUI & SMAPUSA': {
         yearly: 600000 // 6 Lakh (Apr-Mar)
     }
+
 };
 
 // Financial Year Utility Functions
