@@ -185,9 +185,10 @@
     </nav>
     <div id="addBillModal" class="modal-overlay">
     <div class="modal">
+        <div class="addbills">
         <div class="modal-header">
             <h3>Add New Bills</h3>
-            <button class="close-btn" onclick="closeModal('addBillModal')">×</button>
+            <button class="close-btn" onclick="closeModal('addBillModal')">Close</button>
         </div>
         <div class="modal-body">
             <div class="upload-options">
@@ -220,13 +221,14 @@
         </div>
     </div>
 </div>
+</div>
 
 <!-- Excel Upload Modal -->
 <div id="excelUploadModal" class="modal-overlay">
     <div class="modal large-modal">
         <div class="modal-header">
-            <h3><i class="fas fa-file-excel"></i> Excel Upload</h3>
-            <button class="close-btn" onclick="closeModal('excelUploadModal')">×</button>
+            <h3>Excel Upload</h3>
+            
         </div>
         <div class="modal-body">
             <div class="excel-upload-container">
@@ -255,11 +257,12 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn-secondary" onclick="closeModal('excelUploadModal')">
-                <i class="fas fa-times"></i> Cancel
-            </button>
+            
             <button id="uploadExcelBtn" class="upload-excel-btn" onclick="uploadExcelBills()" disabled>
-                <i class="fas fa-upload"></i> Upload Bills
+              Upload Bills
+            </button>
+            <button class="btn-secondaryy" onclick="closeModal('excelUploadModal')">
+                Cancel
             </button>
         </div>
     </div>
@@ -330,7 +333,7 @@
         <!-- Updated Amount Section with Calculation Fields -->
         <div class="amount-calculation-section">
             <h4 class="amount-section-title">
-                <i class="fas fa-calculator"></i>
+             
                 Amount Calculation
             </h4>
             
