@@ -4508,7 +4508,7 @@ amount-breakdown-section {
 .addbills{
     background-color: rgb(255, 255, 255);
     border-radius: 30px;
-   
+   width: 90%;
     padding-bottom: 30px;
 
 }
@@ -4635,7 +4635,7 @@ amount-breakdown-section {
 }
 
 #excelUploadModal h3 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     color: #333;
     text-align: center;          /* center the title */
@@ -4681,7 +4681,7 @@ amount-breakdown-section {
 .file-upload-section h4 {
     margin: 0 0 5px 0;
     color: #1d1d1f;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
 }
 
@@ -4911,10 +4911,7 @@ amount-breakdown-section {
     display: flex;
     flex-direction: column; /* stack buttons vertically */
     align-items: stretch;   /* make buttons full width */
-   
-    background-color: #f8f9fa; /* light footer background */
     border-top: transparent !important;
-   
 }
 
 /* Upload button */
