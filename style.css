@@ -1335,7 +1335,7 @@ body:has([href="index.html"]) .header h1 {
 .close-btn {
     background: none;
     border: none;
-    color: #007aff;
+   
     font-size: 16px;
     cursor: pointer;
     padding: 4px;
@@ -2984,13 +2984,11 @@ body:has([href="index.html"]) .header h1 {
 /* All Bills Modal Styles */
 .all-bills-modal {
     background: white;
-    
     width: 100%;
     height: 100%;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    
 }
 
 
@@ -3108,7 +3106,7 @@ body:has([href="index.html"]) .header h1 {
     flex: 1;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: auto;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
     background: white;
@@ -3122,6 +3120,7 @@ body:has([href="index.html"]) .header h1 {
     grid-template-columns: 120px 150px 1fr 120px 120px;
     gap: 16px;
     padding: 16px 20px;
+   
     background: #f8fafc;
     border-bottom: 1px solid #e5e7eb;
     font-weight: 600;
@@ -3131,7 +3130,6 @@ body:has([href="index.html"]) .header h1 {
 
 .all-bills-list {
     flex: 1;
-    overflow-y: auto;
     max-height: 700px;
 }
 
@@ -3167,6 +3165,7 @@ body:has([href="index.html"]) .header h1 {
 .all-bills-header > div:nth-child(5) {
     /* Amount column styles */
     text-align: center;
+   
    
 }
 
@@ -3394,10 +3393,11 @@ body:has([href="index.html"]) .header h1 {
 @media (max-width: 480px) {
     .all-bills-header,
     .all-bills-row {
-        grid-template-columns: 55px 35px 1fr 80px 70px;
-        gap: 4px;
-        padding: 10px 12px;
+        grid-template-columns: 55px 50px 165px 80px 90px;
+        gap: 10px;
+        padding: 12px 10px;
         font-size: 11px;
+        width: 500px;
     }
     
     .action-btn {
@@ -3449,9 +3449,9 @@ body:has([href="index.html"]) .header h1 {
     height: 36px;
     border: none;
     background: transparent;
-    color: #007aff; /* iOS blue text */
+   
     font-size: 15px;
-    font-weight: 600;
+
     cursor: pointer;
     transition: opacity 0.2s ease;
 }
@@ -4013,6 +4013,7 @@ amount-breakdown-section {
     background: #f8f9fa;
     border: 1px solid #dee2e6;
     border-radius: 8px;
+    display: none;
     padding: 16px;
     margin: 16px 0;
 }
@@ -4073,7 +4074,7 @@ amount-breakdown-section {
 /* Responsive adjustments */
 @media (max-width: 480px) {
     .amount-breakdown-section {
-        
+        display: none;
         border-radius: 0;
         border-left: none;
         border-right: none;
@@ -4504,126 +4505,103 @@ amount-breakdown-section {
     font-size: 14px;
 }
 
-
-.addbills{
-    background-color: rgb(255, 255, 255);
-    border-radius: 30px;
-   width: 90%;
-    padding-bottom: 30px;
-
+.addbills {
+  background: #fff;
+  border-radius: 22px;
+ width: 80%;
+  max-width: 680px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  text-align: center;
+  padding: 0;
+  margin: 0 auto;
 }
-/* Scoped specifically to the Add New Bill modal */
+
+/* Header section */
 #addBillModal .modal-header {
-    display: flex;
- 
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding: 12px 20px;
-    padding-top: 35px;
-   
+  padding: 18px 30px 14px;
+  border-bottom: 1px solid #cecece;
+  padding-bottom: 60px;
 }
 
-/* Title only inside Add Bill modal */
 #addBillModal .modal-header h3 {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 10px;
+  margin-top: 7px;
 }
 
-/* Close button only inside Add Bill modal */
-#addBillModal .close-btn {
-    background: none;
-    border: none;
-    color: #f86962ff;
-    font-size: 14px;
-    font-weight: bold;
-    min-width: 0%;
-    cursor: pointer;
-    transition: color 0.2s ease;
+#addBillModal .modal-header .subtitle {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #6c6c70;
 }
 
-/* Hover effect for close button */
-#addBillModal .close-btn:hover {
-    color: #fd7c7a;
+/* iOS-style options – full width edge to edge */
+.upload-options.ios-style {
+  display: flex;
+  flex-direction: column;
+  border-top: none;
+  border-bottom: none;
+  margin: 0;
+
+  width: 100%;
 }
 
-
-.upload-options {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
+.upload-options.ios-style .upload-option {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #cecece;
+  background: #fff;
+  cursor: pointer;
+  transition: background 0.25s ease;
 }
 
-.upload-option {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: transparent;
+.upload-options.ios-style .upload-option:last-child {
+  border-bottom: 1px solid #cecece;
+  color: #059669;
 }
 
-.upload-option:hover {
-    background: rgba(0, 122, 255, 0.02);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(0, 122, 255, 0.1);
+.upload-options.ios-style .upload-option:first-child {
+
+  color: #007aff;
 }
 
-.option-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-    font-size: 24px;
+.upload-options.ios-style .upload-option:hover {
+  background: rgba(0, 122, 255, 0.08);
 }
 
-.upload-option:first-child .option-icon {
-    background: rgba(0, 122, 255, 0.1);
-    color: #007AFF;
+.upload-options.ios-style .option-content h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+
 }
 
-.upload-option:last-child{
-    border-top: 1px solid #cecece;
+/* Close button separated like iOS */
+#addBillModal .ios-close-btn {
+  width: 92%;
+  margin: 8px auto 8px;
+  display: block;
+  background: #fff;
+  border-radius: 18px;
+  border: none;
+  color: #78787a;
+  font-size: 14px;
+  font-weight: 550;
+  padding: 6px 0;
+
+  cursor: pointer;
+  transition: background 0.25s ease;
 }
 
-.upload-option:last-child .option-icon {
-    background: rgba(52, 199, 89, 0.1);
-    color: #34c759;
+#addBillModal .ios-close-btn:hover {
+  background: rgba(0, 122, 255, 0.08);
 }
 
-.option-content {
-    flex: 1;
-}
-
-.option-content h4 {
-    margin: 0 0 5px 0;
-    font-size: 16px;
-    font-weight: 600;
-    color: #1d1d1f;
-}
-
-.option-content p {
-    margin: 0;
-    color: #86868b;
-    font-size: 14px;
-    line-height: 1.4;
-}
-
-.option-arrow {
-    color: #86868b;
-    font-size: 16px;
-    transition: all 0.3s ease;
-}
-
-.upload-option:hover .option-arrow {
-    color: #007AFF;
-    transform: translateX(3px);
-}
 
 /* Large modal for Excel upload */
 .large-modal {
@@ -4631,6 +4609,7 @@ amount-breakdown-section {
     width: 90vw;
     background-color: white;
     padding: 15px;
+    padding-bottom: 8px;
     border-radius: 25px;
 }
 
@@ -4898,9 +4877,8 @@ amount-breakdown-section {
     height: 36px;
     border: none;
     background: transparent;
-    color: #007aff; /* iOS blue text */
+    color: #78787a; /* iOS blue text */
     font-size: 15px;
-    font-weight: 600;
     cursor: pointer;
     transition: opacity 0.2s ease;
 
@@ -5100,7 +5078,7 @@ amount-breakdown-section {
         width: 40px;
         height: 40px;
         font-size: 20px;
-        margin-right: 12px;
+        padding-top: 4px;
     }
 }
 
