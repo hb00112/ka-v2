@@ -715,7 +715,7 @@ body:has([href="index.html"]) .header h1 {
 }
 
 .summary-card {
-    background: var(--color-background);
+    background: #f5f5f5;
     border-radius: var(--radius-xl);
     padding: var(--space-4);
     box-shadow: var(--shadow-ios-card);
@@ -1215,8 +1215,8 @@ body:has([href="index.html"]) .header h1 {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(1px);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
     -webkit-backdrop-filter: var(--blur-sm);
     display: flex;
    height: 100%;
@@ -1470,7 +1470,7 @@ body:has([href="index.html"]) .header h1 {
 #manualEntryModal.modal-overlay {
     position: fixed;
     inset: 0; /* shorthand for top, right, bottom, left = 0 */
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
     display: flex;
@@ -1901,7 +1901,8 @@ body:has([href="index.html"]) .header h1 {
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(2px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -2735,8 +2736,8 @@ body:has([href="index.html"]) .header h1 {
     left: 0;
     right: 0;
     bottom: 0;
-     background: rgba(0, 0, 0, 0.3);
-    
+     background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
     z-index: 10000;
     display: flex;
     align-items: center;
@@ -2803,7 +2804,8 @@ body:has([href="index.html"]) .header h1 {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
     z-index: 1000;
     display: flex;
     align-items: center;
@@ -3401,9 +3403,9 @@ body:has([href="index.html"]) .header h1 {
     }
     
     .action-btn {
-        width: 24px;
-        height: 24px;
-        font-size: 9px;
+        width: 28px;
+        height: 28px;
+        font-size: 11px;
     }
     
     .form-actions {
@@ -3710,7 +3712,7 @@ body:has([href="index.html"]) .header h1 {
 
 /* iOS Style Bill Details Modal */
 .bill-detail-modal-overlay {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(20px);
 }
@@ -4103,7 +4105,7 @@ amount-breakdown-section {
 }
 
 .target-analytics-card {
-    background: #ffffff;
+    background: #f5f5f5;
     border-radius: 12px;
     padding: 16px;
     margin-bottom: 16px;
@@ -4117,13 +4119,13 @@ amount-breakdown-section {
 /* Premium styling for first party */
 .target-analytics-card:nth-child(2) {
     border-left: 4px solid #007AFF;
-    background: linear-gradient(to right, #f8faff 0%, #ffffff 50%);
+  
 }
 
 /* Premium styling for second party */
 .target-analytics-card:nth-child(3) {
     border-left: 4px solid #34C759;
-    background: linear-gradient(to right, #f8fff9 0%, #ffffff 50%);
+   
 }
 
 .target-analytics-card:hover {
@@ -4322,7 +4324,7 @@ amount-breakdown-section {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(2px);
     z-index: 1000;
     display: flex;
@@ -4560,13 +4562,13 @@ amount-breakdown-section {
   transition: background 0.25s ease;
 }
 
-.upload-options.ios-style .upload-option:last-child {
-  border-bottom: 1px solid #cecece;
+.upload-options.ios-style .upload-option:first-child {
+  
   color: #059669;
 }
 
-.upload-options.ios-style .upload-option:first-child {
-
+.upload-options.ios-style .upload-option:last-child {
+    border-bottom: 1px solid #cecece;
   color: #007aff;
 }
 
@@ -4586,11 +4588,9 @@ amount-breakdown-section {
   width: 92%;
   margin: 8px auto 8px;
   display: block;
-  background: #fff;
-  border-radius: 18px;
   border: none;
   color: #78787a;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 550;
   padding: 6px 0;
 
@@ -4626,10 +4626,12 @@ amount-breakdown-section {
 /* Only affects the Excel Upload modal overlay */
 #excelUploadModal.modal-overlay {
      backdrop-filter: blur(2px);
+     background: rgba(0, 0, 0, 0.4);
 }
 
 #addBillModal.modal-overlay{
     backdrop-filter: blur(2px);
+    background: rgba(0, 0, 0, 0.4);
 }
 .excel-upload-container{
     padding-bottom: 0% !important;
@@ -4845,8 +4847,6 @@ amount-breakdown-section {
     cursor: pointer;
     transition: all 0.2s ease;
     margin-top: 24px;
-   
-    letter-spacing: -0.1px;
 }
 
 .upload-excel-btn:hover:not(:disabled) {
@@ -4879,6 +4879,7 @@ amount-breakdown-section {
     background: transparent;
     color: #78787a; /* iOS blue text */
     font-size: 15px;
+    font-weight: 550;
     cursor: pointer;
     transition: opacity 0.2s ease;
 
