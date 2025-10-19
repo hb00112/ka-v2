@@ -274,8 +274,8 @@ function injectLedgerStyles() {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(1px);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
@@ -292,7 +292,7 @@ function injectLedgerStyles() {
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.959);
+    background: #ffffff;
     border-radius: 30px 30px 0 0;
     max-height: 95%;
     transform: translateY(100%);
