@@ -52,10 +52,11 @@ function createAllBillsModal() {
         <path d="M3 4a1 1 0 0 1 .8-.98A1 1 0 0 1 5 3h14a1 1 0 0 1 .8.98 1 1 0 0 1-.2.62l-5.6 7.47V19a1 1 0 0 1-1.6.8l-2-1.5a1 1 0 0 1-.4-.8v-5.6L3.2 4.62A1 1 0 0 1 3 4z"/>
     </svg>
     <select id="billSortOrder" class="sort-select">
+     <option value="date-new">Date (Newest First)</option>
+        <option value="date-old">Date (Oldest First)</option>
         <option value="asc">Invoice No. (A-Z)</option>
         <option value="desc">Invoice No. (Z-A)</option>
-        <option value="date-new">Date (Newest First)</option>
-        <option value="date-old">Date (Oldest First)</option>
+       
     </select>
 
         </div>
@@ -116,7 +117,7 @@ function loadAllBillsData() {
         }));
         
         // Sort by invoice number (ascending) by default
-        sortBillsData('asc');
+        sortBillsData('date-new');
         renderAllBills(allBillsData);
         
         // Add event listeners for search and sort
@@ -126,6 +127,12 @@ function loadAllBillsData() {
 
 function sortBillsData(sortOrder) {
     switch(sortOrder) {
+         case 'date-new':
+            allBillsData.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+            break;
+             case 'date-old':
+            allBillsData.sort((a, b) => new Date(a.date || 0) - new Date(b.date || 0));
+            break;
         case 'asc':
             allBillsData.sort((a, b) => {
                 const aInvoice = a.invoiceNo || '';
@@ -140,12 +147,8 @@ function sortBillsData(sortOrder) {
                 return bInvoice.localeCompare(aInvoice, undefined, { numeric: true });
             });
             break;
-        case 'date-new':
-            allBillsData.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-            break;
-        case 'date-old':
-            allBillsData.sort((a, b) => new Date(a.date || 0) - new Date(b.date || 0));
-            break;
+       
+       
     }
 }
 
