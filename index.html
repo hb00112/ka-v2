@@ -182,45 +182,38 @@
                 <path fill-rule="evenodd" d="M12 2.5a5.5 5.5 0 00-3.096 10.047 9.005 9.005 0 00-5.9 8.18.75.75 0 001.5.045 7.5 7.5 0 0114.993 0 .75.75 0 101.499-.044 9.005 9.005 0 00-5.9-8.181A5.5 5.5 0 0012 2.5zM8 8a4 4 0 118 0 4 4 0 01-8 0z"/>
             </svg>
         </a>
-    </nav>
-    <div id="addBillModal" class="modal-overlay">
-    <div class="modal">
-        <div class="addbills">
-        <div class="modal-header">
-            <h3>Add New Bills</h3>
-            <button class="close-btn" onclick="closeModal('addBillModal')">Close</button>
+</nav>
+<div id="addBillModal" class="modal-overlay">
+  <div class="modal">
+    <div class="addbills">
+      <div class="modal-header">
+        <h3>Add New Bills</h3>
+        <p class="subtitle">Select how you want to add a new bill. You can enter details manually or upload multiple bills at once using an Excel file.</p>
+      </div>
+
+      <div class="upload-options ios-style">
+        <div class="upload-option left" onclick="openManualEntryModal()">
+          <div class="option-icon">
+            <i class="fas fa-edit"></i>
+          </div>
+          <div class="option-content">
+            <h4>Manual Entry</h4>
+          </div>
         </div>
-        <div class="modal-body">
-            <div class="upload-options">
-                <div class="upload-option" onclick="openManualEntryModal()">
-                    <div class="option-icon">
-                        <i class="fas fa-edit"></i>
-                    </div>
-                    <div class="option-content">
-                        <h4>Manual Entry</h4>
-                        <p>Enter bill details manually with optional photo capture</p>
-                    </div>
-                    <div class="option-arrow">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </div>
-                
-                <div class="upload-option" onclick="openExcelUploadModal()">
-                    <div class="option-icon">
-                        <i class="fas fa-file-excel"></i>
-                    </div>
-                    <div class="option-content">
-                        <h4>Excel Upload</h4>
-                        <p>Upload multiple bills from Excel file (.xlsx, .xls)</p>
-                    </div>
-                    <div class="option-arrow">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </div>
-            </div>
+
+        <div class="upload-option right" onclick="openExcelUploadModal()">
+          <div class="option-icon">
+            <i class="fas fa-file-excel"></i>
+          </div>
+          <div class="option-content">
+            <h4>Excel Upload</h4>
+          </div>
         </div>
+      </div>
+
+      <button class="close-btn ios-close-btn" onclick="closeModal('addBillModal')">Close</button>
     </div>
-</div>
+  </div>
 </div>
 
 <!-- Excel Upload Modal -->
