@@ -4,8 +4,8 @@
             --bg-popup-glass: rgba(255, 255, 255, 0.7);
             --bg-popup-header: #f0f3f8;
             --bg-body-back: #ffffff;
-            --bg-assistant-msg: #f0f3f8;
-            --bg-user-msg: linear-gradient(135deg, #1a73e8, #4285f4);
+            --bg-assistant-msg: #fff;
+            --bg-user-msg: #ecf2fe;
             --bg-btn-open: linear-gradient(135deg, #1a73e8, #4285f4);
             --bg-btn-open-hover: linear-gradient(135deg, #185abc, #3367d6);
             --bg-icon-btn: transparent;
@@ -44,7 +44,7 @@
             --text-lighter: #9aa0a6;
             --text-btn-open: #ffffff;
             --text-assistant-msg: #202124;
-            --text-user-msg: #ffffff;
+            --text-user-msg: #202124;
             --text-error: #c5221f;
             --text-api-status: #1e8e3e;
             --text-code: #202124;
