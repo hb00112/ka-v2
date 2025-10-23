@@ -117,6 +117,7 @@ body {
     touch-action: manipulation;
     padding-bottom: var(--space-20);
     overflow-x: hidden;
+   zoom: 90%;
     
 }
 
@@ -5086,6 +5087,7 @@ amount-breakdown-section {
         padding-top: 4px;
     }
 }
+
 
 
 
