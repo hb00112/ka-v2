@@ -98,7 +98,7 @@ function initProfilePage() {
                         App Information
                     </h2>
                     <div class="app-info">
-                        <p>Version: 2.1.3</p>
+                        <p>Version: 3.1 New</p>
                         <p>© 2025 Kambeshwar Agencies All Rights Reserved</p>
                     </div>
                 </div>
