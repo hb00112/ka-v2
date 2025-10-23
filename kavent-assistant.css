@@ -56,7 +56,7 @@
             --text-primary-btn: #ffffff;
             --bg-primary-btn: #1a73e8;
         
-            --border-header: #e8eaed;
+            --border-header: #f0f3f8;
             --border-convo: #e8eaed;
             --border-error: #f9ab8e;
             --border-api-status: #ceead6;
@@ -136,7 +136,7 @@
             --text-primary-btn: #ffffff;
             --bg-primary-btn: #4285f4;
 
-            --border-header: #383838;
+            --border-header: rgba(25, 25, 25, 0.5);
             --border-convo: #383838;
             --border-error: #8c3a32;
             --border-api-status: #2a5c2a;
@@ -244,6 +244,7 @@
             padding: 24px 16px; display: flex;
             justify-content: flex-start;
             position: relative;
+          border-bottom: 1px solid var(--border-header);
              align-items: center; background: var(--bg-popup-header);
             backdrop-filter: blur(10px); flex-shrink: 0; gap: 4px; border-top: var(--border-glass);
         }
