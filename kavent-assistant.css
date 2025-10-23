@@ -225,7 +225,7 @@
         }
         .modal-overlay.active { opacity: 1; pointer-events: all; }
         .assistant-popup {
-            position: fixed; top: auto; bottom: 20px; left: 50%; right: auto;
+            position: fixed; top: auto; bottom: 20px; left: 50%; zoom: 110%; right: auto;
             transform: translate(-50%, 20px) scale(0.95); width: 90%; max-width: 450px;
             background: var(--bg-popup-glass); backdrop-filter: blur(12px); border-radius: 27px;
             box-shadow: var(--shadow-popup); z-index: 1001; opacity: 0; pointer-events: none;
